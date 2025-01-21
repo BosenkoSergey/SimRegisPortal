@@ -1,12 +1,26 @@
-using CMS.Core.AppSettings;
-using Common.Core.AppSettings;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using CMS.Core.AppSettings;
+using CMS.Domain.Database;
+using CMS.Domain.Database.Extensions;
+using Common.Core.AppSettings;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<AppSettings>(builder.Configuration);
 var appSettings = builder.Configuration.Get<AppSettings>()!;
+
+builder.Services.AddDbContext<CmsDbContext>(
+    options =>
+    {
+        options.UseSqlServer(
+            appSettings.ConnectionStrings.CmsDbConnection,
+            opts =>
+            {
+                opts.MigrationsAssembly(typeof(CmsDbContext).Assembly.FullName);
+            });
+    });
 
 builder.Services.AddControllers();
 
@@ -41,6 +55,8 @@ builder.Services.AddSingleton(typeof(IAppSettingsProvider), typeof(AppSettingsPr
 
 
 var app = builder.Build();
+
+app.Services.PrepareDatabase();
 
 if (!app.Environment.IsProduction())
 {
