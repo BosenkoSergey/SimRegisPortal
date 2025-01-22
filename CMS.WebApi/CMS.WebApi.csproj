@@ -19,7 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CMS.Core\CMS.Core.csproj" />
     <ProjectReference Include="..\CMS.Domain.Database\CMS.Domain.Database.csproj" />
-    <ProjectReference Include="..\CMS.Domain.Services\CMS.Domain.Workflow.csproj" />
+    <ProjectReference Include="..\CMS.Domain.Workflow\CMS.Domain.Workflow.csproj" />
   </ItemGroup>
 
 </Project>
