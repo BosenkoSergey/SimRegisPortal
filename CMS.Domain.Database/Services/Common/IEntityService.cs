@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using CMS.Domain.Data.Entities.Common;
 
-namespace CMS.Domain.Workflow.Services.Common
+namespace CMS.Domain.Database.Services.Common
 {
     public interface IEntityService<TEntity>
         where TEntity : BaseEntity

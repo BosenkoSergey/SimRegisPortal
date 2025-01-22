@@ -4,7 +4,7 @@ using CMS.Domain.Database.Repository;
 using CMS.Domain.Database.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace CMS.Domain.Workflow.Services.Common
+namespace CMS.Domain.Database.Services.Common
 {
     public class EntityService<TEntity> : IEntityService<TEntity>
         where TEntity : BaseEntity

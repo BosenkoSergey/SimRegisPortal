@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CMS.Core\CMS.Core.csproj" />
     <ProjectReference Include="..\CMS.Domain.Database\CMS.Domain.Database.csproj" />
     <ProjectReference Include="..\CMS.Domain.Data\CMS.Domain.Data.csproj" />
   </ItemGroup>
