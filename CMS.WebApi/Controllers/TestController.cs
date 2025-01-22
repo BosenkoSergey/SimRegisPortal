@@ -1,3 +1,4 @@
+using CMS.WebApi.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CMS.WebApi.Controllers

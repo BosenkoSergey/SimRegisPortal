@@ -1,4 +1,4 @@
-﻿using Common.Core.AppSettings;
+﻿using CMS.Core.AppSettings.Interfaces;
 using Microsoft.Extensions.Options;
 
 namespace CMS.Core.AppSettings

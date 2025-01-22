@@ -1,9 +1,11 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using CMS.Core.AppSettings;
+using CMS.Core.AppSettings.Interfaces;
 using CMS.Domain.Database;
 using CMS.Domain.Database.Extensions;
-using Common.Core.AppSettings;
+using CMS.Domain.Database.Repository;
+using CMS.Domain.Database.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +46,9 @@ builder.Services.AddSingleton(typeof(IAppSettingsProvider), typeof(AppSettingsPr
 #endregion
 
 #region Scoped
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(CmsRepository<>));
+builder.Services.AddScoped(typeof(IUnitOfWork), typeof(CmsUnitOfWork));
 
 #endregion
 

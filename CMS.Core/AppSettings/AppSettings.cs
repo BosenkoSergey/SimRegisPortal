@@ -1,5 +1,5 @@
 ﻿using CMS.Core.AppSettings.Components;
-using Common.Core.AppSettings;
+using CMS.Core.AppSettings.Interfaces;
 
 namespace CMS.Core.AppSettings
 {
