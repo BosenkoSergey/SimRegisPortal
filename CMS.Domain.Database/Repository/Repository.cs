@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using CMS.Domain.Data.Entities.Common;
+﻿using CMS.Domain.Data.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace CMS.Domain.Database.Repository
@@ -14,33 +13,9 @@ namespace CMS.Domain.Database.Repository
             DbSet = context.Set<TEntity>();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(bool asNoTracking = false)
+        public IQueryable<TEntity> GetAllQuery(bool asNoTracking = false)
         {
-            var query = asNoTracking ? DbSet.AsNoTracking() : DbSet;
-            return await query.ToListAsync();
-        }
-
-        public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate, bool asNoTracking = false)
-        {
-            var query = asNoTracking ? DbSet.AsNoTracking() : DbSet;
-            return await query.Where(predicate).ToListAsync();
-        }
-
-        public async Task<TEntity> GetByIdAsync(int id, bool asNoTracking = false)
-        {
-            if (id < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(id), "ID must be greater than zero.");
-            }
-
-            var query = asNoTracking ? DbSet.AsNoTracking() : DbSet;
-            var entity = await query.FirstOrDefaultAsync(e => e.Id == id);
-            if (entity == null)
-            {
-                throw new KeyNotFoundException($"Entity of type {typeof(TEntity).Name} with ID {id} was not found.");
-            }
-
-            return entity;
+            return asNoTracking ? DbSet.AsNoTracking() : DbSet;
         }
 
         public async Task AddAsync(TEntity entity)
@@ -49,33 +24,45 @@ namespace CMS.Domain.Database.Repository
             await DbSet.AddAsync(entity);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            if (id < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(id), "ID must be greater than zero.");
-            }
-
-            var entity = CreateInstance(id);
-            return DeleteAsync(entity);
+            ArgumentNullException.ThrowIfNull(entities, nameof(entities));
+            await DbSet.AddRangeAsync(entities);
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public void Delete(int id)
+        {
+            DbSet.Remove(CreateInstance(id));
+        }
+
+        public void Delete(TEntity entity)
         {
             ArgumentNullException.ThrowIfNull(entity, nameof(entity));
-            if (entity.Id < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(entity.Id), "ID must be greater than zero.");
-            }
             DbSet.Remove(entity);
-            return Task.CompletedTask;
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public void DeleteRange(IEnumerable<int> ids)
+        {
+            ArgumentNullException.ThrowIfNull(ids, nameof(ids));
+            DbSet.RemoveRange(ids.Select(CreateInstance));
+        }
+
+        public void DeleteRange(IEnumerable<TEntity> entities)
+        {
+            ArgumentNullException.ThrowIfNull(entities, nameof(entities));
+            DbSet.RemoveRange(entities);
+        }
+
+        public void Update(TEntity entity)
         {
             ArgumentNullException.ThrowIfNull(entity, nameof(entity));
             DbSet.Update(entity);
-            return Task.CompletedTask;
+        }
+
+        public void UpdateRange(IEnumerable<TEntity> entities)
+        {
+            ArgumentNullException.ThrowIfNull(entities, nameof(entities));
+            DbSet.UpdateRange(entities);
         }
 
         private static TEntity CreateInstance(int id)

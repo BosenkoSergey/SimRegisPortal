@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Domain.Data", "CMS.Doma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Domain.Database", "CMS.Domain.Database\CMS.Domain.Database.csproj", "{7FC0D657-4808-43A9-8AE6-FF8B29609461}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Domain.Services", "CMS.Domain.Services\CMS.Domain.Services.csproj", "{FF1CD2CE-0605-4A8B-9531-359B2C49D197}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Domain.Workflow", "CMS.Domain.Services\CMS.Domain.Workflow.csproj", "{FF1CD2CE-0605-4A8B-9531-359B2C49D197}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
