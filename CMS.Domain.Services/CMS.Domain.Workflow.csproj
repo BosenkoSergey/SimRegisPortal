@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CMS.Domain.Database\CMS.Domain.Database.csproj" />
+    <ProjectReference Include="..\CMS.Domain.Data\CMS.Domain.Data.csproj" />
+  </ItemGroup>
+
 </Project>

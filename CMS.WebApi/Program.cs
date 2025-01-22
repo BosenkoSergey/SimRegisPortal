@@ -4,6 +4,7 @@ using CMS.Domain.Database;
 using CMS.Domain.Database.Extensions;
 using CMS.Domain.Database.Repository;
 using CMS.Domain.Database.UnitOfWork;
+using CMS.Domain.Workflow.Services.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -49,6 +50,7 @@ builder.Services.AddSingleton(typeof(IAppSettingsProvider), typeof(AppSettingsPr
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(CmsRepository<>));
 builder.Services.AddScoped(typeof(IUnitOfWork), typeof(CmsUnitOfWork));
+builder.Services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
 #endregion
 
