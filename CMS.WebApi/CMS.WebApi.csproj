@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>WinExe</OutputType>
+    <UserSecretsId>bfc6be15-5d19-46cd-9a9d-f125ad42bd1e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
