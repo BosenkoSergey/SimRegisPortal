@@ -3,8 +3,11 @@ using CMS.Core.AppSettings.Interfaces;
 
 namespace CMS.Core.AppSettings
 {
-    public record AppSettings(
-        ConnectionStrings ConnectionStrings,
-        SwaggerConfig SwaggerConfig
-    ) : IAppSettings;
+    public record AppSettings : IAppSettings
+    {
+        public CompanyInfo CompanyInfo { get; init; }
+        public ConnectionStrings ConnectionStrings { get; init; }
+        public SwaggerConfig SwaggerConfig { get; init; }
+        public ExternalServices ExternalServices { get; init; }
+    }
 }

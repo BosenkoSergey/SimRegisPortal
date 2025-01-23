@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Domain.Database", "CMS.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.Domain.Workflow", "CMS.Domain.Workflow\CMS.Domain.Workflow.csproj", "{FF1CD2CE-0605-4A8B-9531-359B2C49D197}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.Mailing", "CMS.Mailing\CMS.Mailing.csproj", "{3C1F09CC-A5D6-48F5-B414-9A8DF8B904C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FF1CD2CE-0605-4A8B-9531-359B2C49D197}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF1CD2CE-0605-4A8B-9531-359B2C49D197}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF1CD2CE-0605-4A8B-9531-359B2C49D197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C1F09CC-A5D6-48F5-B414-9A8DF8B904C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C1F09CC-A5D6-48F5-B414-9A8DF8B904C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C1F09CC-A5D6-48F5-B414-9A8DF8B904C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C1F09CC-A5D6-48F5-B414-9A8DF8B904C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

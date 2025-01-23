@@ -5,8 +5,10 @@ using CMS.Domain.Database.Extensions;
 using CMS.Domain.Database.Repository;
 using CMS.Domain.Database.Services.Common;
 using CMS.Domain.Database.UnitOfWork;
+using CMS.Mailing.Provider;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using SendGrid.Extensions.DependencyInjection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,11 +40,17 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddSendGrid(options =>
+{
+    options.ApiKey = appSettings.ExternalServices.SendGrid.ApiKey;
+});
+
 #region Injections
 
 #region Singleton
 
 builder.Services.AddSingleton(typeof(IAppSettingsProvider), typeof(AppSettingsProvider));
+builder.Services.AddSingleton(typeof(IEmailProvider), typeof(EmailProvider));
 
 #endregion
 
