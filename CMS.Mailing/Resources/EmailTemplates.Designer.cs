@@ -64,13 +64,13 @@ namespace CMS.Mailing.Resources {
         ///   Looks up a localized string similar to &lt;p&gt;Dear &lt;strong&gt;{0}&lt;/strong&gt;,&lt;/p&gt;
         ///&lt;p&gt;Your password has been successfully reset. You can now log in to your account using the following credentials:&lt;/p&gt;
         ///&lt;ul&gt;
-        ///    &lt;li&gt;&lt;strong&gt;Login:&lt;/strong&gt;{1}&lt;/li&gt;
+        ///    &lt;li&gt;&lt;strong&gt;Login:&lt;/strong&gt; {1}&lt;/li&gt;
         ///    &lt;li&gt;&lt;strong&gt;Temporary Password:&lt;/strong&gt; {2}&lt;/li&gt;
         ///&lt;/ul&gt;
         ///&lt;p&gt;For security reasons, we strongly recommend changing your password after logging in.&lt;/p&gt;
         ///&lt;p&gt;Access your account here: &lt;a href=&quot;{3}&quot;&gt;{3}&lt;/a&gt;&lt;/p&gt;
         ///&lt;p&gt;If you did not request a password reset, please contact our support team immediately.&lt;/p&gt;
-        ///&lt;p&gt;Bes [rest of string was truncated]&quot;;.
+        ///&lt;p&gt;Be [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string PasswordReset_Html {
             get {
