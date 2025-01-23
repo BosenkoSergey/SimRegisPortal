@@ -93,7 +93,7 @@ namespace SimRegisPortal.Mailing.Resources {
         ///If you did not request a password reset, please contact our support team immediately.
         ///
         ///Best regards,  
-        ///{4}.
+        ///{4} Team.
         /// </summary>
         internal static string PasswordReset_PlainText {
             get {
@@ -144,7 +144,7 @@ namespace SimRegisPortal.Mailing.Resources {
         ///If you have any questions or need assistance, feel free to contact our support team.
         ///
         ///Best regards,  
-        ///{4}.
+        ///{4} Team.
         /// </summary>
         internal static string UserCreated_PlainText {
             get {
