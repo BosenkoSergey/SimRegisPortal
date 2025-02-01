@@ -1,14 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using SendGrid.Extensions.DependencyInjection;
 using SimRegisPortal.Core.AppSettings;
 using SimRegisPortal.Core.AppSettings.Interfaces;
 using SimRegisPortal.Domain.Database;
 using SimRegisPortal.Domain.Database.Extensions;
-using SimRegisPortal.Domain.Database.Repository;
-using SimRegisPortal.Domain.Database.Services.Common;
+using SimRegisPortal.Domain.Database.Repositories.Common;
 using SimRegisPortal.Domain.Database.UnitOfWork;
 using SimRegisPortal.Mailing.Provider;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using SendGrid.Extensions.DependencyInjection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,7 +57,6 @@ builder.Services.AddSingleton(typeof(IEmailProvider), typeof(EmailProvider));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(SimRegisRepository<>));
 builder.Services.AddScoped(typeof(IUnitOfWork), typeof(SimRegisUnitOfWork));
-builder.Services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
 #endregion
 

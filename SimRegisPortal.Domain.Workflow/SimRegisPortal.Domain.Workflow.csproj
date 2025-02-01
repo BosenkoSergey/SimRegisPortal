@@ -17,8 +17,9 @@
     <Folder Include="Contracts\" />
     <Folder Include="Handlers\Common\" />
     <Folder Include="Handlers\User\" />
+    <Folder Include="Mapping\" />
     <Folder Include="Requests\Common\" />
-    <Folder Include="Velidation\Common\" />
+    <Folder Include="Validation\Common\" />
   </ItemGroup>
 
 </Project>

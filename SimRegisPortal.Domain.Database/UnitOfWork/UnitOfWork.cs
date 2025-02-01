@@ -1,7 +1,7 @@
-﻿using SimRegisPortal.Domain.Data.Entities.Common;
-using SimRegisPortal.Domain.Database.Repository;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SimRegisPortal.Domain.Data.Entities.Common;
+using SimRegisPortal.Domain.Database.Repositories.Common;
 
 namespace SimRegisPortal.Domain.Database.UnitOfWork
 {
