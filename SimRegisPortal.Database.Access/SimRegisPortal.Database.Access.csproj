@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimRegisPortal.Domain.Data\SimRegisPortal.Domain.Data.csproj" />
+    <ProjectReference Include="..\SimRegisPortal.Database.Data\SimRegisPortal.Database.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

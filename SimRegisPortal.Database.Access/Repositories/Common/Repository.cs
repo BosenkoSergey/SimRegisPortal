@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Domain.Data.Entities.Common;
+using SimRegisPortal.Database.Data.Entities.Common;
 
-namespace SimRegisPortal.Domain.Database.Repositories.Common
+namespace SimRegisPortal.Database.Access.Repositories.Common
 {
     public abstract class Repository<TEntity> : IRepository<TEntity>
         where TEntity : BaseEntity

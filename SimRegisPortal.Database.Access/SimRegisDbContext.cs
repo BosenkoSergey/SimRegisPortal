@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Domain.Data.Entities;
+using SimRegisPortal.Database.Data.Entities;
 
-namespace SimRegisPortal.Domain.Database
+namespace SimRegisPortal.Database.Access
 {
     public class SimRegisDbContext : DbContext
     {

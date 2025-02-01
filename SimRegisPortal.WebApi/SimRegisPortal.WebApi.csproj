@@ -20,8 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SimRegisPortal.Core\SimRegisPortal.Core.csproj" />
-    <ProjectReference Include="..\SimRegisPortal.Domain.Database\SimRegisPortal.Domain.Database.csproj" />
-    <ProjectReference Include="..\SimRegisPortal.Domain.Workflow\SimRegisPortal.Domain.Workflow.csproj" />
+    <ProjectReference Include="..\SimRegisPortal.Database.Access\SimRegisPortal.Database.Access.csproj" />
+    <ProjectReference Include="..\SimRegisPortal.Workflow\SimRegisPortal.Workflow.csproj" />
     <ProjectReference Include="..\SimRegisPortal.Mailing\SimRegisPortal.Mailing.csproj" />
   </ItemGroup>
 

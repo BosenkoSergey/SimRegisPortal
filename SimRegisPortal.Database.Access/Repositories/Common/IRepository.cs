@@ -1,6 +1,6 @@
-﻿using SimRegisPortal.Domain.Data.Entities.Common;
+﻿using SimRegisPortal.Database.Data.Entities.Common;
 
-namespace SimRegisPortal.Domain.Database.Repositories.Common
+namespace SimRegisPortal.Database.Access.Repositories.Common
 {
     public interface IRepository<TEntity>
         where TEntity : BaseEntity
