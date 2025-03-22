@@ -13,6 +13,8 @@ namespace SimRegisPortal.Domain.Entities
         public string PasswordHash { get; set; } = null!;
         public bool IsAdmin { get; set; }
 
+        public ICollection<UserSession> UserSessions { get; set; } = [];
+
         public UserAccount()
         {
             Id = GuidHelper.Generate();
