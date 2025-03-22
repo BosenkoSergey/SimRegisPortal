@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.WebApi", "Si
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Core", "SimRegisPortal.Core\SimRegisPortal.Core.csproj", "{F4126E81-AAB5-478B-9D7E-205BF5B5D78A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Database.Data", "SimRegisPortal.Database.Data\SimRegisPortal.Database.Data.csproj", "{9FF0A352-1E1D-4DAC-9D3E-33B0077CD7A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Domain", "SimRegisPortal.Domain\SimRegisPortal.Domain.csproj", "{9FF0A352-1E1D-4DAC-9D3E-33B0077CD7A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Database.Access", "SimRegisPortal.Database.Access\SimRegisPortal.Database.Access.csproj", "{7FC0D657-4808-43A9-8AE6-FF8B29609461}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Persistence", "SimRegisPortal.Persistence\SimRegisPortal.Persistence.csproj", "{7FC0D657-4808-43A9-8AE6-FF8B29609461}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Workflow", "SimRegisPortal.Workflow\SimRegisPortal.Workflow.csproj", "{FF1CD2CE-0605-4A8B-9531-359B2C49D197}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Application", "SimRegisPortal.Application\SimRegisPortal.Application.csproj", "{FF1CD2CE-0605-4A8B-9531-359B2C49D197}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimRegisPortal.Mailing", "SimRegisPortal.Mailing\SimRegisPortal.Mailing.csproj", "{3C1F09CC-A5D6-48F5-B414-9A8DF8B904C8}"
 EndProject

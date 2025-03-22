@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SimRegisPortal.Database.Access.Extensions
+namespace SimRegisPortal.Persistence.Extensions
 {
     public static class ServiceProviderExtensions
     {

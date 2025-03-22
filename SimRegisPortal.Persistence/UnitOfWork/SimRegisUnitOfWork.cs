@@ -1,4 +1,4 @@
-﻿namespace SimRegisPortal.Database.Access.UnitOfWork
+﻿namespace SimRegisPortal.Persistence.UnitOfWork
 {
     public class SimRegisUnitOfWork : UnitOfWork
     {

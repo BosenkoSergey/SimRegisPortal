@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SimRegisPortal.Database.Data.Entities.Common;
-using SimRegisPortal.Database.Access.Repositories.Common;
+using SimRegisPortal.Domain.Entities.Common;
+using SimRegisPortal.Persistence.Repositories.Common;
 
-namespace SimRegisPortal.Database.Access.UnitOfWork
+namespace SimRegisPortal.Persistence.UnitOfWork
 {
     public abstract class UnitOfWork : IUnitOfWork
     {

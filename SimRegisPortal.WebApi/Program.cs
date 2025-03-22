@@ -3,10 +3,10 @@ using Microsoft.OpenApi.Models;
 using SendGrid.Extensions.DependencyInjection;
 using SimRegisPortal.Core.AppSettings;
 using SimRegisPortal.Core.AppSettings.Interfaces;
-using SimRegisPortal.Database.Access;
-using SimRegisPortal.Database.Access.Extensions;
-using SimRegisPortal.Database.Access.Repositories.Common;
-using SimRegisPortal.Database.Access.UnitOfWork;
+using SimRegisPortal.Persistence;
+using SimRegisPortal.Persistence.Extensions;
+using SimRegisPortal.Persistence.Repositories.Common;
+using SimRegisPortal.Persistence.UnitOfWork;
 using SimRegisPortal.Mailing.Provider;
 
 

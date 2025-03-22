@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SimRegisPortal.Database.Access.Migrations
+namespace SimRegisPortal.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

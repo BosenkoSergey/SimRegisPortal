@@ -1,6 +1,6 @@
-﻿using SimRegisPortal.Database.Data.Entities.Common;
+﻿using SimRegisPortal.Domain.Entities.Common;
 
-namespace SimRegisPortal.Database.Data.Entities
+namespace SimRegisPortal.Domain.Entities
 {
     public class User : BaseEntity
     {
