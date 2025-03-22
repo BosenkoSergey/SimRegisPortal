@@ -17,8 +17,4 @@
     <ProjectReference Include="..\SimRegisPortal.Domain\SimRegisPortal.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\Interfaces\" />
-  </ItemGroup>
-
 </Project>

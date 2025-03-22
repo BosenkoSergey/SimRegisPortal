@@ -25,4 +25,8 @@
     <ProjectReference Include="..\SimRegisPortal.Mailing\SimRegisPortal.Mailing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Common\" />
+  </ItemGroup>
+
 </Project>
