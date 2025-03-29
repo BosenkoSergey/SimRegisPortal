@@ -24,7 +24,7 @@ namespace SimRegisPortal.Application.Services
         {
             var claims = new List<Claim>
             {
-                new (CustomClaimTypes.UserAccountId, user.UserId.ToString()),
+                new (CustomClaimTypes.UserId, user.UserId.ToString()),
                 new (CustomClaimTypes.UserSessionId, user.SessionId.ToString())
             };
 

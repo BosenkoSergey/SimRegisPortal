@@ -3,7 +3,7 @@
     public interface IUserContext
     {
         bool IsAuthenticated { get; }
-        Guid UserAccountId { get; }
+        Guid UserId { get; }
         Guid UserSessionId { get; }
     }
 }

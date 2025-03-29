@@ -4,9 +4,9 @@ using SimRegisPortal.Domain.Helpers;
 
 namespace SimRegisPortal.Domain.Entities
 {
-    public class UserAccount : BaseEntity<Guid>
+    public class User : BaseEntity<Guid>
     {
-        public UserAccountStatus Status { get; set; }
+        public UserStatus Status { get; set; }
         public string FullName { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Login { get; set; } = null!;
@@ -15,10 +15,10 @@ namespace SimRegisPortal.Domain.Entities
 
         public ICollection<UserSession> UserSessions { get; set; } = [];
 
-        public UserAccount()
+        public User()
         {
             Id = GuidHelper.Generate();
-            Status = UserAccountStatus.Active;
+            Status = UserStatus.Active;
         }
     }
 }

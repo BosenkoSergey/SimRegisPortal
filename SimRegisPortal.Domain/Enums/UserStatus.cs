@@ -1,6 +1,6 @@
 ﻿namespace SimRegisPortal.Domain.Enums
 {
-    public enum UserAccountStatus
+    public enum UserStatus
     {
         Active = 0,
         Deleted = 1,

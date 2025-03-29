@@ -18,7 +18,7 @@ namespace SimRegisPortal.Persistence.Context.Configurations
                 .HasValueGenerator<SequentialGuidValueGenerator>()
                 .ValueGeneratedOnAdd();
 
-            builder.Property(s => s.UserAccountId)
+            builder.Property(s => s.UserId)
                 .IsRequired();
 
             builder.Property(s => s.RefreshToken)
@@ -41,9 +41,9 @@ namespace SimRegisPortal.Persistence.Context.Configurations
             builder.HasIndex(s => s.RefreshToken)
                 .IsUnique();
 
-            builder.HasOne(s => s.UserAccount)
+            builder.HasOne(s => s.User)
                 .WithMany(u => u.UserSessions)
-                .HasForeignKey(s => s.UserAccountId)
+                .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.ToTable(nameof(UserSession));

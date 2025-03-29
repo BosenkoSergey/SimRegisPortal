@@ -6,9 +6,9 @@ using SimRegisPortal.Persistence.Constants;
 
 namespace SimRegisPortal.Persistence.Context.Configurations
 {
-    internal class UserAccountConfiguration : IEntityTypeConfiguration<UserAccount>
+    internal class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<UserAccount> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(u => u.Id);
 
@@ -38,7 +38,7 @@ namespace SimRegisPortal.Persistence.Context.Configurations
                 .IsRequired()
                 .HasMaxLength(EntityFieldPresets.DefaultStringLength);
 
-            builder.ToTable(nameof(UserAccount));
+            builder.ToTable(nameof(User));
         }
     }
 }

@@ -9,18 +9,18 @@ namespace SimRegisPortal.Application.Context
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private readonly Lazy<Guid> _userAccountId;
+        private readonly Lazy<Guid> _userId;
         private readonly Lazy<Guid> _userSessionId;
 
         public bool IsAuthenticated => _httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ?? false;
-        public Guid UserAccountId => _userAccountId.Value;
+        public Guid UserId => _userId.Value;
         public Guid UserSessionId => _userSessionId.Value;
 
         public UserContext(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
 
-            _userAccountId = new Lazy<Guid>(() => GetClaimValue<Guid>(CustomClaimTypes.UserAccountId));
+            _userId = new Lazy<Guid>(() => GetClaimValue<Guid>(CustomClaimTypes.UserId));
             _userSessionId = new Lazy<Guid>(() => GetClaimValue<Guid>(CustomClaimTypes.UserSessionId));
         }
 

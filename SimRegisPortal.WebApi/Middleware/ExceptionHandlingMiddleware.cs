@@ -94,7 +94,7 @@ namespace SimRegisPortal.WebApi.Middleware
             var userContext = scope.ServiceProvider.GetRequiredService<IUserContext>();
             if (userContext.IsAuthenticated)
             {
-                using (LogContext.PushProperty(nameof(userContext.UserAccountId), userContext.UserAccountId))
+                using (LogContext.PushProperty(nameof(userContext.UserId), userContext.UserId))
                 using (LogContext.PushProperty(nameof(userContext.UserSessionId), userContext.UserSessionId))
                 {
                     _logger.LogError(exception, exception.Message);

@@ -6,7 +6,9 @@ namespace SimRegisPortal.Persistence.Context
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<UserAccount> UserAccounts { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserSession> UserSessions { get; set; } = null!;
+        public DbSet<SystemLog> SystemLogs { get; set; } = null!;
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -21,18 +23,18 @@ namespace SimRegisPortal.Persistence.Context
 
         public void Seed()
         {
-            if (!UserAccounts.Any())
+            if (!Users.Any())
             {
-                var admin = new UserAccount
+                var admin = new User
                 {
                     FullName = "Administrator",
-                    Email = "admin@simregis.local",
+                    Email = "admin@srp.local",
                     Login = "admin",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
                     IsAdmin = true
                 };
 
-                UserAccounts.Add(admin);
+                Users.Add(admin);
                 SaveChanges();
             }
         }
