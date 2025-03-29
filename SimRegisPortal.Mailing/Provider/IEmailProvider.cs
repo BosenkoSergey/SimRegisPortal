@@ -4,7 +4,7 @@ namespace SimRegisPortal.Mailing.Provider
 {
     public interface IEmailProvider
     {
-        Task SendUserCreatedEmailAsync(UserCreatedEmailDto message);
-        Task SendPasswordResetEmailAsync(PasswordResetEmailDto message);
+        Task SendUserCreatedEmailAsync(UserCredentialsEmailDto message);
+        Task SendPasswordResetEmailAsync(UserCredentialsEmailDto message);
     }
 }

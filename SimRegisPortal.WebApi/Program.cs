@@ -122,16 +122,24 @@ builder.Services.AddSendGrid(options =>
 
 #region Singleton
 
+#region IStringLocalizerFactory
+
 builder.Services.AddSingleton(serviceProvider =>
 {
     var factory = serviceProvider.GetRequiredService<IStringLocalizerFactory>();
     return factory.Create(typeof(ErrorMessages));
 });
 
-builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
+builder.Services.AddSingleton(serviceProvider =>
+{
+    var factory = serviceProvider.GetRequiredService<IStringLocalizerFactory>();
+    return factory.Create(typeof(EmailTemplates));
+});
 
-builder.Services.AddSingleton(typeof(IAppSettingsProvider), typeof(AppSettingsProvider));
-builder.Services.AddSingleton(typeof(IEmailProvider), typeof(EmailProvider));
+#endregion
+
+builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
+builder.Services.AddSingleton<IAppSettingsProvider, AppSettingsProvider>();
 
 #endregion
 
@@ -139,6 +147,7 @@ builder.Services.AddSingleton(typeof(IEmailProvider), typeof(EmailProvider));
 
 builder.Services.AddScoped<IErrorLocalizer, ErrorLocalizer>();
 builder.Services.AddScoped<IUserContext, UserContext>();
+builder.Services.AddScoped<IEmailProvider, EmailProvider>();
 
 #endregion
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimRegisPortal.Mailing.Resources {
+namespace SimRegisPortal.Core.Resources {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace SimRegisPortal.Mailing.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EmailTemplates {
+    public class EmailTemplates {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace SimRegisPortal.Mailing.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimRegisPortal.Mailing.Resources.EmailTemplates", typeof(EmailTemplates).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimRegisPortal.Core.Resources.EmailTemplates", typeof(EmailTemplates).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SimRegisPortal.Mailing.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -72,7 +72,7 @@ namespace SimRegisPortal.Mailing.Resources {
         ///&lt;p&gt;If you did not request a password reset, please contact our support team immediately.&lt;/p&gt;
         ///&lt;p&gt;Be [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string PasswordReset_Html {
+        public static string PasswordReset_Html {
             get {
                 return ResourceManager.GetString("PasswordReset.Html", resourceCulture);
             }
@@ -95,7 +95,7 @@ namespace SimRegisPortal.Mailing.Resources {
         ///Best regards,  
         ///{4} Team.
         /// </summary>
-        internal static string PasswordReset_PlainText {
+        public static string PasswordReset_PlainText {
             get {
                 return ResourceManager.GetString("PasswordReset.PlainText", resourceCulture);
             }
@@ -104,7 +104,7 @@ namespace SimRegisPortal.Mailing.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Your Password Has Been Reset.
         /// </summary>
-        internal static string PasswordReset_Subject {
+        public static string PasswordReset_Subject {
             get {
                 return ResourceManager.GetString("PasswordReset.Subject", resourceCulture);
             }
@@ -122,7 +122,7 @@ namespace SimRegisPortal.Mailing.Resources {
         ///&lt;p&gt;Access the portal here: &lt;a href=&quot;{3}&quot;&gt;{3}&lt;/a&gt;&lt;/p&gt;
         ///&lt;p&gt;If you have any questions or need assistance, feel free to [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UserCreated_Html {
+        public static string UserCreated_Html {
             get {
                 return ResourceManager.GetString("UserCreated.Html", resourceCulture);
             }
@@ -146,7 +146,7 @@ namespace SimRegisPortal.Mailing.Resources {
         ///Best regards,  
         ///{4} Team.
         /// </summary>
-        internal static string UserCreated_PlainText {
+        public static string UserCreated_PlainText {
             get {
                 return ResourceManager.GetString("UserCreated.PlainText", resourceCulture);
             }
@@ -155,7 +155,7 @@ namespace SimRegisPortal.Mailing.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Your Account Has Been Created.
         /// </summary>
-        internal static string UserCreated_Subject {
+        public static string UserCreated_Subject {
             get {
                 return ResourceManager.GetString("UserCreated.Subject", resourceCulture);
             }
