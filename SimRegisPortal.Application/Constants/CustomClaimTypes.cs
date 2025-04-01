@@ -8,6 +8,5 @@ namespace SimRegisPortal.Application.Constants
         public const string UserId = ClaimTypes.NameIdentifier;
         public const string SessionId = "session_id";
         public const string Permissions = "permissions";
-        public const string ProjectPermissions = "project_permissions";
     }
 }

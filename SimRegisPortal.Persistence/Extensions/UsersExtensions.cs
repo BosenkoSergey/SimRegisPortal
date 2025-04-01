@@ -14,6 +14,8 @@ namespace SimRegisPortal.Persistence.Extensions
         {
             return await dbSet
                 .AsSplitQuery()
+                .Include(u => u.Permissions)
+                .Include(u => u.ProjectPermissions)
                 .Where(filter)
                 .Where(u => u.Status != UserStatus.Deleted)
                 .FirstOrDefaultAsync(cancellationToken);

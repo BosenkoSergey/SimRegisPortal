@@ -8,6 +8,8 @@ namespace SimRegisPortal.Persistence.Context
     {
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<UserSession> UserSessions { get; set; } = null!;
+        public DbSet<UserPermission> UserPermissions { get; set; } = null!;
+        public DbSet<UserProjectPermission> UserProjectPermissions { get; set; } = null!;
         public DbSet<SystemLog> SystemLogs { get; set; } = null!;
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

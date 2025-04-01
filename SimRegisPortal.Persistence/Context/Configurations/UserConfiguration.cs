@@ -18,10 +18,6 @@ namespace SimRegisPortal.Persistence.Context.Configurations
                 .HasValueGenerator<SequentialGuidValueGenerator>()
                 .ValueGeneratedOnAdd();
 
-            builder.Property(u => u.Status)
-                .IsRequired()
-                .HasConversion<int>();
-
             builder.Property(u => u.FullName)
                 .IsRequired()
                 .HasMaxLength(EntityFieldPresets.DefaultStringLength);

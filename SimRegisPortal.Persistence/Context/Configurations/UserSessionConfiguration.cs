@@ -18,12 +18,6 @@ namespace SimRegisPortal.Persistence.Context.Configurations
                 .HasValueGenerator<SequentialGuidValueGenerator>()
                 .ValueGeneratedOnAdd();
 
-            builder.Property(s => s.UserId)
-                .IsRequired();
-
-            builder.Property(s => s.RefreshToken)
-                .IsRequired();
-
             builder.Property(s => s.CreatedAt)
                 .HasColumnType(EntityFieldPresets.DateTimeType)
                 .HasDefaultValueSql(EntityFieldPresets.DefaultDateTime)
@@ -42,7 +36,7 @@ namespace SimRegisPortal.Persistence.Context.Configurations
                 .IsUnique();
 
             builder.HasOne(s => s.User)
-                .WithMany(u => u.UserSessions)
+                .WithMany(u => u.Sessions)
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 

@@ -13,8 +13,7 @@ namespace SimRegisPortal.Application.Context
         public bool IsAdmin { get; }
         public Guid UserId { get; }
         public Guid UserSessionId { get; }
-        public HashSet<string> Permissions { get; } = [];
-        public HashSet<string> ProjectPermissions { get; } = [];
+        public HashSet<int> Permissions { get; } = [];
 
         public UserContext(IHttpContextAccessor httpContextAccessor)
         {
@@ -27,8 +26,7 @@ namespace SimRegisPortal.Application.Context
                 IsAdmin = GetClaimValue<bool>(CustomClaimTypes.IsAdmin);
                 UserId = GetClaimValue<Guid>(CustomClaimTypes.UserId);
                 UserSessionId = GetClaimValue<Guid>(CustomClaimTypes.SessionId);
-                Permissions = GetClaimHashSet<string>(CustomClaimTypes.Permissions, Separators.UserPermissions);
-                ProjectPermissions = GetClaimHashSet<string>(CustomClaimTypes.ProjectPermissions, Separators.UserProjectPermissions);
+                Permissions = GetClaimHashSet<int>(CustomClaimTypes.Permissions, Separators.UserPermissions);
             }
         }
 

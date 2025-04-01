@@ -13,7 +13,9 @@ namespace SimRegisPortal.Domain.Entities
         public string PasswordHash { get; set; } = null!;
         public bool IsAdmin { get; set; }
 
-        public ICollection<UserSession> UserSessions { get; set; } = [];
+        public ICollection<UserSession> Sessions { get; set; } = [];
+        public ICollection<UserPermission> Permissions { get; set; } = [];
+        public ICollection<UserProjectPermission> ProjectPermissions { get; set; } = [];
 
         public User()
         {

@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SimRegisPortal.Application.Constants;
+using SimRegisPortal.Application.Extensions;
 using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Core.AppSettings;
 using SimRegisPortal.Core.AppSettings.Components;
@@ -27,8 +28,7 @@ namespace SimRegisPortal.Application.Services
                 new (CustomClaimTypes.IsAdmin, userSession.User.IsAdmin.ToString()),
                 new (CustomClaimTypes.UserId, userSession.User.Id.ToString()),
                 new (CustomClaimTypes.SessionId, userSession.Id.ToString()),
-                new (CustomClaimTypes.Permissions, ""), // string.Join(Separators.UserPermissions, user.Permissions)
-                new (CustomClaimTypes.ProjectPermissions, "") // string.Join(Separators.UserProjectPermissions, user.ProjectPermissions.Select(p => string.Concat(p.ProjectId, Separators.UserProjectPermission, p.PermissionId))) // p.ToString()?
+                new (CustomClaimTypes.Permissions, userSession.User.Permissions.ToClaimValue())
             };
 
             return GenerateToken(claims);
