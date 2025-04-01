@@ -141,6 +141,9 @@
   <data name="Validation.Login.Email.NotFound" xml:space="preserve">
     <value>No account found with this email.</value>
   </data>
+  <data name="Validation.Login.InvalidCredentials" xml:space="preserve">
+    <value>Invalid login or password.</value>
+  </data>
   <data name="Validation.SignUp.Email.AlreadyExists" xml:space="preserve">
     <value>An account with this email already exists.</value>
   </data>

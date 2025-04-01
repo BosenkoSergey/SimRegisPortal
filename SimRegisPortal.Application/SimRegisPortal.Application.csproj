@@ -23,4 +23,11 @@
     <ProjectReference Include="..\SimRegisPortal.Domain\SimRegisPortal.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Auth\Commands\Validators\" />
+    <Folder Include="Features\Users\Commands\Handlers\" />
+    <Folder Include="Features\Users\Commands\Requests\" />
+    <Folder Include="Features\Users\Commands\Validators\" />
+  </ItemGroup>
+
 </Project>

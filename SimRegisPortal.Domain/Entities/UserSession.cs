@@ -22,10 +22,10 @@ namespace SimRegisPortal.Domain.Entities
             Id = GuidHelper.Generate();
             UserId = userId;
             CreatedAt = DateTime.UtcNow;
-            RotateRefreshToken(lifetimeInDays);
+            Refresh(lifetimeInDays);
         }
 
-        public void RotateRefreshToken(int lifetimeInDays)
+        public void Refresh(int lifetimeInDays)
         {
             RefreshToken = Guid.NewGuid();
             UpdatedAt = DateTime.UtcNow;

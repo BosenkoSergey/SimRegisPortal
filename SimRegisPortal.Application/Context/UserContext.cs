@@ -9,19 +9,27 @@ namespace SimRegisPortal.Application.Context
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private readonly Lazy<Guid> _userId;
-        private readonly Lazy<Guid> _userSessionId;
-
-        public bool IsAuthenticated => _httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ?? false;
-        public Guid UserId => _userId.Value;
-        public Guid UserSessionId => _userSessionId.Value;
+        public bool IsAuthenticated { get; }
+        public bool IsAdmin { get; }
+        public Guid UserId { get; }
+        public Guid UserSessionId { get; }
+        public HashSet<string> Permissions { get; } = [];
+        public HashSet<string> ProjectPermissions { get; } = [];
 
         public UserContext(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
 
-            _userId = new Lazy<Guid>(() => GetClaimValue<Guid>(CustomClaimTypes.UserId));
-            _userSessionId = new Lazy<Guid>(() => GetClaimValue<Guid>(CustomClaimTypes.UserSessionId));
+            IsAuthenticated = _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
+
+            if (IsAuthenticated)
+            {
+                IsAdmin = GetClaimValue<bool>(CustomClaimTypes.IsAdmin);
+                UserId = GetClaimValue<Guid>(CustomClaimTypes.UserId);
+                UserSessionId = GetClaimValue<Guid>(CustomClaimTypes.SessionId);
+                Permissions = GetClaimHashSet<string>(CustomClaimTypes.Permissions, Separators.UserPermissions);
+                ProjectPermissions = GetClaimHashSet<string>(CustomClaimTypes.ProjectPermissions, Separators.UserProjectPermissions);
+            }
         }
 
         private T GetClaimValue<T>(string claimType)
@@ -59,6 +67,21 @@ namespace SimRegisPortal.Application.Context
             {
                 throw new InvalidCastException($"Failed to convert claim '{claimType}' value '{claimValue}' to type {typeof(T)}.", ex);
             }
+        }
+
+        private HashSet<T> GetClaimHashSet<T>(string claimType, char separator)
+        {
+            var value = GetClaimValue<string>(claimType);
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return [];
+            }
+
+            return value
+                .Split(separator, StringSplitOptions.RemoveEmptyEntries)
+                .Select(v => (T)Convert.ChangeType(v, typeof(T), CultureInfo.InvariantCulture))
+                .ToHashSet();
         }
     }
 }

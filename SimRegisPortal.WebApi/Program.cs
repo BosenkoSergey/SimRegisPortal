@@ -73,7 +73,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-var assembly = Assembly.GetExecutingAssembly();
+var applicationAssembly = typeof(MappingProfile).Assembly;
 
 #region MediatR + FluentValidation + AutoMapper
 
@@ -86,11 +86,11 @@ builder.Services.AddSingleton(
 ValidatorOptions.Global.DefaultClassLevelCascadeMode = CascadeMode.Stop;
 ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
 
-builder.Services.AddValidatorsFromAssembly(assembly);
+builder.Services.AddValidatorsFromAssembly(applicationAssembly);
 
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssembly(assembly);
+    cfg.RegisterServicesFromAssembly(applicationAssembly);
     cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
 

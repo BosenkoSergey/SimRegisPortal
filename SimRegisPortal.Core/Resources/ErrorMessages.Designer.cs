@@ -133,6 +133,15 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid login or password..
+        /// </summary>
+        public static string Validation_Login_InvalidCredentials {
+            get {
+                return ResourceManager.GetString("Validation.Login.InvalidCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An account with this email already exists..
         /// </summary>
         public static string Validation_SignUp_Email_AlreadyExists {

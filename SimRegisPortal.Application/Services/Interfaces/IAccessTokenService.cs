@@ -1,9 +1,9 @@
-﻿using SimRegisPortal.Application.Models;
+﻿using SimRegisPortal.Domain.Entities;
 
 namespace SimRegisPortal.Application.Services.Interfaces
 {
     public interface IAccessTokenService
     {
-        string GenerateToken(UserTokenModel user);
+        string GenerateToken(UserSession userSession);
     }
 }
