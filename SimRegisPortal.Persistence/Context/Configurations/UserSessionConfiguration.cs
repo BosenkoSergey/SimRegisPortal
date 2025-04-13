@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Domain.Entities;
+using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Persistence.Constants;
 
 namespace SimRegisPortal.Persistence.Context.Configurations
@@ -14,7 +14,6 @@ namespace SimRegisPortal.Persistence.Context.Configurations
 
             builder.Property(s => s.Id)
                 .HasColumnType(EntityFieldPresets.GuidType)
-                .HasDefaultValueSql(EntityFieldPresets.DefaultGuid)
                 .HasValueGenerator<SequentialGuidValueGenerator>()
                 .ValueGeneratedOnAdd();
 
@@ -29,8 +28,7 @@ namespace SimRegisPortal.Persistence.Context.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.Property(s => s.ExpiresAt)
-                .HasColumnType(EntityFieldPresets.DateTimeType)
-                .IsRequired();
+                .HasColumnType(EntityFieldPresets.DateTimeType);
 
             builder.HasIndex(s => s.RefreshToken)
                 .IsUnique();

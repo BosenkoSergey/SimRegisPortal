@@ -6,13 +6,13 @@ using Microsoft.IdentityModel.Tokens;
 using SimRegisPortal.Application.Constants;
 using SimRegisPortal.Application.Extensions;
 using SimRegisPortal.Application.Services.Interfaces;
-using SimRegisPortal.Core.AppSettings;
-using SimRegisPortal.Core.AppSettings.Components;
-using SimRegisPortal.Domain.Entities;
+using SimRegisPortal.Application.Settings.Components;
+using SimRegisPortal.Core.Entities;
+using SimRegisPortal.Core.Settings;
 
 namespace SimRegisPortal.Application.Services
 {
-    public class AccessTokenService : IAccessTokenService
+    public sealed class AccessTokenService : IAccessTokenService
     {
         private readonly AccessTokenSettings _settings;
 

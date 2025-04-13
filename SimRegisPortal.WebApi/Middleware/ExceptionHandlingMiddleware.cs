@@ -70,10 +70,10 @@ namespace SimRegisPortal.WebApi.Middleware
                     break;
 
                 default:
+                    LogException(exception, scope);
 #if DEBUG
                     throw exception;
 #endif
-                    LogException(exception, scope);
                     statusCode = (int)HttpStatusCode.InternalServerError;
                     message = localizer.Localize("Exception.Others");
                     break;

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Domain.Entities;
 using SimRegisPortal.Persistence.Constants;
+using SimRegisPortal.Core.Entities;
 
 namespace SimRegisPortal.Persistence.Context.Configurations
 {
@@ -14,7 +14,6 @@ namespace SimRegisPortal.Persistence.Context.Configurations
 
             builder.Property(u => u.Id)
                 .HasColumnType(EntityFieldPresets.GuidType)
-                .HasDefaultValueSql(EntityFieldPresets.DefaultGuid)
                 .HasValueGenerator<SequentialGuidValueGenerator>()
                 .ValueGeneratedOnAdd();
 

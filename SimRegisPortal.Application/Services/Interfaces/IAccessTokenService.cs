@@ -1,4 +1,4 @@
-﻿using SimRegisPortal.Domain.Entities;
+﻿using SimRegisPortal.Core.Entities;
 
 namespace SimRegisPortal.Application.Services.Interfaces
 {

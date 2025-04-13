@@ -14,20 +14,18 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.7.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SimRegisPortal.Core\SimRegisPortal.Core.csproj" />
     <ProjectReference Include="..\SimRegisPortal.Persistence\SimRegisPortal.Persistence.csproj" />
-    <ProjectReference Include="..\SimRegisPortal.Domain\SimRegisPortal.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Auth\Commands\Validators\" />
-    <Folder Include="Features\Users\Commands\Handlers\" />
-    <Folder Include="Features\Users\Commands\Requests\" />
-    <Folder Include="Features\Users\Commands\Validators\" />
+    <Folder Include="Features\Users\Commands\" />
+    <Folder Include="Features\Users\Queries\" />
   </ItemGroup>
 
 </Project>

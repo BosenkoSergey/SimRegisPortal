@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SimRegisPortal.Application.Models.Auth.Responses;
-using SimRegisPortal.Domain.Entities;
+using SimRegisPortal.Core.Entities;
 
 namespace SimRegisPortal.Application.Mapper
 {

@@ -1,5 +1,5 @@
 ﻿using SimRegisPortal.Application.Constants;
-using SimRegisPortal.Domain.Entities;
+using SimRegisPortal.Core.Entities;
 
 namespace SimRegisPortal.Application.Extensions
 {

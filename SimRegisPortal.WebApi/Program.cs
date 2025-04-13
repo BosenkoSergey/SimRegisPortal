@@ -12,11 +12,9 @@ using SimRegisPortal.Application.Context;
 using SimRegisPortal.Application.Mapper;
 using SimRegisPortal.Application.Services;
 using SimRegisPortal.Application.Services.Interfaces;
-using SimRegisPortal.Core.AppSettings;
-using SimRegisPortal.Core.AppSettings.Interfaces;
 using SimRegisPortal.Core.Localization;
 using SimRegisPortal.Core.Resources;
-using SimRegisPortal.Mailing.Provider;
+using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Context;
 using SimRegisPortal.Persistence.Extensions;
 using SimRegisPortal.WebApi.Extensions;
@@ -101,12 +99,36 @@ builder.Services.AddEndpointsApiExplorer();
 
 #region AddSwagger
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc(appSettings.SwaggerConfig.Name, new OpenApiInfo
     {
         Title = appSettings.SwaggerConfig.Title,
         Description = appSettings.SwaggerConfig.Description
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
     });
 });
 
@@ -138,7 +160,6 @@ builder.Services.AddSingleton(serviceProvider =>
 #endregion
 
 builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
-builder.Services.AddSingleton<IAppSettingsProvider, AppSettingsProvider>();
 
 #endregion
 
@@ -146,7 +167,7 @@ builder.Services.AddSingleton<IAppSettingsProvider, AppSettingsProvider>();
 
 builder.Services.AddScoped<IErrorLocalizer, ErrorLocalizer>();
 builder.Services.AddScoped<IUserContext, UserContext>();
-builder.Services.AddScoped<IEmailProvider, EmailProvider>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 #endregion
 

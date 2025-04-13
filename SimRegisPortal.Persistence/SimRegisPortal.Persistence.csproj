@@ -16,7 +16,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SimRegisPortal.Core\SimRegisPortal.Core.csproj" />
-    <ProjectReference Include="..\SimRegisPortal.Domain\SimRegisPortal.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

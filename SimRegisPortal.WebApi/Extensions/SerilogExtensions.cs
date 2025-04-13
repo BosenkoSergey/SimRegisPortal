@@ -2,8 +2,8 @@
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
-using SimRegisPortal.Core.AppSettings;
-using SimRegisPortal.Domain.Entities;
+using SimRegisPortal.Core.Entities;
+using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Constants;
 
 namespace SimRegisPortal.WebApi.Extensions

@@ -1,27 +1,30 @@
-﻿using SimRegisPortal.Mailing.Contracts;
-using SimRegisPortal.Mailing.Models.Common;
+﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using Microsoft.Extensions.Localization;
+using SimRegisPortal.Application.Models.Mailing;
+using SimRegisPortal.Application.Models.Mailing.Common;
+using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Core.Resources;
+using SimRegisPortal.Core.Settings;
 
-namespace SimRegisPortal.Mailing.Provider
+namespace SimRegisPortal.Application.Services
 {
-    public class EmailProvider : IEmailProvider
+    public sealed class EmailService : IEmailService
     {
         private readonly ISendGridClient _sendGridClient;
         private readonly IStringLocalizer<EmailTemplates> _localizer;
         private readonly AppSettings _appSettings;
         private readonly EmailAddress _sender;
 
-        public EmailProvider(
+        public EmailService(
             ISendGridClient sendGridClient,
-            IAppSettingsProvider appSettingsProvider,
+            IOptions<AppSettings> options,
             IStringLocalizer<EmailTemplates> localizer)
         {
             _sendGridClient = sendGridClient;
             _localizer = localizer;
-            _appSettings = appSettingsProvider.GetAppSettings<AppSettings>();
+            _appSettings = options.Value;
             _sender = new EmailAddress(
                 _appSettings.ExternalServices.SendGrid.SenderEmail,
                 _appSettings.ExternalServices.SendGrid.SenderName);
@@ -65,7 +68,6 @@ namespace SimRegisPortal.Mailing.Provider
                 PlainTextContent = string.Format(_localizer["PasswordReset.PlainText"], templateArgs),
                 HtmlContent = string.Format(_localizer["PasswordReset.Html"], templateArgs)
             };
-
             await SendEmailAsync(commonMessage);
         }
 

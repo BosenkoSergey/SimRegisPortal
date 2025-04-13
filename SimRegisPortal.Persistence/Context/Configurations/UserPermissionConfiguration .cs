@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Domain.Entities;
+using SimRegisPortal.Core.Entities;
 
 namespace SimRegisPortal.Persistence.Context.Configurations
 {
