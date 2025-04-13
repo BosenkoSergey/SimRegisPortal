@@ -106,6 +106,15 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An account with this email already exists..
+        /// </summary>
+        public static string Validation_Email_AlreadyExists {
+            get {
+                return ResourceManager.GetString("Validation.Email.AlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email is not valid..
         /// </summary>
         public static string Validation_Email_Invalid {
@@ -115,11 +124,20 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email is required..
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; is required..
         /// </summary>
-        public static string Validation_Email_Required {
+        public static string Validation_Field_Required {
             get {
-                return ResourceManager.GetString("Validation.Email.Required", resourceCulture);
+                return ResourceManager.GetString("Validation.Field.Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An account with this login already exists..
+        /// </summary>
+        public static string Validation_Login_AlreadyExists {
+            get {
+                return ResourceManager.GetString("Validation.Login.AlreadyExists", resourceCulture);
             }
         }
         
@@ -142,11 +160,20 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An account with this email already exists..
+        ///   Looks up a localized string similar to Password can only contain letters and digits..
         /// </summary>
-        public static string Validation_SignUp_Email_AlreadyExists {
+        public static string Validation_Password_Invalid {
             get {
-                return ResourceManager.GetString("Validation.SignUp.Email.AlreadyExists", resourceCulture);
+                return ResourceManager.GetString("Validation.Password.Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weak password: must be at least 6 characters and include uppercase, lowercase, and a digit..
+        /// </summary>
+        public static string Validation_Password_Weak {
+            get {
+                return ResourceManager.GetString("Validation.Password.Weak", resourceCulture);
             }
         }
     }

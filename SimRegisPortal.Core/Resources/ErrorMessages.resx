@@ -132,11 +132,17 @@
   <data name="Exception.UserSession.NotFound" xml:space="preserve">
     <value>Session not found. Please sign in again.</value>
   </data>
+  <data name="Validation.Email.AlreadyExists" xml:space="preserve">
+    <value>An account with this email already exists.</value>
+  </data>
   <data name="Validation.Email.Invalid" xml:space="preserve">
     <value>Email is not valid.</value>
   </data>
-  <data name="Validation.Email.Required" xml:space="preserve">
-    <value>Email is required.</value>
+  <data name="Validation.Field.Required" xml:space="preserve">
+    <value>Field '{0}' is required.</value>
+  </data>
+  <data name="Validation.Login.AlreadyExists" xml:space="preserve">
+    <value>An account with this login already exists.</value>
   </data>
   <data name="Validation.Login.Email.NotFound" xml:space="preserve">
     <value>No account found with this email.</value>
@@ -144,7 +150,10 @@
   <data name="Validation.Login.InvalidCredentials" xml:space="preserve">
     <value>Invalid login or password.</value>
   </data>
-  <data name="Validation.SignUp.Email.AlreadyExists" xml:space="preserve">
-    <value>An account with this email already exists.</value>
+  <data name="Validation.Password.Invalid" xml:space="preserve">
+    <value>Password can only contain letters and digits.</value>
+  </data>
+  <data name="Validation.Password.Weak" xml:space="preserve">
+    <value>Weak password: must be at least 6 characters and include uppercase, lowercase, and a digit.</value>
   </data>
 </root>

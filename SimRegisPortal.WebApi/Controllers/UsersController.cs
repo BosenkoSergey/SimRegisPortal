@@ -38,7 +38,6 @@ public class UsersController : BaseApiController
         [FromBody] UserRequest request,
         CancellationToken cancellationToken)
     {
-        // TODO: Validator
         var response = await Mediator.Send(new AddUserCommand(request), cancellationToken);
         return Ok(response);
     }
@@ -50,7 +49,6 @@ public class UsersController : BaseApiController
         [FromBody] UserRequest request,
         CancellationToken cancellationToken)
     {
-        // TODO: Validator
         var response = await Mediator.Send(new EditUserCommand(id, request), cancellationToken);
         return Ok(response);
     }
@@ -68,7 +66,6 @@ public class UsersController : BaseApiController
         [FromBody] UserPasswordRequest request,
         CancellationToken cancellationToken)
     {
-        // TODO: Validator
         await Mediator.Send(new ChangeOwnPasswordCommand(request), cancellationToken);
         return NoContent();
     }

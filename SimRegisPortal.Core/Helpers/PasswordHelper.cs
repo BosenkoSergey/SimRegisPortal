@@ -32,6 +32,11 @@ public static class PasswordHelper
         return BCrypt.Net.BCrypt.Verify(password, passwordHash);
     }
 
+    public static bool IsValid(string password)
+    {
+        return password.All(char.IsLetterOrDigit);
+    }
+
     public static bool IsStrongEnough(string password)
     {
         return password.Length >= PasswordLength
