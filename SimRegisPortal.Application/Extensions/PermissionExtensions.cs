@@ -10,11 +10,4 @@ public static class PermissionExtensions
     {
         return string.Join(Separators.UserPermissions, source.Select(p => (int)p.PermissionType));
     }
-
-    public static string ToClaimValue(
-        this IEnumerable<UserProjectPermission> source)
-    {
-        return string.Join(Separators.UserProjectPermissions, source.Select(
-            p => string.Concat(p.ProjectId, Separators.UserProjectPermission, (int)p.PermissionType)));
-    }
 }

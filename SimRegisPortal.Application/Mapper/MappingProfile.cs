@@ -16,7 +16,10 @@ public class MappingProfile : Profile
 
         #region Responses
 
-        CreateMap<UserSession, AuthResponse>();
+        CreateMap<UserSession, AuthResponse>()
+            .ForMember(dest => dest.IsAdmin, opt => opt.MapFrom(src => src.User.IsAdmin))
+            .ForMember(dest => dest.Permissions, opt =>
+                opt.MapFrom(src => src.User.Permissions.Select(p => p.PermissionType).ToList()));
 
         #endregion
     }
