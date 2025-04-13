@@ -15,7 +15,7 @@ public static class UserExtensions
         return await dbSet
             .Include(u => u.Permissions)
             .Where(filter)
-            .Where(u => u.Status != UserStatus.Deleted)
+            .Where(u => u.Status == UserStatus.Active)
             .FirstOrDefaultAsync(cancellationToken);
     }
 }
