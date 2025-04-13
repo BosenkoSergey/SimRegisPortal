@@ -4,19 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using SimRegisPortal.Core.Entities.Base;
 using SimRegisPortal.Persistence.Context;
 
-namespace SimRegisPortal.Application.Features.Base.Commands;
+namespace SimRegisPortal.Application.Features.Base.Queries;
 
 public record GetManyQuery<TResponse>
     : IRequest<IEnumerable<TResponse>>;
 
-internal abstract class GetManyHandler<TQuery, TEntity, TResponse>
-    : QueryHandler<TEntity>, IRequestHandler<TQuery, IEnumerable<TResponse>>
+internal abstract class GetManyHandler<TQuery, TEntity, TResponse>(AppDbContext dbContext, IMapper mapper)
+    : QueryHandler<TEntity>(dbContext, mapper), IRequestHandler<TQuery, IEnumerable<TResponse>>
     where TQuery : GetManyQuery<TResponse>
     where TEntity : BaseEntity
 {
-    protected GetManyHandler(AppDbContext dbContext, IMapper mapper)
-        : base(dbContext, mapper) { }
-
     public async Task<IEnumerable<TResponse>> Handle(TQuery query, CancellationToken cancellationToken)
     {
         var entities = await GetEntities(query, cancellationToken);
@@ -25,7 +22,8 @@ internal abstract class GetManyHandler<TQuery, TEntity, TResponse>
 
     protected virtual async Task<IEnumerable<TEntity>> GetEntities(TQuery query, CancellationToken cancellationToken)
     {
-        return await Repository.ToListAsync(cancellationToken);
+        return await GetEntitiesQuery()
+            .ToListAsync(cancellationToken);
     }
 
     protected virtual IEnumerable<TResponse> CreateResponse(IEnumerable<TEntity> entities)

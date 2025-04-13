@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimRegisPortal.Application.Features.Users.Commands;
+using SimRegisPortal.Application.Features.Users.Queries;
 using SimRegisPortal.Application.Models.Users;
 using SimRegisPortal.WebApi.Controllers.Common;
 
@@ -13,19 +14,19 @@ public class UsersController : BaseApiController
 {
     public UsersController(IMediator mediator) : base(mediator) { }
 
-    //[HttpGet]
-    //public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
-    //{
-    //    var result = await Mediator.Send(new GetUsersQuery(), cancellationToken);
-    //    return Ok(result);
-    //}
+    [HttpGet]
+    public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
+    {
+        var result = await Mediator.Send(new GetUsersQuery(), cancellationToken);
+        return Ok(result);
+    }
 
-    //[HttpGet("{id}")]
-    //public async Task<IActionResult> GetUser(Guid id, CancellationToken cancellationToken)
-    //{
-    //    var result = await Mediator.Send(new GetUserQuery(id), cancellationToken);
-    //    return Ok(result);
-    //}
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await Mediator.Send(new GetUserQuery(id), cancellationToken);
+        return Ok(result);
+    }
 
     [HttpPost]
     public async Task<IActionResult> AddUser(

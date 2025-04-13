@@ -7,14 +7,11 @@ namespace SimRegisPortal.Application.Features.Base.Commands;
 public abstract record AddCommand<TRequest, TResponse>(TRequest Request)
     : AddOrEditCommand<TRequest, TResponse>(Request);
 
-internal abstract class AddHandler<TCommand, TRequest, TEntity, TResponse>
-    : AddOrEditHandler<TCommand, TRequest, TEntity, TResponse>
+internal abstract class AddHandler<TCommand, TRequest, TEntity, TResponse>(AppDbContext dbContext, IMapper mapper)
+    : AddOrEditHandler<TCommand, TRequest, TEntity, TResponse>(dbContext, mapper)
     where TCommand : AddCommand<TRequest, TResponse>
     where TEntity : BaseEntity
 {
-    protected AddHandler(AppDbContext dbContext, IMapper mapper)
-        : base(dbContext, mapper) { }
-
     protected override Task<TEntity> GetEntity(TCommand command, CancellationToken cancellationToken)
     {
         var entity = Mapper.Map<TEntity>(command.Request);

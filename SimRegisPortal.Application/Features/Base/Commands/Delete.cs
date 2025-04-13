@@ -8,14 +8,11 @@ namespace SimRegisPortal.Application.Features.Base.Commands;
 public abstract record DeleteCommand<TKey>(TKey Id)
     : IRequest;
 
-internal abstract class BaseDeleteHandler<TCommand, TEntity, TKey>
-    : CommandHandler<TEntity>, IRequestHandler<TCommand>
+internal abstract class BaseDeleteHandler<TCommand, TEntity, TKey>(AppDbContext dbContext)
+    : CommandHandler<TEntity>(dbContext), IRequestHandler<TCommand>
     where TCommand : DeleteCommand<TKey>
     where TEntity : BaseEntity<TKey>
 {
-    protected BaseDeleteHandler(AppDbContext dbContext)
-        : base(dbContext) { }
-
     public async Task Handle(TCommand command, CancellationToken cancellationToken)
     {
         var entity = await GetEntity(command, cancellationToken);
