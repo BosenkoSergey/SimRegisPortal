@@ -1,13 +1,12 @@
 ﻿using SimRegisPortal.Core.Exceptions.Base;
 using SimRegisPortal.Core.Localization;
 
-namespace SimRegisPortal.Application.Extensions
+namespace SimRegisPortal.Application.Extensions;
+
+public static class TemplatedExceptionExtensions
 {
-    public static class TemplatedExceptionExtensions
+    public static string GetLocalizedMessage(this TemplatedException exception, IErrorLocalizer errorLocalizer)
     {
-        public static string GetLocalizedMessage(this TemplatedException exception, IErrorLocalizer errorLocalizer)
-        {
-            return errorLocalizer.Localize(exception.ResourceKey, exception.Parameters);
-        }
+        return errorLocalizer.Localize(exception.ResourceKey, exception.Parameters);
     }
 }

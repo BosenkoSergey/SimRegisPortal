@@ -1,7 +1,6 @@
-﻿namespace SimRegisPortal.Core.Localization
+﻿namespace SimRegisPortal.Core.Localization;
+
+public interface IErrorLocalizer
 {
-    public interface IErrorLocalizer
-    {
-        string Localize(string resourceKey, params object[] parameters);
-    }
+    string Localize(string resourceKey, params object[] parameters);
 }

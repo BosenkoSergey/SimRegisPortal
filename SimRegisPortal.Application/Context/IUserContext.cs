@@ -1,9 +1,8 @@
-﻿namespace SimRegisPortal.Application.Context
+﻿namespace SimRegisPortal.Application.Context;
+
+public interface IUserContext
 {
-    public interface IUserContext
-    {
-        bool IsAuthenticated { get; }
-        Guid UserId { get; }
-        Guid UserSessionId { get; }
-    }
+    bool IsAuthenticated { get; }
+    Guid UserId { get; }
+    Guid UserSessionId { get; }
 }

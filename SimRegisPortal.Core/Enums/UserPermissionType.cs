@@ -1,7 +1,6 @@
-﻿namespace SimRegisPortal.Core.Enums
+﻿namespace SimRegisPortal.Core.Enums;
+
+public enum UserPermissionType
 {
-    public enum UserPermissionType
-    {
-        
-    }
+    
 }

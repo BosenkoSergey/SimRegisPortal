@@ -2,23 +2,22 @@
 using SimRegisPortal.Application.Models.Auth.Responses;
 using SimRegisPortal.Core.Entities;
 
-namespace SimRegisPortal.Application.Mapper
+namespace SimRegisPortal.Application.Mapper;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            #region Requests
+        #region Requests
 
 
 
-            #endregion
+        #endregion
 
-            #region Responses
+        #region Responses
 
-            CreateMap<UserSession, AuthResponse>();
+        CreateMap<UserSession, AuthResponse>();
 
-            #endregion
-        }
+        #endregion
     }
 }

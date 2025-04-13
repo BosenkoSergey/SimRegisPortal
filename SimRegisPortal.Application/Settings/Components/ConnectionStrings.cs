@@ -1,6 +1,5 @@
-﻿namespace SimRegisPortal.Application.Settings.Components
-{
-    public record ConnectionStrings(
-        string SimRegisPortalDbConnection
-    );
-}
+﻿namespace SimRegisPortal.Application.Settings.Components;
+
+public record ConnectionStrings(
+    string SimRegisPortalDbConnection
+);

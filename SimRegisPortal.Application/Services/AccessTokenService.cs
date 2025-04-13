@@ -10,44 +10,43 @@ using SimRegisPortal.Application.Settings.Components;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Core.Settings;
 
-namespace SimRegisPortal.Application.Services
+namespace SimRegisPortal.Application.Services;
+
+public sealed class AccessTokenService : IAccessTokenService
 {
-    public sealed class AccessTokenService : IAccessTokenService
+    private readonly AccessTokenSettings _settings;
+
+    public AccessTokenService(IOptions<AppSettings> options)
     {
-        private readonly AccessTokenSettings _settings;
+        _settings = options.Value.AuthSettings.AccessToken;
+    }
 
-        public AccessTokenService(IOptions<AppSettings> options)
+    public string GenerateToken(UserSession userSession)
+    {
+        var claims = new List<Claim>
         {
-            _settings = options.Value.AuthSettings.AccessToken;
-        }
+            new (CustomClaimTypes.IsAdmin, userSession.User.IsAdmin.ToString()),
+            new (CustomClaimTypes.UserId, userSession.User.Id.ToString()),
+            new (CustomClaimTypes.SessionId, userSession.Id.ToString()),
+            new (CustomClaimTypes.Permissions, userSession.User.Permissions.ToClaimValue())
+        };
 
-        public string GenerateToken(UserSession userSession)
-        {
-            var claims = new List<Claim>
-            {
-                new (CustomClaimTypes.IsAdmin, userSession.User.IsAdmin.ToString()),
-                new (CustomClaimTypes.UserId, userSession.User.Id.ToString()),
-                new (CustomClaimTypes.SessionId, userSession.Id.ToString()),
-                new (CustomClaimTypes.Permissions, userSession.User.Permissions.ToClaimValue())
-            };
+        return GenerateToken(claims);
+    }
 
-            return GenerateToken(claims);
-        }
+    private string GenerateToken(IEnumerable<Claim> claims)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecretKey));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        private string GenerateToken(IEnumerable<Claim> claims)
-        {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecretKey));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var token = new JwtSecurityToken(
+            issuer: _settings.Issuer,
+            audience: _settings.Audience,
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(_settings.ExpirationMinutes),
+            signingCredentials: credentials
+        );
 
-            var token = new JwtSecurityToken(
-                issuer: _settings.Issuer,
-                audience: _settings.Audience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_settings.ExpirationMinutes),
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

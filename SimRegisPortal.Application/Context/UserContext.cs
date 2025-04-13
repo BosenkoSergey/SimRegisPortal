@@ -3,83 +3,77 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using SimRegisPortal.Application.Constants;
 
-namespace SimRegisPortal.Application.Context
+namespace SimRegisPortal.Application.Context;
+
+public class UserContext : IUserContext
 {
-    public class UserContext : IUserContext
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public bool IsAuthenticated { get; }
+    public bool IsAdmin { get; }
+    public Guid UserId { get; }
+    public Guid UserSessionId { get; }
+    public HashSet<int> Permissions { get; } = [];
+
+    public UserContext(IHttpContextAccessor httpContextAccessor)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
 
-        public bool IsAuthenticated { get; }
-        public bool IsAdmin { get; }
-        public Guid UserId { get; }
-        public Guid UserSessionId { get; }
-        public HashSet<int> Permissions { get; } = [];
+        IsAuthenticated = _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
 
-        public UserContext(IHttpContextAccessor httpContextAccessor)
+        if (IsAuthenticated)
         {
-            _httpContextAccessor = httpContextAccessor;
+            IsAdmin = GetClaimValue<bool>(CustomClaimTypes.IsAdmin);
+            UserId = GetClaimValue<Guid>(CustomClaimTypes.UserId);
+            UserSessionId = GetClaimValue<Guid>(CustomClaimTypes.SessionId);
+            Permissions = GetClaimHashSet<int>(CustomClaimTypes.Permissions, Separators.UserPermissions);
+        }
+    }
 
-            IsAuthenticated = _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
+    private T GetClaimValue<T>(string claimType)
+    {
+        var claimValue = _httpContextAccessor.HttpContext?.User.FindFirstValue(claimType);
 
-            if (IsAuthenticated)
+        if (typeof(T) == typeof(Guid))
+        {
+            if (Guid.TryParse(claimValue, out var guidValue))
             {
-                IsAdmin = GetClaimValue<bool>(CustomClaimTypes.IsAdmin);
-                UserId = GetClaimValue<Guid>(CustomClaimTypes.UserId);
-                UserSessionId = GetClaimValue<Guid>(CustomClaimTypes.SessionId);
-                Permissions = GetClaimHashSet<int>(CustomClaimTypes.Permissions, Separators.UserPermissions);
+                return (T)(object)guidValue;
             }
+            throw new InvalidCastException($"Invalid GUID value '{claimValue}' for claim '{claimType}'.");
         }
 
-        private T GetClaimValue<T>(string claimType)
+        if (typeof(T).IsEnum)
         {
-            var claimValue = _httpContextAccessor.HttpContext?.User.FindFirstValue(claimType);
-
-            if (string.IsNullOrWhiteSpace(claimValue))
+            if (Enum.TryParse(typeof(T), claimValue, true, out var enumValue))
             {
-                throw new UnauthorizedAccessException($"Missing claim: {claimType}");
+                return (T)enumValue;
             }
-
-            if (typeof(T) == typeof(Guid))
-            {
-                if (Guid.TryParse(claimValue, out var guidValue))
-                {
-                    return (T)(object)guidValue;
-                }
-                throw new InvalidCastException($"Invalid GUID value '{claimValue}' for claim '{claimType}'.");
-            }
-
-            if (typeof(T).IsEnum)
-            {
-                if (Enum.TryParse(typeof(T), claimValue, true, out var enumValue))
-                {
-                    return (T)enumValue;
-                }
-                throw new InvalidCastException($"Invalid enum value '{claimValue}' for claim '{claimType}'.");
-            }
-
-            try
-            {
-                return (T)Convert.ChangeType(claimValue, typeof(T), CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidCastException($"Failed to convert claim '{claimType}' value '{claimValue}' to type {typeof(T)}.", ex);
-            }
+            throw new InvalidCastException($"Invalid enum value '{claimValue}' for claim '{claimType}'.");
         }
 
-        private HashSet<T> GetClaimHashSet<T>(string claimType, char separator)
+        try
         {
-            var value = GetClaimValue<string>(claimType);
-
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return [];
-            }
-
-            return value
-                .Split(separator, StringSplitOptions.RemoveEmptyEntries)
-                .Select(v => (T)Convert.ChangeType(v, typeof(T), CultureInfo.InvariantCulture))
-                .ToHashSet();
+            return (T)Convert.ChangeType(claimValue!, typeof(T), CultureInfo.InvariantCulture);
         }
+        catch (Exception ex)
+        {
+            throw new InvalidCastException($"Failed to convert claim '{claimType}' value '{claimValue}' to type {typeof(T)}.", ex);
+        }
+    }
+
+    private HashSet<T> GetClaimHashSet<T>(string claimType, char separator)
+    {
+        var value = GetClaimValue<string>(claimType);
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return [];
+        }
+
+        return value
+            .Split(separator, StringSplitOptions.RemoveEmptyEntries)
+            .Select(v => (T)Convert.ChangeType(v, typeof(T), CultureInfo.InvariantCulture))
+            .ToHashSet();
     }
 }

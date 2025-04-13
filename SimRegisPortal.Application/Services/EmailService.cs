@@ -8,75 +8,74 @@ using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Core.Resources;
 using SimRegisPortal.Core.Settings;
 
-namespace SimRegisPortal.Application.Services
+namespace SimRegisPortal.Application.Services;
+
+public sealed class EmailService : IEmailService
 {
-    public sealed class EmailService : IEmailService
+    private readonly ISendGridClient _sendGridClient;
+    private readonly IStringLocalizer<EmailTemplates> _localizer;
+    private readonly AppSettings _appSettings;
+    private readonly EmailAddress _sender;
+
+    public EmailService(
+        ISendGridClient sendGridClient,
+        IOptions<AppSettings> options,
+        IStringLocalizer<EmailTemplates> localizer)
     {
-        private readonly ISendGridClient _sendGridClient;
-        private readonly IStringLocalizer<EmailTemplates> _localizer;
-        private readonly AppSettings _appSettings;
-        private readonly EmailAddress _sender;
+        _sendGridClient = sendGridClient;
+        _localizer = localizer;
+        _appSettings = options.Value;
+        _sender = new EmailAddress(
+            _appSettings.ExternalServices.SendGrid.SenderEmail,
+            _appSettings.ExternalServices.SendGrid.SenderName);
+    }
 
-        public EmailService(
-            ISendGridClient sendGridClient,
-            IOptions<AppSettings> options,
-            IStringLocalizer<EmailTemplates> localizer)
+    public async Task SendUserCreatedEmailAsync(UserCredentialsEmailDto message)
+    {
+        object[] templateArgs = {
+            message.Recipient.Name,
+            message.Login,
+            message.Password,
+            _appSettings.CompanyInfo.WebsiteUrl,
+            _appSettings.CompanyInfo.Name
+        };
+
+        var commonMessage = new CommonEmailDto()
         {
-            _sendGridClient = sendGridClient;
-            _localizer = localizer;
-            _appSettings = options.Value;
-            _sender = new EmailAddress(
-                _appSettings.ExternalServices.SendGrid.SenderEmail,
-                _appSettings.ExternalServices.SendGrid.SenderName);
-        }
+            Recipient = message.Recipient,
+            Subject = _localizer["UserCreated.Subject"],
+            PlainTextContent = string.Format(_localizer["UserCreated.PlainText"], templateArgs),
+            HtmlContent = string.Format(_localizer["UserCreated.Html"], templateArgs)
+        };
 
-        public async Task SendUserCreatedEmailAsync(UserCredentialsEmailDto message)
+        await SendEmailAsync(commonMessage);
+    }
+
+    public async Task SendPasswordResetEmailAsync(UserCredentialsEmailDto message)
+    {
+        object[] templateArgs = {
+            message.Recipient.Name,
+            message.Login,
+            message.Password,
+            _appSettings.CompanyInfo.WebsiteUrl,
+            _appSettings.CompanyInfo.Name
+        };
+
+        var commonMessage = new CommonEmailDto()
         {
-            object[] templateArgs = {
-                message.Recipient.Name,
-                message.Login,
-                message.Password,
-                _appSettings.CompanyInfo.WebsiteUrl,
-                _appSettings.CompanyInfo.Name
-            };
+            Recipient = message.Recipient,
+            Subject = _localizer["PasswordReset.Subject"],
+            PlainTextContent = string.Format(_localizer["PasswordReset.PlainText"], templateArgs),
+            HtmlContent = string.Format(_localizer["PasswordReset.Html"], templateArgs)
+        };
+        await SendEmailAsync(commonMessage);
+    }
 
-            var commonMessage = new CommonEmailDto()
-            {
-                Recipient = message.Recipient,
-                Subject = _localizer["UserCreated.Subject"],
-                PlainTextContent = string.Format(_localizer["UserCreated.PlainText"], templateArgs),
-                HtmlContent = string.Format(_localizer["UserCreated.Html"], templateArgs)
-            };
-
-            await SendEmailAsync(commonMessage);
-        }
-
-        public async Task SendPasswordResetEmailAsync(UserCredentialsEmailDto message)
-        {
-            object[] templateArgs = {
-                message.Recipient.Name,
-                message.Login,
-                message.Password,
-                _appSettings.CompanyInfo.WebsiteUrl,
-                _appSettings.CompanyInfo.Name
-            };
-
-            var commonMessage = new CommonEmailDto()
-            {
-                Recipient = message.Recipient,
-                Subject = _localizer["PasswordReset.Subject"],
-                PlainTextContent = string.Format(_localizer["PasswordReset.PlainText"], templateArgs),
-                HtmlContent = string.Format(_localizer["PasswordReset.Html"], templateArgs)
-            };
-            await SendEmailAsync(commonMessage);
-        }
-
-        private async Task SendEmailAsync(CommonEmailDto message)
-        {
-            var recipient = new EmailAddress(message.Recipient.Email, message.Recipient.Name);
-            var sendGridMessage = MailHelper.CreateSingleEmail(_sender, recipient,
-                message.Subject, message.PlainTextContent, message.HtmlContent);
-            var response = await _sendGridClient.SendEmailAsync(sendGridMessage);
-        }
+    private async Task SendEmailAsync(CommonEmailDto message)
+    {
+        var recipient = new EmailAddress(message.Recipient.Email, message.Recipient.Name);
+        var sendGridMessage = MailHelper.CreateSingleEmail(_sender, recipient,
+            message.Subject, message.PlainTextContent, message.HtmlContent);
+        var response = await _sendGridClient.SendEmailAsync(sendGridMessage);
     }
 }

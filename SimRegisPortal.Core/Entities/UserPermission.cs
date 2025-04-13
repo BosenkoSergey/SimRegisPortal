@@ -1,13 +1,12 @@
 ﻿using SimRegisPortal.Core.Entities.Base;
 using SimRegisPortal.Core.Enums;
 
-namespace SimRegisPortal.Core.Entities
-{
-    public class UserPermission : BaseEntity
-    {
-        public Guid UserId { get; set; }
-        public UserPermissionType PermissionType { get; set; }
+namespace SimRegisPortal.Core.Entities;
 
-        public User User { get; set; } = default!;
-    }
+public class UserPermission : BaseEntity
+{
+    public Guid UserId { get; set; }
+    public UserPermissionType PermissionType { get; set; }
+
+    public User User { get; set; } = default!;
 }

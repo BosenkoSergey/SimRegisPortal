@@ -1,10 +1,9 @@
 ﻿using SimRegisPortal.Application.Models.Mailing;
 
-namespace SimRegisPortal.Application.Services.Interfaces
+namespace SimRegisPortal.Application.Services.Interfaces;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        Task SendUserCreatedEmailAsync(UserCredentialsEmailDto message);
-        Task SendPasswordResetEmailAsync(UserCredentialsEmailDto message);
-    }
+    Task SendUserCreatedEmailAsync(UserCredentialsEmailDto message);
+    Task SendPasswordResetEmailAsync(UserCredentialsEmailDto message);
 }

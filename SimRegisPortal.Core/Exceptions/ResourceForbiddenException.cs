@@ -1,12 +1,11 @@
 ﻿using SimRegisPortal.Core.Exceptions.Base;
 
-namespace SimRegisPortal.Core.Exceptions
+namespace SimRegisPortal.Core.Exceptions;
+
+public class ResourceForbiddenException : TemplatedException
 {
-    public class ResourceForbiddenException : TemplatedException
+    public ResourceForbiddenException(string resourceName)
+        : base("Exception.Resource.Forbidden", resourceName)
     {
-        public ResourceForbiddenException(string resourceName)
-            : base("Exception.Resource.Forbidden", resourceName)
-        {
-        }
     }
 }
