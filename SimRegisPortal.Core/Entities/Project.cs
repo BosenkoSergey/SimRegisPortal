@@ -2,6 +2,6 @@
 
 namespace SimRegisPortal.Core.Entities;
 
-public class Project : BaseEntity<Guid>
+public sealed class Project : BaseEntity<Guid>
 {
 }

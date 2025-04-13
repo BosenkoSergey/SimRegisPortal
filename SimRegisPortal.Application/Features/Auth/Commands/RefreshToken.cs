@@ -2,8 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using SimRegisPortal.Application.Models.Auth.Requests;
-using SimRegisPortal.Application.Models.Auth.Responses;
+using SimRegisPortal.Application.Models.Auth;
 using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Core.Exceptions;
 using SimRegisPortal.Core.Settings;

@@ -2,7 +2,7 @@
 
 namespace SimRegisPortal.Core.Entities;
 
-public class SystemLog : BaseEntity<long>
+public sealed class SystemLog : BaseEntity<long>
 {
     public DateTime TimeStamp { get; private set; } = default!;
     public string Level { get; private set; } = default!;

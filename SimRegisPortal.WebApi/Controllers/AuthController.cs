@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimRegisPortal.Application.Features.Auth.Commands;
-using SimRegisPortal.Application.Models.Auth.Requests;
+using SimRegisPortal.Application.Models.Auth;
 using SimRegisPortal.WebApi.Controllers.Common;
 
 namespace SimRegisPortal.WebApi.Controllers;

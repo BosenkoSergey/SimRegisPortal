@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using SimRegisPortal.Core.Entities;
+using SimRegisPortal.Core.Helpers;
 
 namespace SimRegisPortal.Persistence.Context;
 
@@ -31,8 +32,8 @@ public class AppDbContext : DbContext
             {
                 FullName = "Administrator",
                 Email = "admin@srp.local",
-                Login = "admin",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
+                Login = "Admin",
+                PasswordHash = PasswordHelper.GetHash("Admin123"),
                 IsAdmin = true
             };
 

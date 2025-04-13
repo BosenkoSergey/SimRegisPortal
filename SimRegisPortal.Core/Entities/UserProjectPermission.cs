@@ -3,7 +3,7 @@ using SimRegisPortal.Core.Enums;
 
 namespace SimRegisPortal.Core.Entities;
 
-public class UserProjectPermission : BaseEntity
+public sealed class UserProjectPermission : BaseEntity
 {
     public Guid UserId { get; set; }
     public Guid ProjectId { get; set; }

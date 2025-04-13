@@ -1,10 +1,11 @@
 ﻿using SimRegisPortal.Core.Entities.Base;
 using SimRegisPortal.Core.Enums;
+using SimRegisPortal.Core.Extensions;
 using SimRegisPortal.Core.Helpers;
 
 namespace SimRegisPortal.Core.Entities;
 
-public class User : BaseEntity<Guid>
+public sealed class User : BaseEntity<Guid>
 {
     public UserStatus Status { get; set; }
     public string FullName { get; set; } = null!;
@@ -21,5 +22,13 @@ public class User : BaseEntity<Guid>
     {
         Id = GuidHelper.Generate();
         Status = UserStatus.Active;
+    }
+
+    public void UpdatePermissions(UserPermissionType[] permissions)
+    {
+        Permissions.UpdateManyToMany(
+            newKeys: permissions,
+            getKey: link => link.PermissionType,
+            createNewLink: type => new UserPermission { UserId = Id, PermissionType = type });
     }
 }

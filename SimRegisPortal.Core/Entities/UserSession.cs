@@ -3,7 +3,7 @@ using SimRegisPortal.Core.Helpers;
 
 namespace SimRegisPortal.Core.Entities;
 
-public class UserSession : BaseEntity<Guid>
+public sealed class UserSession : BaseEntity<Guid>
 {
     public Guid UserId { get; private set; }
     public Guid RefreshToken { get; private set; }

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Options;
-using SimRegisPortal.Application.Models.Auth.Requests;
-using SimRegisPortal.Application.Models.Auth.Responses;
+using SimRegisPortal.Application.Models.Auth;
 using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Core.Exceptions;
+using SimRegisPortal.Core.Helpers;
 using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Context;
 using SimRegisPortal.Persistence.Extensions.DbSetExtensions;
@@ -28,7 +28,7 @@ internal sealed class LoginHandler(
         var user = await DbContext.Users.GetForAuth(u => u.Login == login || u.Email == login)
             ?? throw new CommonException("Validation.Login.InvalidCredentials");
 
-        if (!BCrypt.Net.BCrypt.Verify(command.Request.Password, user.PasswordHash))
+        if (!PasswordHelper.Verify(command.Request.Password, user.PasswordHash))
         {
             throw new CommonException("Validation.Login.InvalidCredentials");
         }
