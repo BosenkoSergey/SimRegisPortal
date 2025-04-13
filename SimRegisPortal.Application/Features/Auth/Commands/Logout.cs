@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SimRegisPortal.Application.Context;
 using SimRegisPortal.Persistence.Context;
 
-namespace SimRegisPortal.Application.Features.Users.Commands;
+namespace SimRegisPortal.Application.Features.Auth.Commands;
 
 public sealed record LogoutCommand
     : IRequest;
