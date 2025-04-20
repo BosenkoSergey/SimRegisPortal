@@ -8,10 +8,8 @@ using SimRegisPortal.WebApi.Controllers.Common;
 namespace SimRegisPortal.WebApi.Controllers;
 
 [Route("api/exchange-rates")]
-public class ExchangeRatesController : BaseApiController
+public class ExchangeRatesController(IMediator mediator) : BaseApiController(mediator)
 {
-    public ExchangeRatesController(IMediator mediator) : base(mediator) { }
-
     [HttpGet]
     public async Task<IActionResult> GetExchangeRates(
         [FromQuery] ExchangeRateQueryParams queryParams,

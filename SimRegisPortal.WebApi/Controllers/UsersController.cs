@@ -12,10 +12,8 @@ namespace SimRegisPortal.WebApi.Controllers;
 
 [Authorize]
 [Route("api/users")]
-public class UsersController : BaseApiController
+public class UsersController(IMediator mediator) : BaseApiController(mediator)
 {
-    public UsersController(IMediator mediator) : base(mediator) { }
-
     [AuthorizeByPermissions(UserPermissionType.UsersRead)]
     [HttpGet]
     public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
