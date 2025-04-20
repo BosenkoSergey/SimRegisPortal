@@ -17,7 +17,7 @@ internal abstract class EditHandler<TCommand, TRequest, TEntity, TKey, TResponse
     protected override async Task<TEntity> GetEntity(TCommand command, CancellationToken cancellationToken)
     {
         return await GetEntityQuery()
-                .Where(e => e.Id!.Equals(e.Id))
+                .Where(e => e.Id!.Equals(command.Id))
                 .FirstOrDefaultAsync(cancellationToken)
             ?? throw new ResourceNotFoundException(typeof(TEntity).Name);
     }

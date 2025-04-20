@@ -2,7 +2,7 @@
 
 namespace SimRegisPortal.Core.Entities;
 
-public sealed class ExchangeRate : BaseEntity
+public sealed class ExchangeRate : BaseEntity<int>
 {
     public int FromCurrencyId { get; set; }
     public int ToCurrencyId { get; set; }

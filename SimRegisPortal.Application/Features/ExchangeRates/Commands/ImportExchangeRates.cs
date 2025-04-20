@@ -5,7 +5,7 @@ using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Persistence.Context;
 
-namespace SimRegisPortal.Application.Features.Auth.Commands;
+namespace SimRegisPortal.Application.Features.ExchangeRates.Commands;
 
 public sealed record ImportExchangeRatesCommand(ImportExchangeRatesRequest Request)
     : IRequest;

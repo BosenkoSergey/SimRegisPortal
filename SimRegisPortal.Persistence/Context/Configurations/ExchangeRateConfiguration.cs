@@ -9,7 +9,10 @@ internal class ExchangeRateConfiguration : IEntityTypeConfiguration<ExchangeRate
 {
     public void Configure(EntityTypeBuilder<ExchangeRate> builder)
     {
-        builder.HasKey(x => new { x.FromCurrencyId, x.ToCurrencyId, x.Date });
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.Id)
+            .ValueGeneratedOnAdd();
 
         builder.Property(x => x.Date)
             .HasColumnType(EntityFieldPresets.DateType);
@@ -26,6 +29,9 @@ internal class ExchangeRateConfiguration : IEntityTypeConfiguration<ExchangeRate
             .WithMany()
             .HasForeignKey(x => x.ToCurrencyId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(x => new { x.FromCurrencyId, x.ToCurrencyId, x.Date })
+            .IsUnique();
 
         builder.ToTable(nameof(ExchangeRate));
     }

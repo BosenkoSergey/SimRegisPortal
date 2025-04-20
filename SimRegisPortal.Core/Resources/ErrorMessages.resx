@@ -138,6 +138,12 @@
   <data name="Validation.Email.Invalid" xml:space="preserve">
     <value>Email is not valid.</value>
   </data>
+  <data name="Validation.ExchangeRate.AlreadyExists" xml:space="preserve">
+    <value>An exchange rate with this CurrencyFrom, CurrencyTo and Date already exists.</value>
+  </data>
+  <data name="Validation.ExchangeRate.Negative" xml:space="preserve">
+    <value>Exchange rate must be greater than zero.</value>
+  </data>
   <data name="Validation.Field.Required" xml:space="preserve">
     <value>Field '{0}' is required.</value>
   </data>

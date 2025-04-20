@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SimRegisPortal.Application.Models.Auth;
+using SimRegisPortal.Application.Models.ExchangeRate;
 using SimRegisPortal.Application.Models.Mailing;
 using SimRegisPortal.Application.Models.Mailing.Common;
 using SimRegisPortal.Application.Models.Users;
@@ -20,6 +21,8 @@ public class MappingProfile : Profile
                 dest.UpdatePermissions(src.Permissions);
             });
 
+        CreateMap<ExchangeRateRequest, ExchangeRate>();
+
         #endregion
 
         #region Responses
@@ -38,6 +41,7 @@ public class MappingProfile : Profile
                 dest.Permissions = src.Permissions.Select(al => al.PermissionType).ToArray();
             });
 
+        CreateMap<ExchangeRate, ExchangeRateResponse>();
 
         #endregion
 
