@@ -173,6 +173,8 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 
 #region Transient
 
+builder.Services.AddHttpClient<IPrivatBankService, PrivatBankService>();
+
 #endregion
 
 #endregion
