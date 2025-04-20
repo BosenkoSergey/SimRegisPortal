@@ -17,6 +17,7 @@ public sealed class User : BaseEntity<Guid>
     public ICollection<UserSession> Sessions { get; set; } = [];
     public ICollection<UserPermission> Permissions { get; set; } = [];
     public ICollection<UserProjectPermission> ProjectPermissions { get; set; } = [];
+    public Employee? Employee { get; set; }
 
     public User()
     {
