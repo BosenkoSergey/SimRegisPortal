@@ -4,7 +4,7 @@ using SimRegisPortal.Application.Models.Currency;
 using SimRegisPortal.Application.Models.ExchangeRate;
 using SimRegisPortal.Application.Models.Mailing;
 using SimRegisPortal.Application.Models.Mailing.Common;
-using SimRegisPortal.Application.Models.Users;
+using SimRegisPortal.Application.Models.User;
 using SimRegisPortal.Core.Entities;
 
 namespace SimRegisPortal.Application.Mapper;

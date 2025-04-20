@@ -1,6 +1,6 @@
 ﻿using SimRegisPortal.Core.Enums;
 
-namespace SimRegisPortal.Application.Models.Users;
+namespace SimRegisPortal.Application.Models.User;
 
 public abstract record UserBaseDto
 {

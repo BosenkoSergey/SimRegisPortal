@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Application.Models.Users;
+using SimRegisPortal.Application.Models.User;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Core.Exceptions;
 using SimRegisPortal.Core.Helpers;

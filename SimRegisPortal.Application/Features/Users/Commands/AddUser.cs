@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SimRegisPortal.Application.Features.Base.Commands;
 using SimRegisPortal.Application.Models.Mailing;
-using SimRegisPortal.Application.Models.Users;
+using SimRegisPortal.Application.Models.User;
 using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Core.Helpers;

@@ -1,4 +1,4 @@
-﻿namespace SimRegisPortal.Application.Models.Users;
+﻿namespace SimRegisPortal.Application.Models.User;
 
 public sealed record UserResponse : UserBaseDto
 {

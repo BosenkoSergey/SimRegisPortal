@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SimRegisPortal.Application.Features.Users.Commands;
 using SimRegisPortal.Application.Features.Users.Queries;
-using SimRegisPortal.Application.Models.Users;
+using SimRegisPortal.Application.Models.User;
 using SimRegisPortal.WebApi.Controllers.Common;
 
 namespace SimRegisPortal.WebApi.Controllers;
