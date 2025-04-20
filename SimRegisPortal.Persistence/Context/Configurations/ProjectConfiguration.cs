@@ -17,6 +17,21 @@ internal class ProjectConfiguration : IEntityTypeConfiguration<Project>
             .HasValueGenerator<SequentialGuidValueGenerator>()
             .ValueGeneratedOnAdd();
 
+        builder.Property(p => p.Name)
+            .HasMaxLength(EntityFieldPresets.DefaultStringLength);
+
+        builder.Property(p => p.Description)
+            .HasMaxLength(EntityFieldPresets.DefaultStringLength);
+
+        builder.Property(p => p.StartDate)
+            .HasColumnType(EntityFieldPresets.DateType);
+
+        builder.Property(p => p.EndDate)
+            .HasColumnType(EntityFieldPresets.DateType);
+
+        builder.Property(p => p.IsActive)
+            .HasDefaultValue(true);
+
         builder.ToTable(nameof(Project));
     }
 }
