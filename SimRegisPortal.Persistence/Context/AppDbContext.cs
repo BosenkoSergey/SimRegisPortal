@@ -11,6 +11,8 @@ public class AppDbContext : DbContext
     public DbSet<UserSession> UserSessions { get; set; } = null!;
     public DbSet<UserPermission> UserPermissions { get; set; } = null!;
     public DbSet<UserProjectPermission> UserProjectPermissions { get; set; } = null!;
+    public DbSet<Project> Projects { get; set; } = null!;
+    public DbSet<Employee> Employees { get; set; } = null!;
     public DbSet<SystemLog> SystemLogs { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -38,6 +40,20 @@ public class AppDbContext : DbContext
             };
 
             Users.Add(admin);
+            SaveChanges();
+        }
+
+        if (!Projects.Any())
+        {
+            var systemProjects = new[]
+            {
+                new Project { Name = "Paid Leave", Description = "Vacation time tracking", StartDate = DateTime.UtcNow },
+                new Project { Name = "Sick Leave", Description = "Sick leave tracking", StartDate = DateTime.UtcNow },
+                new Project { Name = "Bonuses", Description = "Bonus entries", StartDate = DateTime.UtcNow },
+                new Project { Name = "Penalties", Description = "Penalty entries", StartDate = DateTime.UtcNow }
+            };
+
+            Projects.AddRange(systemProjects);
             SaveChanges();
         }
     }
