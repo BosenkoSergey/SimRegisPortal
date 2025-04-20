@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Application.Context;
 using SimRegisPortal.Application.Models.Users;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Core.Exceptions;
@@ -9,24 +8,24 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Users.Commands;
 
-public sealed record ChangeOwnPasswordCommand(UserPasswordRequest Request)
+public sealed record ChangePasswordCommand(Guid Id, UserPasswordRequest Request)
     : IRequest;
 
-internal sealed class ChangeOwnPasswordHandler(AppDbContext DbContext, IUserContext UserContext)
-    : IRequestHandler<ChangeOwnPasswordCommand>
+internal sealed class ChangePasswordHandler(AppDbContext DbContext)
+    : IRequestHandler<ChangePasswordCommand>
 {
-    public async Task Handle(ChangeOwnPasswordCommand command, CancellationToken cancellationToken)
+    public async Task Handle(ChangePasswordCommand command, CancellationToken cancellationToken)
     {
-        var user = await GetEntity(cancellationToken);
+        var user = await GetEntity(command, cancellationToken);
         user.PasswordHash = PasswordHelper.GetHash(command.Request.Password);
 
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task<User> GetEntity(CancellationToken cancellationToken)
+    private async Task<User> GetEntity(ChangePasswordCommand command, CancellationToken cancellationToken)
     {
         return await DbContext.Users
-                .FirstOrDefaultAsync(u => u.Id == UserContext.UserId, cancellationToken)
+                .FirstOrDefaultAsync(u => u.Id == command.Id, cancellationToken)
             ?? throw new ResourceNotFoundException(nameof(User));
     }
 }

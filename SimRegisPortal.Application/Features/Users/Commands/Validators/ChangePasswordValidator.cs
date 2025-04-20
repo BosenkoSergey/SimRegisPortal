@@ -4,10 +4,10 @@ using SimRegisPortal.Core.Helpers;
 
 namespace SimRegisPortal.Application.Features.Users.Commands.Validators;
 
-public sealed class ChangeOwnPasswordValidator
-        : AbstractValidator<ChangeOwnPasswordCommand>
+public sealed class ChangePasswordValidator
+        : AbstractValidator<ChangePasswordCommand>
 {
-    public ChangeOwnPasswordValidator()
+    public ChangePasswordValidator()
     {
         RuleFor(x => x.Request.Password)
             .Must(PasswordHelper.IsValid).WithTemplate("Validation.Password.Invalid")

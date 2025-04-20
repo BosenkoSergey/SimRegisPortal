@@ -1,20 +1,15 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimRegisPortal.Application.Features.Users.Commands;
 using SimRegisPortal.Application.Features.Users.Queries;
 using SimRegisPortal.Application.Models.Users;
-using SimRegisPortal.Core.Enums;
-using SimRegisPortal.WebApi.Attributes;
 using SimRegisPortal.WebApi.Controllers.Common;
 
 namespace SimRegisPortal.WebApi.Controllers;
 
-[Authorize]
 [Route("api/users")]
 public class UsersController(IMediator mediator) : BaseApiController(mediator)
 {
-    [AuthorizeByPermissions(UserPermissionType.UsersRead)]
     [HttpGet]
     public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
     {
@@ -22,7 +17,6 @@ public class UsersController(IMediator mediator) : BaseApiController(mediator)
         return Ok(result);
     }
 
-    [AuthorizeByPermissions(UserPermissionType.UsersRead)]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(Guid id, CancellationToken cancellationToken)
     {
@@ -30,7 +24,6 @@ public class UsersController(IMediator mediator) : BaseApiController(mediator)
         return Ok(result);
     }
 
-    [AuthorizeByPermissions(UserPermissionType.UsersWrite)]
     [HttpPost]
     public async Task<IActionResult> AddUser(
         [FromBody] UserRequest request,
@@ -40,7 +33,6 @@ public class UsersController(IMediator mediator) : BaseApiController(mediator)
         return Ok(response);
     }
 
-    [AuthorizeByPermissions(UserPermissionType.UsersWrite)]
     [HttpPut("{id}")]
     public async Task<IActionResult> EditUser(
         Guid id,
@@ -51,7 +43,6 @@ public class UsersController(IMediator mediator) : BaseApiController(mediator)
         return Ok(response);
     }
 
-    [AuthorizeByPermissions(UserPermissionType.UsersWrite)]
     [HttpPost("{id}/reset-password")]
     public async Task<IActionResult> ResetPassword(Guid id, CancellationToken cancellationToken)
     {
@@ -59,12 +50,13 @@ public class UsersController(IMediator mediator) : BaseApiController(mediator)
         return NoContent();
     }
 
-    [HttpPost("current/change-password")]
+    [HttpPost("{id}/change-password")]
     public async Task<IActionResult> ChangeOwnPassword(
+        Guid id,
         [FromBody] UserPasswordRequest request,
         CancellationToken cancellationToken)
     {
-        await Mediator.Send(new ChangeOwnPasswordCommand(request), cancellationToken);
+        await Mediator.Send(new ChangePasswordCommand(id, request), cancellationToken);
         return NoContent();
     }
 }
