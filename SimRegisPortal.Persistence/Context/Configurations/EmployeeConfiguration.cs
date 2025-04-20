@@ -43,6 +43,11 @@ internal class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             .HasForeignKey<Employee>(e => e.UserId)
             .OnDelete(DeleteBehavior.SetNull);
 
+        builder.HasOne(s => s.HourlyRateCurrency)
+            .WithMany()
+            .HasForeignKey(s => s.HourlyRateCurrencyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.ToTable(nameof(Employee));
     }
 }

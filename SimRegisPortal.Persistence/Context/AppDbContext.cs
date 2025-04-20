@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<UserProjectPermission> UserProjectPermissions { get; set; } = null!;
     public DbSet<Project> Projects { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
+    public DbSet<Currency> Currencies { get; set; } = null!;
     public DbSet<SystemLog> SystemLogs { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -54,6 +55,22 @@ public class AppDbContext : DbContext
             };
 
             Projects.AddRange(systemProjects);
+            SaveChanges();
+        }
+
+        if (!Currencies.Any())
+        {
+            var currencies = new[]
+            {
+                new Currency { Code = "UAH", Name = "Ukrainian Hryvnia", Symbol = "₴" },
+                new Currency { Code = "USD", Name = "US Dollar", Symbol = "$" },
+                new Currency { Code = "EUR", Name = "Euro", Symbol = "€" },
+                new Currency { Code = "GBP", Name = "British Pound", Symbol = "£" },
+                new Currency { Code = "PLN", Name = "Polish Zloty", Symbol = "zł" },
+                new Currency { Code = "CHF", Name = "Swiss Franc", Symbol = "Fr" }
+            };
+
+            Currencies.AddRange(currencies);
             SaveChanges();
         }
     }

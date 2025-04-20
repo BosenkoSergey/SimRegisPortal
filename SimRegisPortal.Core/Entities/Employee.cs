@@ -12,8 +12,10 @@ public sealed class Employee : BaseEntity<Guid>
     public DateTime HireDate { get; set; }
     public DateTime? DismissalDate { get; set; }
     public decimal HourlyRate { get; set; }
+    public int HourlyRateCurrencyId { get; set; }
 
     public User? User { get; set; }
+    public Currency HourlyRateCurrency { get; set; } = default!;
     public ICollection<EmployeeActivity> Activities { get; set; } = [];
 }
 

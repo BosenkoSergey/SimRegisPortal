@@ -21,7 +21,7 @@ internal class EmployeeActivityConfiguration : IEntityTypeConfiguration<Employee
             .HasColumnType(EntityFieldPresets.DateType);
 
         builder.Property(x => x.Hours)
-            .HasColumnType("decimal(5,2)");
+            .HasColumnType(EntityFieldPresets.HoursType);
 
         builder.Property(x => x.Description)
             .HasMaxLength(EntityFieldPresets.DefaultStringLength);
