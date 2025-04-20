@@ -13,7 +13,11 @@ public class AppDbContext : DbContext
     public DbSet<UserProjectPermission> UserProjectPermissions { get; set; } = null!;
     public DbSet<Project> Projects { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
+    public DbSet<EmployeeActivity> EmployeeActivities { get; set; } = null!;
     public DbSet<Currency> Currencies { get; set; } = null!;
+    public DbSet<ExchangeRate> ExchangeRates { get; set; } = null!;
+    public DbSet<TimeReport> TimeReports { get; set; } = null!;
+    public DbSet<PaymentRequest> PaymentRequests { get; set; } = null!;
     public DbSet<SystemLog> SystemLogs { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

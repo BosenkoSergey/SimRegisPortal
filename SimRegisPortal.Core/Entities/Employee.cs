@@ -1,4 +1,5 @@
 ﻿using SimRegisPortal.Core.Entities.Base;
+using SimRegisPortal.Core.Enums;
 
 namespace SimRegisPortal.Core.Entities;
 
@@ -13,6 +14,7 @@ public sealed class Employee : BaseEntity<Guid>
     public DateTime? DismissalDate { get; set; }
     public decimal HourlyRate { get; set; }
     public int HourlyRateCurrencyId { get; set; }
+    public SalaryScheme SalaryScheme { get; set; }
 
     public User? User { get; set; }
     public Currency HourlyRateCurrency { get; set; } = default!;

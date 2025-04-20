@@ -14,4 +14,5 @@ public sealed class TimeReport : BaseEntity<Guid>
 
     public Employee Employee { get; set; } = default!;
     public ICollection<EmployeeActivity> Activities { get; set; } = [];
+    public ICollection<PaymentRequest> PaymentRequests { get; set; } = [];
 }
