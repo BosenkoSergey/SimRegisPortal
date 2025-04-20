@@ -14,5 +14,6 @@ public sealed class Employee : BaseEntity<Guid>
     public decimal HourlyRate { get; set; }
 
     public User? User { get; set; }
+    public ICollection<EmployeeActivity> Activities { get; set; } = [];
 }
 
