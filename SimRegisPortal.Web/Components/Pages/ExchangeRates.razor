@@ -10,6 +10,27 @@
 <PageTitle>Exchange Rates</PageTitle>
 
 <MudPaper>
+    <MudStack Row>
+        <MudDatePicker Label="Date From" @bind-Date="_queryParams.DateFrom" Clearable />
+        <MudDatePicker Label="Date To" @bind-Date="_queryParams.DateTo" Clearable />
+
+        <MudSelect Label="Currency From" @bind-Value="_queryParams.FromCurrencyId" Clearable>
+            @foreach (var currency in _currencies)
+            {
+                <MudSelectItem Value="@((int?)currency.Id)">@currency.Code</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudSelect Label="Currency To" @bind-Value="_queryParams.ToCurrencyId" Clearable>
+            @foreach (var currency in _currencies)
+            {
+                <MudSelectItem Value="@((int?)currency.Id)">@currency.Code</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudButton OnClick="ApplyFilters" Variant="Variant.Filled" Color="Color.Primary">Apply</MudButton>
+    </MudStack>
+
     <MudDataGrid Items="_rates" @ref="_grid" Filterable="true">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Exchange Rates</MudText>
@@ -28,13 +49,38 @@
 @code {
     private List<CurrencyResponse> _currencies = new();
     private List<ExchangeRateResponse> _rates = new();
-    private ExchangeRateQueryParams _queryParams = new();
+    private ExchangeRateQueryParams _queryParams = new()
+    {
+        DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)
+    };
 
     private MudDataGrid<ExchangeRateResponse>? _grid;
 
     protected override async Task OnFirstInitializedAsync()
     {
+        await LoadCurrencies();
+        await LoadRates();
+    }
+
+    private async Task LoadCurrencies()
+    {
         _currencies = (await Mediator.Send(new GetCurrenciesQuery())).ToList();
+    }
+
+    private async Task LoadRates()
+    {
         _rates = (await Mediator.Send(new GetExchangeRatesQuery(_queryParams))).ToList();
+    }
+
+    private async Task ApplyFilters()
+    {
+        try
+        {
+            await LoadRates();
+        }
+        catch (Exception ex)
+        {
+            await Notifier.Exception(ex);
+        }
     }
 }
