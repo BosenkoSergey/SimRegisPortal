@@ -6,4 +6,6 @@ public sealed record CurrencyResponse
     public string Code { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string Symbol { get; set; } = null!;
+
+    public string DisplayName => $"{Code} ({Name})";
 }

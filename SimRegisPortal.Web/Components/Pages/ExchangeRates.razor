@@ -9,45 +9,78 @@
 
 <PageTitle>Exchange Rates</PageTitle>
 
-<MudPaper>
-    <MudStack Row>
-        <MudDatePicker Label="Date From" @bind-Date="_queryParams.DateFrom" Clearable />
-        <MudDatePicker Label="Date To" @bind-Date="_queryParams.DateTo" Clearable />
+<MudPaper Class="pt-3">
+    <MudStack Row Wrap="Wrap.Wrap" Justify="Justify.FlexStart" AlignItems="AlignItems.Start" Class="mx-3">
+        <MudDatePicker Label="Date From" @bind-Date="_queryParams.DateFrom" Clearable Variant="Variant.Outlined" />
+        <MudDatePicker Label="Date To" @bind-Date="_queryParams.DateTo" Clearable Variant="Variant.Outlined" />
 
-        <MudSelect Label="Currency From" @bind-Value="_queryParams.FromCurrencyId" Clearable>
-            @foreach (var currency in _currencies)
+        <MudSelect Label="Currency From"
+        @bind-Value="_queryParams.FromCurrencyId" Clearable
+        Variant="Variant.Outlined">
+            @foreach (var currency in _currencyCodes)
             {
-                <MudSelectItem Value="@((int?)currency.Id)">@currency.Code</MudSelectItem>
+                <MudSelectItem Value="@((int?)currency.Key)">@currency.Value</MudSelectItem>
             }
         </MudSelect>
 
-        <MudSelect Label="Currency To" @bind-Value="_queryParams.ToCurrencyId" Clearable>
-            @foreach (var currency in _currencies)
+        <MudSelect Label="Currency To"
+        @bind-Value="_queryParams.ToCurrencyId" Clearable
+        Variant="Variant.Outlined">
+            @foreach (var currency in _currencyCodes)
             {
-                <MudSelectItem Value="@((int?)currency.Id)">@currency.Code</MudSelectItem>
+                <MudSelectItem Value="@((int?)currency.Key)">@currency.Value</MudSelectItem>
             }
         </MudSelect>
 
-        <MudButton OnClick="ApplyFilters" Variant="Variant.Filled" Color="Color.Primary">Apply</MudButton>
+        <MudButton OnClick="Search"
+        Variant="Variant.Filled" Color="Color.Primary"
+        Style="height: 56px; width: 150px; align-self: center;">
+            Search
+        </MudButton>
     </MudStack>
 
-    <MudDataGrid Items="_rates" @ref="_grid" Filterable="true">
+    <MudDataGrid Items="_rates" @ref="_grid"
+    Filterable="true" Dense>
         <ToolBarContent>
             <MudText Typo="Typo.h6">Exchange Rates</MudText>
             <MudSpacer />
             <MudButton StartIcon="@Icons.Material.Filled.Sync">Import from Bank</MudButton>
         </ToolBarContent>
+
         <Columns>
-            <PropertyColumn Property="x => x.FromCurrencyId" Title="From" />
-            <PropertyColumn Property="x => x.ToCurrencyId" Title="To" />
-            <PropertyColumn Property="x => x.Date" Title="Date" />
-            <PropertyColumn Property="x => x.Rate" Title="Rate" />
+            <PropertyColumn Property="x => x.FromCurrencyId" Title="From">
+                <CellTemplate Context="context">
+                    @_currencyCodes.GetValueOrDefault(context.Item.FromCurrencyId)
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.ToCurrencyId" Title="To">
+                <CellTemplate Context="context">
+                    @_currencyCodes.GetValueOrDefault(context.Item.ToCurrencyId)
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.Date" Title="Date">
+                <CellTemplate Context="context">
+                    @context.Item.Date.ToString("yyyy-MM-dd")
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.Rate" Title="Rate">
+                <CellTemplate Context="context">
+                    @context.Item.Rate.ToString("0.#######", CultureInfo.InvariantCulture)
+                </CellTemplate>
+            </PropertyColumn>
         </Columns>
+
+        <PagerContent>
+            <MudDataGridPager />
+        </PagerContent>
     </MudDataGrid>
 </MudPaper>
 
 @code {
-    private List<CurrencyResponse> _currencies = new();
+    private Dictionary<int, string> _currencyCodes = new();
     private List<ExchangeRateResponse> _rates = new();
     private ExchangeRateQueryParams _queryParams = new()
     {
@@ -64,15 +97,17 @@
 
     private async Task LoadCurrencies()
     {
-        _currencies = (await Mediator.Send(new GetCurrenciesQuery())).ToList();
+        var currencies = await Mediator.Send(new GetCurrenciesQuery());
+        _currencyCodes = currencies.ToDictionary(x => x.Id, x => x.DisplayName);
     }
 
     private async Task LoadRates()
     {
-        _rates = (await Mediator.Send(new GetExchangeRatesQuery(_queryParams))).ToList();
+        var exchangeRates = await Mediator.Send(new GetExchangeRatesQuery(_queryParams));
+        _rates = exchangeRates.ToList();
     }
 
-    private async Task ApplyFilters()
+    private async Task Search()
     {
         try
         {
