@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using MudBlazor;
 using MudBlazor.Services;
 using SendGrid.Extensions.DependencyInjection;
 using SimRegisPortal.Application.Context;
@@ -16,6 +17,8 @@ using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Context;
 using SimRegisPortal.Persistence.Extensions;
 using SimRegisPortal.Web.Components;
+using SimRegisPortal.Web.Services;
+using SimRegisPortal.Web.Services.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,7 +69,10 @@ builder.Services.AddMediatR(cfg =>
 
 #endregion
 
-builder.Services.AddMudServices();
+builder.Services.AddMudServices(config =>
+{
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+});
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -109,6 +115,8 @@ builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
 builder.Services.AddScoped<IErrorLocalizer, ErrorLocalizer>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.AddScoped<IUiNotifier, UiNotifier>();
 
 #endregion
 
