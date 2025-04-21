@@ -1,0 +1,40 @@
+﻿@page "/exchange-rates"
+@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.Currencies.Queries
+@using SimRegisPortal.Application.Features.ExchangeRates.Commands
+@using SimRegisPortal.Application.Features.ExchangeRates.Queries
+@using SimRegisPortal.Application.Models.Currency
+@using SimRegisPortal.Application.Models.ExchangeRate
+
+<PageTitle>Exchange Rates</PageTitle>
+
+<MudPaper>
+    <MudDataGrid Items="_rates" @ref="_grid" Filterable="true">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Exchange Rates</MudText>
+            <MudSpacer />
+            <MudButton StartIcon="@Icons.Material.Filled.Sync">Import from Bank</MudButton>
+        </ToolBarContent>
+        <Columns>
+            <PropertyColumn Property="x => x.FromCurrencyId" Title="From" />
+            <PropertyColumn Property="x => x.ToCurrencyId" Title="To" />
+            <PropertyColumn Property="x => x.Date" Title="Date" />
+            <PropertyColumn Property="x => x.Rate" Title="Rate" />
+        </Columns>
+    </MudDataGrid>
+</MudPaper>
+
+@code {
+    private List<CurrencyResponse> _currencies = new();
+    private List<ExchangeRateResponse> _rates = new();
+    private ExchangeRateQueryParams _queryParams = new();
+
+    private MudDataGrid<ExchangeRateResponse>? _grid;
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        _currencies = (await Mediator.Send(new GetCurrenciesQuery())).ToList();
+        _rates = (await Mediator.Send(new GetExchangeRatesQuery(_queryParams))).ToList();
+    }
+}
