@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Persistence"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimRegisPortal.Application", "SimRegisPortal.Application\SimRegisPortal.Application.csproj", "{FF1CD2CE-0605-4A8B-9531-359B2C49D197}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimRegisPortal.Web", "SimRegisPortal.Web\SimRegisPortal.Web.csproj", "{19A92C92-B37D-4216-8B34-6BBE2DF2125D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FF1CD2CE-0605-4A8B-9531-359B2C49D197}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF1CD2CE-0605-4A8B-9531-359B2C49D197}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF1CD2CE-0605-4A8B-9531-359B2C49D197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19A92C92-B37D-4216-8B34-6BBE2DF2125D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19A92C92-B37D-4216-8B34-6BBE2DF2125D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19A92C92-B37D-4216-8B34-6BBE2DF2125D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19A92C92-B37D-4216-8B34-6BBE2DF2125D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

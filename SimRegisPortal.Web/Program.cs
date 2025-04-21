@@ -1,12 +1,9 @@
-using System.Text;
 using AutoMapper;
 using FluentValidation;
 using MediatR.Extensions.FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using MudBlazor.Services;
 using SendGrid.Extensions.DependencyInjection;
 using SimRegisPortal.Application.Context;
 using SimRegisPortal.Application.Extensions;
@@ -18,7 +15,7 @@ using SimRegisPortal.Core.Resources;
 using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Context;
 using SimRegisPortal.Persistence.Extensions;
-using SimRegisPortal.WebApi.Middleware;
+using SimRegisPortal.Web.Components;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +26,7 @@ var appSettings = builder.Configuration.Get<AppSettings>()!;
 builder.AddSerilog(appSettings);
 builder.Services.AddLocalization();
 
-#region AddDbContext
+#region DbContext
 
 builder.Services.AddDbContext<AppDbContext>(
     options =>
@@ -45,30 +42,6 @@ builder.Services.AddDbContext<AppDbContext>(
 #endregion
 
 builder.Services.AddHttpContextAccessor();
-
-#region AddAuthentication
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        var jwtSettings = appSettings.AuthSettings.AccessToken;
-        var key = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = !string.IsNullOrEmpty(jwtSettings.Issuer),
-            ValidIssuer = jwtSettings.Issuer,
-            ValidateAudience = !string.IsNullOrEmpty(jwtSettings.Audience),
-            ValidAudience = jwtSettings.Audience,
-            ClockSkew = TimeSpan.Zero
-        };
-    });
-
-#endregion
-
-builder.Services.AddAuthorization();
 
 #region MediatR + FluentValidation + AutoMapper
 
@@ -93,51 +66,19 @@ builder.Services.AddMediatR(cfg =>
 
 #endregion
 
-builder.Services.AddControllers();
+builder.Services.AddMudServices();
 
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 
-#region AddSwagger
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc(appSettings.SwaggerConfig.Name, new OpenApiInfo
-    {
-        Title = appSettings.SwaggerConfig.Title,
-        Description = appSettings.SwaggerConfig.Description
-    });
-
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-    {
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = JwtBearerDefaults.AuthenticationScheme
-    });
-
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-
-#endregion
+#region SendGrid
 
 builder.Services.AddSendGrid(options =>
 {
     options.ApiKey = appSettings.ExternalServices.SendGrid.ApiKey;
 });
+
+#endregion
 
 #region Injections
 
@@ -184,30 +125,18 @@ var app = builder.Build();
 
 app.Services.PrepareDatabase();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-#region UseSwagger
-
-if (!app.Environment.IsProduction())
+if (!app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint(
-            $"/swagger/{appSettings.SwaggerConfig.Name}/swagger.json",
-            appSettings.SwaggerConfig.Title
-        );
-        options.DisplayRequestDuration();
-    });
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseHsts();
 }
-
-#endregion
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseAntiforgery();
 
-app.MapControllers();
+app.MapStaticAssets();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 
 app.Run();

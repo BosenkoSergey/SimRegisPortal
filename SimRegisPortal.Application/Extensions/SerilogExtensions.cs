@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Microsoft.AspNetCore.Builder;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
@@ -6,7 +7,7 @@ using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Constants;
 
-namespace SimRegisPortal.WebApi.Extensions;
+namespace SimRegisPortal.Application.Extensions;
 
 public static class SerilogExtensions
 {

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>12130298-a907-4bd2-a5b7-d171cedec644</UserSecretsId>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="MudBlazor" Version="8.*" />
+    <PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimRegisPortal.Application\SimRegisPortal.Application.csproj" />
+  </ItemGroup>
+</Project>
