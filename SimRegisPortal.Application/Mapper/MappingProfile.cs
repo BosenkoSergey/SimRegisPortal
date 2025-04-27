@@ -15,14 +15,16 @@ public class MappingProfile : Profile
     {
         #region Requests
 
-        CreateMap<UserRequest, User>()
+        CreateMap<UserDto, User>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.Permissions, opt => opt.Ignore())
             .AfterMap((src, dest) =>
             {
                 dest.UpdatePermissions(src.Permissions);
             });
 
-        CreateMap<ExchangeRateRequest, ExchangeRate>();
+        CreateMap<ExchangeRateDto, ExchangeRate>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
 
         #endregion
 
@@ -35,16 +37,16 @@ public class MappingProfile : Profile
                 dest.Permissions = src.User.Permissions.Select(p => p.PermissionType).ToArray();
             });
 
-        CreateMap<User, UserResponse>()
+        CreateMap<User, UserDto>()
             .ForMember(dest => dest.Permissions, opt => opt.Ignore())
             .AfterMap((src, dest) =>
             {
                 dest.Permissions = src.Permissions.Select(al => al.PermissionType).ToArray();
             });
 
-        CreateMap<Currency, CurrencyResponse>();
+        CreateMap<Currency, CurrencyDto>();
 
-        CreateMap<ExchangeRate, ExchangeRateResponse>();
+        CreateMap<ExchangeRate, ExchangeRateDto>();
 
         #endregion
 

@@ -8,10 +8,10 @@ using SimRegisPortal.Persistence.Context;
 namespace SimRegisPortal.Application.Features.ExchangeRates.Queries;
 
 public sealed record GetExchangeRatesQuery(ExchangeRateQueryParams QueryParams)
-    : GetManyQuery<ExchangeRateResponse>;
+    : GetManyQuery<ExchangeRateDto>;
 
 internal sealed class GetExchangeRatesHandler(AppDbContext dbContext, IMapper mapper)
-    : GetManyHandler<GetExchangeRatesQuery, ExchangeRate, ExchangeRateResponse>(dbContext, mapper)
+    : GetManyHandler<GetExchangeRatesQuery, ExchangeRate, ExchangeRateDto>(dbContext, mapper)
 {
     protected override async Task<IEnumerable<ExchangeRate>> GetEntities(GetExchangeRatesQuery query, CancellationToken cancellationToken)
     {

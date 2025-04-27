@@ -2,7 +2,7 @@
 
 namespace SimRegisPortal.Application.Models.Auth;
 
-public sealed record AuthResponse
+public sealed class AuthResponse
 {
     public Guid UserId { get; set; }
     public Guid RefreshToken { get; set; }

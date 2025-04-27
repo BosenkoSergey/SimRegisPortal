@@ -1,8 +1,9 @@
-﻿using SimRegisPortal.Core.Enums;
+﻿using SimRegisPortal.Application.Models.Base;
+using SimRegisPortal.Core.Enums;
 
 namespace SimRegisPortal.Application.Models.User;
 
-public abstract record UserBaseDto
+public sealed class UserDto : BaseEntityDto<Guid>
 {
     public UserStatus Status { get; set; }
     public string FullName { get; set; } = null!;

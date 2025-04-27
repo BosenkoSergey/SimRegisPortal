@@ -81,13 +81,13 @@
 
 @code {
     private Dictionary<int, string> _currencyCodes = new();
-    private List<ExchangeRateResponse> _rates = new();
+    private List<ExchangeRateDto> _rates = new();
     private ExchangeRateQueryParams _queryParams = new()
     {
         DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)
     };
 
-    private MudDataGrid<ExchangeRateResponse>? _grid;
+    private MudDataGrid<ExchangeRateDto>? _grid;
 
     protected override async Task OnFirstInitializedAsync()
     {

@@ -9,11 +9,11 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Users.Commands;
 
-public sealed record AddUserCommand(UserRequest Request)
-    : AddCommand<UserRequest, UserResponse>(Request);
+public sealed record AddUserCommand(UserDto Request)
+    : AddCommand<UserDto, UserDto>(Request);
 
 internal sealed class AddUserHandler(AppDbContext dbContext, IMapper mapper, IEmailService emailService)
-    : AddHandler<AddUserCommand, UserRequest, User, UserResponse>(dbContext, mapper)
+    : AddHandler<AddUserCommand, UserDto, User, UserDto>(dbContext, mapper)
 {
     protected override async Task AddOrEditEntity(User entity, AddUserCommand command, CancellationToken cancellationToken)
     {

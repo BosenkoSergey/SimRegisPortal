@@ -1,8 +1,9 @@
-﻿namespace SimRegisPortal.Application.Models.Currency;
+﻿using SimRegisPortal.Application.Models.Base;
 
-public sealed record CurrencyResponse
+namespace SimRegisPortal.Application.Models.Currency;
+
+public sealed class CurrencyDto : BaseEntityDto<int>
 {
-    public int Id { get; set; }
     public string Code { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string Symbol { get; set; } = null!;

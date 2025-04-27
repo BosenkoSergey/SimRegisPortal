@@ -1,6 +1,8 @@
-﻿namespace SimRegisPortal.Application.Models.ExchangeRate;
+﻿using SimRegisPortal.Application.Models.Base;
 
-public abstract record ExchangeRateDto
+namespace SimRegisPortal.Application.Models.ExchangeRate;
+
+public sealed class ExchangeRateDto : BaseEntityDto<int>
 {
     public int FromCurrencyId { get; set; }
     public int ToCurrencyId { get; set; }

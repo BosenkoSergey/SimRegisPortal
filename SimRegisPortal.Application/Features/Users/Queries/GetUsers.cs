@@ -7,7 +7,7 @@ using SimRegisPortal.Persistence.Context;
 namespace SimRegisPortal.Application.Features.Users.Queries;
 
 public sealed record GetUsersQuery
-    : GetManyQuery<UserResponse>;
+    : GetManyQuery<UserDto>;
 
 internal sealed class GetUsersHandler(AppDbContext dbContext, IMapper mapper)
-    : GetManyHandler<GetUsersQuery, User, UserResponse>(dbContext, mapper);
+    : GetManyHandler<GetUsersQuery, User, UserDto>(dbContext, mapper);

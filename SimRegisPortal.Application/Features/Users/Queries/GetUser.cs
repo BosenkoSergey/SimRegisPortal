@@ -8,10 +8,10 @@ using SimRegisPortal.Persistence.Context;
 namespace SimRegisPortal.Application.Features.Users.Queries;
 
 public sealed record GetUserQuery(Guid Id)
-    : GetByIdQuery<Guid, UserResponse>(Id);
+    : GetByIdQuery<Guid, UserDto>(Id);
 
 internal sealed class GetUserHandler(AppDbContext dbContext, IMapper mapper)
-    : GetByIdHandler<GetUserQuery, User, Guid, UserResponse>(dbContext, mapper)
+    : GetByIdHandler<GetUserQuery, User, Guid, UserDto>(dbContext, mapper)
 {
     protected override IQueryable<User> GetEntitiesQuery()
     {

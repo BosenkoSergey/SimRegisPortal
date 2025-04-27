@@ -7,7 +7,7 @@ using SimRegisPortal.Persistence.Context;
 namespace SimRegisPortal.Application.Features.Currencies.Queries;
 
 public sealed record GetCurrenciesQuery
-    : GetManyQuery<CurrencyResponse>;
+    : GetManyQuery<CurrencyDto>;
 
 internal sealed class GetCurrenciesHandler(AppDbContext dbContext, IMapper mapper)
-    : GetManyHandler<GetCurrenciesQuery, Currency, CurrencyResponse>(dbContext, mapper);
+    : GetManyHandler<GetCurrenciesQuery, Currency, CurrencyDto>(dbContext, mapper);

@@ -26,7 +26,7 @@ public class UsersController(IMediator mediator) : BaseApiController(mediator)
 
     [HttpPost]
     public async Task<IActionResult> AddUser(
-        [FromBody] UserRequest request,
+        [FromBody] UserDto request,
         CancellationToken cancellationToken)
     {
         var response = await Mediator.Send(new AddUserCommand(request), cancellationToken);
@@ -36,7 +36,7 @@ public class UsersController(IMediator mediator) : BaseApiController(mediator)
     [HttpPut("{id}")]
     public async Task<IActionResult> EditUser(
         Guid id,
-        [FromBody] UserRequest request,
+        [FromBody] UserDto request,
         CancellationToken cancellationToken)
     {
         var response = await Mediator.Send(new EditUserCommand(id, request), cancellationToken);

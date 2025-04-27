@@ -6,8 +6,8 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.ExchangeRates.Commands;
 
-public sealed record AddExchangeRateCommand(ExchangeRateRequest Request)
-    : AddCommand<ExchangeRateRequest, ExchangeRateResponse>(Request);
+public sealed record AddExchangeRateCommand(ExchangeRateDto Request)
+    : AddCommand<ExchangeRateDto, ExchangeRateDto>(Request);
 
 internal sealed class AddExchangeRateHandler(AppDbContext dbContext, IMapper mapper)
-    : AddHandler<AddExchangeRateCommand, ExchangeRateRequest, ExchangeRate, ExchangeRateResponse>(dbContext, mapper);
+    : AddHandler<AddExchangeRateCommand, ExchangeRateDto, ExchangeRate, ExchangeRateDto>(dbContext, mapper);

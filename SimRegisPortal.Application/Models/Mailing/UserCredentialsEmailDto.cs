@@ -2,7 +2,7 @@
 
 namespace SimRegisPortal.Application.Models.Mailing;
 
-public sealed record UserCredentialsEmailDto
+public sealed class UserCredentialsEmailDto
 {
     public RecipientDto Recipient { get; init; } = null!;
     public string Login { get; init; } = null!;

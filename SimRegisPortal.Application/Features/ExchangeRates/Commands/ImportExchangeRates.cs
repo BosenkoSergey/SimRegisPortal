@@ -7,7 +7,7 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.ExchangeRates.Commands;
 
-public sealed record ImportExchangeRatesCommand(ImportExchangeRatesRequest Request)
+public sealed record ImportExchangeRatesCommand(ExchangeRatesImportRequest Request)
     : IRequest;
 
 internal sealed class ImportExchangeRatesHandler(
