@@ -6,12 +6,12 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Base.Queries;
 
-public record GetByIdQuery<TKey, TResponse>(TKey Id)
-    : GetOneQuery<TResponse>;
+public record GetByIdQuery<TKey, TDto>(TKey Id)
+    : GetOneQuery<TDto>;
 
-internal abstract class GetByIdHandler<TQuery, TEntity, TKey, TResponse>(AppDbContext dbContext, IMapper mapper)
-    : GetOneHandler<TQuery, TEntity, TResponse>(dbContext, mapper)
-    where TQuery : GetByIdQuery<TKey, TResponse>
+internal abstract class GetByIdHandler<TQuery, TEntity, TKey, TDto>(AppDbContext dbContext, IMapper mapper)
+    : GetOneHandler<TQuery, TEntity, TDto>(dbContext, mapper)
+    where TQuery : GetByIdQuery<TKey, TDto>
     where TEntity : BaseEntity<TKey>
 {
     protected override async Task<TEntity> GetEntity(TQuery query, CancellationToken cancellationToken)

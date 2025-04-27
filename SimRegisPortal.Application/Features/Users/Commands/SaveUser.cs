@@ -7,13 +7,13 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Users.Commands;
 
-public sealed record EditUserCommand(Guid Id, UserDto Request)
-    : EditCommand<Guid, UserDto, UserDto>(Id, Request);
+public sealed record SaveUserCommand(UserDto Dto)
+    : SaveCommand<UserDto, Guid>(Dto);
 
-internal sealed class EditUserHandler(AppDbContext dbContext, IMapper mapper)
-    : EditHandler<EditUserCommand, UserDto, User, Guid, UserDto>(dbContext, mapper)
+internal sealed class SaveUserHandler(AppDbContext dbContext, IMapper mapper)
+    : SaveHandler<SaveUserCommand, UserDto, User, Guid>(dbContext, mapper)
 {
-    protected override IQueryable<User> GetEntityQuery()
+    protected override IQueryable<User> GetEntityQuery(SaveUserCommand command)
     {
         return DbSet
             .Include(u => u.Permissions);

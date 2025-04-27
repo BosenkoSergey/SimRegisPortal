@@ -6,15 +6,15 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Base.Queries;
 
-public record GetManyQuery<TResponse>
-    : IRequest<IEnumerable<TResponse>>;
+public record GetManyQuery<TDto>
+    : IRequest<IEnumerable<TDto>>;
 
-internal abstract class GetManyHandler<TQuery, TEntity, TResponse>(AppDbContext dbContext, IMapper mapper)
-    : QueryHandler<TEntity>(dbContext, mapper), IRequestHandler<TQuery, IEnumerable<TResponse>>
-    where TQuery : GetManyQuery<TResponse>
+internal abstract class GetManyHandler<TQuery, TEntity, TDto>(AppDbContext dbContext, IMapper mapper)
+    : QueryHandler<TEntity>(dbContext, mapper), IRequestHandler<TQuery, IEnumerable<TDto>>
+    where TQuery : GetManyQuery<TDto>
     where TEntity : BaseEntity
 {
-    public async Task<IEnumerable<TResponse>> Handle(TQuery query, CancellationToken cancellationToken)
+    public async Task<IEnumerable<TDto>> Handle(TQuery query, CancellationToken cancellationToken)
     {
         var entities = await GetEntities(query, cancellationToken);
         return CreateResponse(entities);
@@ -26,8 +26,8 @@ internal abstract class GetManyHandler<TQuery, TEntity, TResponse>(AppDbContext 
             .ToListAsync(cancellationToken);
     }
 
-    protected virtual IEnumerable<TResponse> CreateResponse(IEnumerable<TEntity> entities)
+    protected virtual IEnumerable<TDto> CreateResponse(IEnumerable<TEntity> entities)
     {
-        return Mapper.Map<IEnumerable<TResponse>>(entities);
+        return Mapper.Map<IEnumerable<TDto>>(entities);
     }
 }

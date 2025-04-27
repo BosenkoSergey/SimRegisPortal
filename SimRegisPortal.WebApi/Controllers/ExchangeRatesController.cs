@@ -20,22 +20,21 @@ public class ExchangeRatesController(IMediator mediator) : BaseApiController(med
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddExchangeRate(
+    public async Task<IActionResult> SaveExchangeRate(
         [FromBody] ExchangeRateDto request,
         CancellationToken cancellationToken)
     {
-        var response = await Mediator.Send(new AddExchangeRateCommand(request), cancellationToken);
+        var response = await Mediator.Send(new SaveExchangeRateCommand(request), cancellationToken);
         return Ok(response);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> EditExchangeRate(
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteExchangeRate(
         int id,
-        [FromBody] ExchangeRateDto request,
         CancellationToken cancellationToken)
     {
-        var response = await Mediator.Send(new EditExchangeRateCommand(id, request), cancellationToken);
-        return Ok(response);
+        await Mediator.Send(new DeleteExchangeRateCommand(id), cancellationToken);
+        return NoContent();
     }
 
     [HttpPost("import")]

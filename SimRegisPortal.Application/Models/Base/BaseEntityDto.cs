@@ -7,5 +7,5 @@ public abstract class BaseEntityDto
 
 public abstract class BaseEntityDto<TKey> : BaseEntityDto
 {
-    public TKey Id { get; set; } = default!;
+    public TKey? Id { get; set; } = default!;
 }

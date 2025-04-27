@@ -8,7 +8,7 @@ namespace SimRegisPortal.Application.Features.Base.Commands;
 public abstract record DeleteCommand<TKey>(TKey Id)
     : IRequest;
 
-internal abstract class BaseDeleteHandler<TCommand, TEntity, TKey>(AppDbContext dbContext)
+internal abstract class DeleteHandler<TCommand, TEntity, TKey>(AppDbContext dbContext)
     : CommandHandler<TEntity>(dbContext), IRequestHandler<TCommand>
     where TCommand : DeleteCommand<TKey>
     where TEntity : BaseEntity<TKey>

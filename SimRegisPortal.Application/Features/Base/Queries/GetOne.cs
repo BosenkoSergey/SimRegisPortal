@@ -5,15 +5,15 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Base.Queries;
 
-public record GetOneQuery<TResponse>
-    : IRequest<TResponse>;
+public record GetOneQuery<TDto>
+    : IRequest<TDto>;
 
-internal abstract class GetOneHandler<TQuery, TEntity, TResponse>(AppDbContext dbContext, IMapper mapper)
-    : QueryHandler<TEntity>(dbContext, mapper), IRequestHandler<TQuery, TResponse>
-    where TQuery : GetOneQuery<TResponse>
+internal abstract class GetOneHandler<TQuery, TEntity, TDto>(AppDbContext dbContext, IMapper mapper)
+    : QueryHandler<TEntity>(dbContext, mapper), IRequestHandler<TQuery, TDto>
+    where TQuery : GetOneQuery<TDto>
     where TEntity : BaseEntity
 {
-    public async Task<TResponse> Handle(TQuery query, CancellationToken cancellationToken)
+    public async Task<TDto> Handle(TQuery query, CancellationToken cancellationToken)
     {
         var entity = await GetEntity(query, cancellationToken);
         return CreateResponse(entity);
@@ -21,8 +21,8 @@ internal abstract class GetOneHandler<TQuery, TEntity, TResponse>(AppDbContext d
 
     protected abstract Task<TEntity> GetEntity(TQuery query, CancellationToken cancellationToken);
 
-    protected virtual TResponse CreateResponse(TEntity entity)
+    protected virtual TDto CreateResponse(TEntity entity)
     {
-        return Mapper.Map<TResponse>(entity);
+        return Mapper.Map<TDto>(entity);
     }
 }

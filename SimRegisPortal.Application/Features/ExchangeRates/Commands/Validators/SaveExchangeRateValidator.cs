@@ -5,16 +5,16 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.ExchangeRates.Commands.Validators;
 
-public sealed class EditExchangeRateValidator
-        : AbstractValidator<EditExchangeRateCommand>
+public sealed class SaveExchangeRateValidator
+        : AbstractValidator<SaveExchangeRateCommand>
 {
     private readonly AppDbContext _dbContext;
 
-    public EditExchangeRateValidator(AppDbContext dbContext)
+    public SaveExchangeRateValidator(AppDbContext dbContext)
     {
         _dbContext = dbContext;
 
-        RuleFor(x => x.Request.Rate)
+        RuleFor(x => x.Dto.Rate)
             .GreaterThan(0).WithMessage("Validation.ExchangeRate.Negative");
 
         RuleFor(x => x)
@@ -22,15 +22,15 @@ public sealed class EditExchangeRateValidator
     }
 
     private async Task ValidateAsync(
-        EditExchangeRateCommand command,
-        ValidationContext<EditExchangeRateCommand> context,
+        SaveExchangeRateCommand command,
+        ValidationContext<SaveExchangeRateCommand> context,
         CancellationToken cancellationToken)
     {
         var isExists = await _dbContext.ExchangeRates
-            .AnyAsync(r => r.Id != command.Id
-                        && r.FromCurrencyId == command.Request.FromCurrencyId
-                        && r.ToCurrencyId == command.Request.ToCurrencyId
-                        && r.Date == command.Request.Date.Date,
+            .AnyAsync(r => r.Id != command.Dto.Id
+                        && r.FromCurrencyId == command.Dto.FromCurrencyId
+                        && r.ToCurrencyId == command.Dto.ToCurrencyId
+                        && r.Date == command.Dto.Date.Date,
                 cancellationToken);
         if (isExists)
         {

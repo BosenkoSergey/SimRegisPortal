@@ -6,16 +6,16 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Users.Commands.Validators;
 
-public sealed class EditUserValidator
-        : AbstractValidator<EditUserCommand>
+public sealed class SaveUserValidator
+        : AbstractValidator<SaveUserCommand>
 {
     private readonly AppDbContext _dbContext;
 
-    public EditUserValidator(AppDbContext dbContext)
+    public SaveUserValidator(AppDbContext dbContext)
     {
         _dbContext = dbContext;
 
-        RuleFor(x => x.Request.Email)
+        RuleFor(x => x.Dto.Email)
             .EmailAddress().WithTemplate("Validation.Email.Invalid");
 
         RuleFor(x => x)
@@ -23,19 +23,21 @@ public sealed class EditUserValidator
     }
 
     private async Task ValidateAsync(
-        EditUserCommand command,
-        ValidationContext<EditUserCommand> context,
+        SaveUserCommand command,
+        ValidationContext<SaveUserCommand> context,
         CancellationToken cancellationToken)
     {
         var isLoginExists = await _dbContext.Users
-            .AnyAsync(u => u.Login == command.Request.Login && u.Id != command.Id, cancellationToken);
+            .AnyAsync(u => u.Login == command.Dto.Login
+                        && u.Id != command.Dto.Id, cancellationToken);
         if (isLoginExists)
         {
             throw new CommonException("Validation.Login.AlreadyExists");
         }
 
         var isEmailExists = await _dbContext.Users
-            .AnyAsync(u => u.Email == command.Request.Email && u.Id != command.Id, cancellationToken);
+            .AnyAsync(u => u.Email == command.Dto.Email
+                        && u.Id != command.Dto.Id, cancellationToken);
         if (isEmailExists)
         {
             throw new CommonException("Validation.Email.AlreadyExists");
