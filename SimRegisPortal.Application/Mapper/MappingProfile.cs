@@ -34,14 +34,14 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.IsAdmin, opt => opt.MapFrom(src => src.User.IsAdmin))
             .AfterMap((src, dest) =>
             {
-                dest.Permissions = src.User.Permissions.Select(p => p.PermissionType).ToArray();
+                dest.Permissions = src.User.Permissions.Select(p => p.PermissionType).ToList();
             });
 
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.Permissions, opt => opt.Ignore())
             .AfterMap((src, dest) =>
             {
-                dest.Permissions = src.Permissions.Select(al => al.PermissionType).ToArray();
+                dest.Permissions = src.Permissions.Select(al => al.PermissionType).ToList();
             });
 
         CreateMap<Currency, CurrencyDto>();

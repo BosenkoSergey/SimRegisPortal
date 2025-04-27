@@ -25,7 +25,7 @@ public sealed class User : BaseEntity<Guid>
         Status = UserStatus.Active;
     }
 
-    public void UpdatePermissions(UserPermissionType[] permissions)
+    public void UpdatePermissions(IEnumerable<UserPermissionType> permissions)
     {
         Permissions.UpdateManyToMany(
             newKeys: permissions,
