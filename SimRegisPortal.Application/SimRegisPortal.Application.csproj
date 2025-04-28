@@ -23,4 +23,8 @@
     <ProjectReference Include="..\SimRegisPortal.Persistence\SimRegisPortal.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\TimeReports\Commands\Validators\" />
+  </ItemGroup>
+
 </Project>
