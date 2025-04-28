@@ -10,9 +10,11 @@ using Microsoft.OpenApi.Models;
 using SendGrid.Extensions.DependencyInjection;
 using SimRegisPortal.Application.Context;
 using SimRegisPortal.Application.Extensions;
+using SimRegisPortal.Application.Factories;
 using SimRegisPortal.Application.Mapper;
 using SimRegisPortal.Application.Services;
 using SimRegisPortal.Application.Services.Interfaces;
+using SimRegisPortal.Application.Services.SalaryCalculators;
 using SimRegisPortal.Core.Localization;
 using SimRegisPortal.Core.Resources;
 using SimRegisPortal.Core.Settings;
@@ -169,6 +171,11 @@ builder.Services.AddScoped<IErrorLocalizer, ErrorLocalizer>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICurrencyConverter, CurrencyConverter>();
+builder.Services.AddScoped<ISalaryCalculatorFactory, SalaryCalculatorFactory>();
+
+builder.Services.AddScoped<Fop2SalaryCalculator>();
+builder.Services.AddScoped<Fop3SalaryCalculator>();
+builder.Services.AddScoped<GigSalaryCalculator>();
 
 #endregion
 
