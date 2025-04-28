@@ -187,6 +187,15 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exchange rate not found..
+        /// </summary>
+        public static string Validation_ExchangeRate_NotFound {
+            get {
+                return ResourceManager.GetString("Validation.ExchangeRate.NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field &apos;{0}&apos; is required..
         /// </summary>
         public static string Validation_Field_Required {

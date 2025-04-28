@@ -25,6 +25,6 @@ internal sealed class ApproveTimeReportHandler(AppDbContext dbContext)
     protected override IQueryable<TimeReport> GetEntityQuery()
     {
         return DbContext.TimeReports
-            .Include(r => r.Activities);
+            .Include(r => r.Activities).ThenInclude(a => a.Employee);
     }
 }

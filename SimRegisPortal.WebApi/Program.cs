@@ -168,6 +168,7 @@ builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
 builder.Services.AddScoped<IErrorLocalizer, ErrorLocalizer>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ICurrencyConverter, CurrencyConverter>();
 
 #endregion
 
