@@ -106,6 +106,24 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A contract with the same number already exists..
+        /// </summary>
+        public static string Validation_Contract_Number_AlreadyExists {
+            get {
+                return ResourceManager.GetString("Validation.Contract.Number.AlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An overlapping contract already exists for this employee in the selected project..
+        /// </summary>
+        public static string Validation_Contract_Range_AlreadyExists {
+            get {
+                return ResourceManager.GetString("Validation.Contract.Range.AlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An account with this email already exists..
         /// </summary>
         public static string Validation_Email_AlreadyExists {

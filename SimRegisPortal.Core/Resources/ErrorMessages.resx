@@ -132,6 +132,12 @@
   <data name="Exception.UserSession.NotFound" xml:space="preserve">
     <value>Session not found. Please sign in again.</value>
   </data>
+  <data name="Validation.Contract.Number.AlreadyExists" xml:space="preserve">
+    <value>A contract with the same number already exists.</value>
+  </data>
+  <data name="Validation.Contract.Range.AlreadyExists" xml:space="preserve">
+    <value>An overlapping contract already exists for this employee in the selected project.</value>
+  </data>
   <data name="Validation.Email.AlreadyExists" xml:space="preserve">
     <value>An account with this email already exists.</value>
   </data>
