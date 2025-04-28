@@ -138,6 +138,15 @@
   <data name="Validation.Email.Invalid" xml:space="preserve">
     <value>Email is not valid.</value>
   </data>
+  <data name="Validation.Employee.DismissalDate" xml:space="preserve">
+    <value>Dismissal date must be empty or later than hire date.</value>
+  </data>
+  <data name="Validation.Employee.HourlyRate" xml:space="preserve">
+    <value>Hourly rate must be a positive value.</value>
+  </data>
+  <data name="Validation.Employee.User.AlreadyLinked" xml:space="preserve">
+    <value>This User account is already linked to another Employee.</value>
+  </data>
   <data name="Validation.ExchangeRate.AlreadyExists" xml:space="preserve">
     <value>An exchange rate with this CurrencyFrom, CurrencyTo and Date already exists.</value>
   </data>

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using SimRegisPortal.Application.Extensions;
 using SimRegisPortal.Core.Exceptions;
 using SimRegisPortal.Persistence.Context;
 
@@ -15,13 +16,13 @@ public sealed class SaveExchangeRateValidator
         _dbContext = dbContext;
 
         RuleFor(x => x.Dto.Rate)
-            .GreaterThan(0).WithMessage("Validation.ExchangeRate.Negative");
+            .GreaterThan(0).WithTemplate("Validation.ExchangeRate.Negative");
 
         RuleFor(x => x)
-            .CustomAsync(ValidateAsync);
+            .CustomAsync(CustomCheckAsync);
     }
 
-    private async Task ValidateAsync(
+    private async Task CustomCheckAsync(
         SaveExchangeRateCommand command,
         ValidationContext<SaveExchangeRateCommand> context,
         CancellationToken cancellationToken)

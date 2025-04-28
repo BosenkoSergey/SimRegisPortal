@@ -124,6 +124,33 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dismissal date must be empty or later than hire date..
+        /// </summary>
+        public static string Validation_Employee_DismissalDate {
+            get {
+                return ResourceManager.GetString("Validation.Employee.DismissalDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hourly rate must be a positive value..
+        /// </summary>
+        public static string Validation_Employee_HourlyRate {
+            get {
+                return ResourceManager.GetString("Validation.Employee.HourlyRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This User account is already linked to another Employee..
+        /// </summary>
+        public static string Validation_Employee_User_AlreadyLinked {
+            get {
+                return ResourceManager.GetString("Validation.Employee.User.AlreadyLinked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An exchange rate with this CurrencyFrom, CurrencyTo and Date already exists..
         /// </summary>
         public static string Validation_ExchangeRate_AlreadyExists {

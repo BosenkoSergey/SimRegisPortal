@@ -15,14 +15,20 @@ public sealed class SaveUserValidator
     {
         _dbContext = dbContext;
 
+        RuleFor(x => x.Dto.FullName)
+            .NotEmpty().WithTemplate("Validation.Field.Required", "Full Name");
+
+        RuleFor(x => x.Dto.Login)
+            .NotEmpty().WithTemplate("Validation.Field.Required", "Login");
+
         RuleFor(x => x.Dto.Email)
             .EmailAddress().WithTemplate("Validation.Email.Invalid");
 
         RuleFor(x => x)
-            .CustomAsync(ValidateAsync);
+            .CustomAsync(CustomCheckAsync);
     }
 
-    private async Task ValidateAsync(
+    private async Task CustomCheckAsync(
         SaveUserCommand command,
         ValidationContext<SaveUserCommand> context,
         CancellationToken cancellationToken)
