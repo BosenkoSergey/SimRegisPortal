@@ -29,8 +29,10 @@ internal class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.Property(p => p.EndDate)
             .HasColumnType(EntityFieldPresets.DateType);
 
-        builder.Property(p => p.IsActive)
-            .HasDefaultValue(true);
+        builder.HasOne(p => p.Company)
+            .WithMany(c => c.Projects)
+            .HasForeignKey(p => p.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.ToTable(nameof(Project));
     }

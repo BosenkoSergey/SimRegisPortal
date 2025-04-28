@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<UserSession> UserSessions { get; set; } = null!;
     public DbSet<UserPermission> UserPermissions { get; set; } = null!;
     public DbSet<UserProjectPermission> UserProjectPermissions { get; set; } = null!;
+    public DbSet<Company> Companies { get; set; } = null!;
     public DbSet<Project> Projects { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
     public DbSet<EmployeeActivity> EmployeeActivities { get; set; } = null!;
@@ -50,12 +51,25 @@ public class AppDbContext : DbContext
 
         if (!Projects.Any())
         {
+            var defaultCompany = Companies.FirstOrDefault(c => c.Name == "Default Company");
+            if (defaultCompany == null)
+            {
+                defaultCompany = new Company
+                {
+                    Name = "Default Company",
+                    Notes = "Default company for system projects."
+                };
+
+                Companies.Add(defaultCompany);
+                SaveChanges();
+            }
+
             var systemProjects = new[]
             {
-                new Project { Name = "Paid Leave", Description = "Vacation time tracking", StartDate = DateTime.UtcNow },
-                new Project { Name = "Sick Leave", Description = "Sick leave tracking", StartDate = DateTime.UtcNow },
-                new Project { Name = "Bonuses", Description = "Bonus entries", StartDate = DateTime.UtcNow },
-                new Project { Name = "Penalties", Description = "Penalty entries", StartDate = DateTime.UtcNow }
+                new Project { CompanyId = defaultCompany.Id, Name = "Paid Leave", Description = "Vacation time tracking", StartDate = DateTime.UtcNow },
+                new Project { CompanyId = defaultCompany.Id, Name = "Sick Leave", Description = "Sick leave tracking", StartDate = DateTime.UtcNow },
+                new Project { CompanyId = defaultCompany.Id, Name = "Bonuses", Description = "Bonus entries", StartDate = DateTime.UtcNow },
+                new Project { CompanyId = defaultCompany.Id, Name = "Penalties", Description = "Penalty entries", StartDate = DateTime.UtcNow }
             };
 
             Projects.AddRange(systemProjects);
