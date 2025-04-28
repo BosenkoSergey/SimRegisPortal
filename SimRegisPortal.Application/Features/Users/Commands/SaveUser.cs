@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SimRegisPortal.Application.Features.Base.Commands;
-using SimRegisPortal.Application.Models.User;
+using SimRegisPortal.Application.Models.Entities;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Persistence.Context;
 

@@ -1,6 +1,4 @@
-﻿using SimRegisPortal.Application.Models.Base;
-
-namespace SimRegisPortal.Application.Models.Company;
+﻿namespace SimRegisPortal.Application.Models.Entities;
 
 public sealed class CompanyDto : BaseEntityDto<Guid>
 {

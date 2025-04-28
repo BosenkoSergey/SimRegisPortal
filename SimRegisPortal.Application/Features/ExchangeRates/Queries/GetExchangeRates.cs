@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SimRegisPortal.Application.Features.Base.Queries;
-using SimRegisPortal.Application.Models.ExchangeRate;
+using SimRegisPortal.Application.Models.Entities;
+using SimRegisPortal.Application.Models.Entities.Related;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Persistence.Context;
 

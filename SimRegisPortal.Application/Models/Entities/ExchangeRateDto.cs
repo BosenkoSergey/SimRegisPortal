@@ -1,6 +1,4 @@
-﻿using SimRegisPortal.Application.Models.Base;
-
-namespace SimRegisPortal.Application.Models.ExchangeRate;
+﻿namespace SimRegisPortal.Application.Models.Entities;
 
 public sealed class ExchangeRateDto : BaseEntityDto<int>
 {

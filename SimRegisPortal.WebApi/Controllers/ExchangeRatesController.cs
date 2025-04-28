@@ -2,7 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SimRegisPortal.Application.Features.ExchangeRates.Commands;
 using SimRegisPortal.Application.Features.ExchangeRates.Queries;
-using SimRegisPortal.Application.Models.ExchangeRate;
+using SimRegisPortal.Application.Models.Entities;
+using SimRegisPortal.Application.Models.Entities.Related;
 using SimRegisPortal.WebApi.Controllers.Common;
 
 namespace SimRegisPortal.WebApi.Controllers;

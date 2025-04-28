@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using SimRegisPortal.Application.Models.Auth;
-using SimRegisPortal.Application.Models.Currency;
-using SimRegisPortal.Application.Models.ExchangeRate;
+using SimRegisPortal.Application.Models.Entities;
 using SimRegisPortal.Application.Models.Mailing;
 using SimRegisPortal.Application.Models.Mailing.Common;
-using SimRegisPortal.Application.Models.User;
 using SimRegisPortal.Core.Entities;
 
 namespace SimRegisPortal.Application.Mapper;

@@ -1,7 +1,6 @@
-﻿using SimRegisPortal.Application.Models.Base;
-using SimRegisPortal.Core.Enums;
+﻿using SimRegisPortal.Core.Enums;
 
-namespace SimRegisPortal.Application.Models.Employee;
+namespace SimRegisPortal.Application.Models.Entities;
 
 public sealed class EmployeeDto : BaseEntityDto<Guid>
 {

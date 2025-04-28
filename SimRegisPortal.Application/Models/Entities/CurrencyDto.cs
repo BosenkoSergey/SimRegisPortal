@@ -1,6 +1,4 @@
-﻿using SimRegisPortal.Application.Models.Base;
-
-namespace SimRegisPortal.Application.Models.Currency;
+﻿namespace SimRegisPortal.Application.Models.Entities;
 
 public sealed class CurrencyDto : BaseEntityDto<int>
 {

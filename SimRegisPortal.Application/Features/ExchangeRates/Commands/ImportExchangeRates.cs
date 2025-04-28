@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Application.Models.ExchangeRate;
+using SimRegisPortal.Application.Models.Entities.Related;
 using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Persistence.Context;

@@ -1,4 +1,4 @@
-﻿namespace SimRegisPortal.Application.Models.Base;
+﻿namespace SimRegisPortal.Application.Models.Entities;
 
 public abstract class BaseEntityDto
 {

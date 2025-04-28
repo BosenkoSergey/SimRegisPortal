@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SimRegisPortal.Application.Features.Base.Commands;
-using SimRegisPortal.Application.Models.Employee;
+using SimRegisPortal.Application.Models.Entities;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Persistence.Context;
 
