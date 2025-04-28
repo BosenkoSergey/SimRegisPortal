@@ -24,6 +24,21 @@ public class MappingProfile : Profile
         CreateMap<ExchangeRateDto, ExchangeRate>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
 
+        CreateMap<CompanyDto, Company>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        CreateMap<ProjectDto, Project>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        CreateMap<ContractDto, Contract>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        CreateMap<EmployeeDto, Employee>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        CreateMap<EmployeeActivityDto, EmployeeActivity>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
         #endregion
 
         #region Responses
@@ -45,6 +60,16 @@ public class MappingProfile : Profile
         CreateMap<Currency, CurrencyDto>();
 
         CreateMap<ExchangeRate, ExchangeRateDto>();
+
+        CreateMap<Company, CompanyDto>();
+
+        CreateMap<Project, ProjectDto>();
+
+        CreateMap<Contract, ContractDto>();
+
+        CreateMap<Employee, EmployeeDto>();
+
+        CreateMap<EmployeeActivity, EmployeeActivityDto>();
 
         #endregion
 

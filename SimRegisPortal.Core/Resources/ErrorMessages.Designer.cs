@@ -239,5 +239,14 @@ namespace SimRegisPortal.Core.Resources {
                 return ResourceManager.GetString("Validation.Password.Weak", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Report is already finilized. Please contact your manager to apply changes..
+        /// </summary>
+        public static string Validation_TimeReport_Finilized {
+            get {
+                return ResourceManager.GetString("Validation.TimeReport.Finilized", resourceCulture);
+            }
+        }
     }
 }

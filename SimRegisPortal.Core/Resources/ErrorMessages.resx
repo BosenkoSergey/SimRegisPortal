@@ -177,4 +177,7 @@
   <data name="Validation.Password.Weak" xml:space="preserve">
     <value>Weak password: must be at least 6 characters and include uppercase, lowercase, and a digit.</value>
   </data>
+  <data name="Validation.TimeReport.Finilized" xml:space="preserve">
+    <value>Time Report is already finilized. Please contact your manager to apply changes.</value>
+  </data>
 </root>
