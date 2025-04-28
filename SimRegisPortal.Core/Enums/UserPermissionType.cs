@@ -20,6 +20,12 @@ public enum UserPermissionType
     TimeReportsRead = 600,
     TimeReportsWrite = 610,
 
-    ExchangeRatesRead = 700,
-    ExchangeRatesWrite = 710,
+    ActivitiesRead = 700,
+    ActivitiesWrite = 710,
+
+    PaymentRequestsRead = 800,
+    PaymentRequestsWrite = 810,
+
+    ExchangeRatesRead = 900,
+    ExchangeRatesWrite = 910,
 }
