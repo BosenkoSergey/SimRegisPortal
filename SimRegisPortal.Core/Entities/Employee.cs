@@ -19,5 +19,6 @@ public sealed class Employee : BaseEntity<Guid>
     public User? User { get; set; }
     public Currency HourlyRateCurrency { get; set; } = default!;
     public ICollection<EmployeeActivity> Activities { get; set; } = [];
+    public ICollection<Contract> Contracts { get; set; } = [];
 }
 

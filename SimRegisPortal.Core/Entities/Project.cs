@@ -11,5 +11,5 @@ public sealed class Project : BaseEntity<Guid>
     public DateTime? EndDate { get; set; }
 
     public Company Company { get; set; } = null!;
-    public ICollection<UserProjectPermission> ProjectPermissions { get; set; } = [];
+    public ICollection<Contract> Contracts { get; set; } = [];
 }
