@@ -36,6 +36,11 @@ internal class EmployeeActivityConfiguration : IEntityTypeConfiguration<Employee
             .HasForeignKey(x => x.ProjectId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(x => x.TimeReport)
+            .WithMany(r => r.Activities)
+            .HasForeignKey(x => x.TimeReportId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.ToTable(nameof(EmployeeActivity));
     }
 }
