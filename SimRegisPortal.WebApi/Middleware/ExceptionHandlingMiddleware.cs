@@ -5,7 +5,6 @@ using Serilog.Context;
 using SimRegisPortal.Application.Context;
 using SimRegisPortal.Application.Extensions;
 using SimRegisPortal.Core.Exceptions;
-using SimRegisPortal.Core.Exceptions.Base;
 using SimRegisPortal.Core.Localization;
 
 namespace SimRegisPortal.WebApi.Middleware;

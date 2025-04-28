@@ -1,4 +1,4 @@
-﻿namespace SimRegisPortal.Core.Exceptions.Base;
+﻿namespace SimRegisPortal.Core.Exceptions;
 
 public abstract class TemplatedException : Exception
 {

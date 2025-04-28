@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MudBlazor;
 using SimRegisPortal.Application.Extensions;
-using SimRegisPortal.Core.Exceptions.Base;
+using SimRegisPortal.Core.Exceptions;
 using SimRegisPortal.Core.Localization;
 using SimRegisPortal.Web.Services.Interfaces;
 

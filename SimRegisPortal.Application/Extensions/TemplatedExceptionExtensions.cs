@@ -1,4 +1,4 @@
-﻿using SimRegisPortal.Core.Exceptions.Base;
+﻿using SimRegisPortal.Core.Exceptions;
 using SimRegisPortal.Core.Localization;
 
 namespace SimRegisPortal.Application.Extensions;
