@@ -1,6 +1,4 @@
-﻿using SimRegisPortal.Core.Entities.Base;
-
-namespace SimRegisPortal.Core.Entities;
+﻿namespace SimRegisPortal.Core.Entities;
 
 public sealed class Company : BaseEntity<Guid>
 {

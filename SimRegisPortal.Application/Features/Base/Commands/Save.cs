@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SimRegisPortal.Application.Models.Entities;
-using SimRegisPortal.Core.Entities.Base;
+using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Core.Exceptions;
 using SimRegisPortal.Persistence.Context;
 

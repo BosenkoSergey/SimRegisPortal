@@ -1,5 +1,4 @@
-﻿using SimRegisPortal.Core.Entities.Base;
-using SimRegisPortal.Core.Enums;
+﻿using SimRegisPortal.Core.Enums;
 
 namespace SimRegisPortal.Core.Entities;
 

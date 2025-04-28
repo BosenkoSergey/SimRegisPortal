@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Core.Entities.Base;
+using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Base.Queries;

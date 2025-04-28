@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SimRegisPortal.Core.Entities.Base;
+using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Core.Exceptions;
 using SimRegisPortal.Persistence.Context;
 

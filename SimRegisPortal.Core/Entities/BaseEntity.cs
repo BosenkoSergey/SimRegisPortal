@@ -1,4 +1,4 @@
-﻿namespace SimRegisPortal.Core.Entities.Base;
+﻿namespace SimRegisPortal.Core.Entities;
 
 public abstract class BaseEntity;
 
