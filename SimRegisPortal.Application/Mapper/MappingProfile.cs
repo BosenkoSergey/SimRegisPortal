@@ -39,6 +39,9 @@ public class MappingProfile : Profile
         CreateMap<EmployeeActivityDto, EmployeeActivity>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
 
+        CreateMap<TaxSettingDto, TaxSetting>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
         #endregion
 
         #region Responses
@@ -70,6 +73,8 @@ public class MappingProfile : Profile
         CreateMap<Employee, EmployeeDto>();
 
         CreateMap<EmployeeActivity, EmployeeActivityDto>();
+
+        CreateMap<TaxSetting, TaxSettingDto>();
 
         #endregion
 
