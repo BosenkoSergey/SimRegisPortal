@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Globalization;
 using SimRegisPortal.Application.Models.Banking;
 using SimRegisPortal.Application.Services.Interfaces;
-using SimRegisPortal.Core.Settings;
+using SimRegisPortal.Application.Settings;
 
 namespace SimRegisPortal.Application.Services;
 

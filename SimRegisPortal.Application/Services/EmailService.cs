@@ -5,8 +5,8 @@ using SendGrid.Helpers.Mail;
 using SimRegisPortal.Application.Models.Mailing;
 using SimRegisPortal.Application.Models.Mailing.Common;
 using SimRegisPortal.Application.Services.Interfaces;
+using SimRegisPortal.Application.Settings;
 using SimRegisPortal.Core.Resources;
-using SimRegisPortal.Core.Settings;
 
 namespace SimRegisPortal.Application.Services;
 

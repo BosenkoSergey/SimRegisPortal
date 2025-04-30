@@ -13,7 +13,6 @@ public sealed class User : BaseEntity<Guid>
     public string PasswordHash { get; set; } = null!;
     public bool IsAdmin { get; set; }
 
-    public ICollection<UserSession> Sessions { get; set; } = [];
     public ICollection<UserPermission> Permissions { get; set; } = [];
     public Employee? Employee { get; set; }
 

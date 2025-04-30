@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
+using SimRegisPortal.Application.Settings;
 using SimRegisPortal.Core.Entities;
-using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Constants;
 
 namespace SimRegisPortal.Application.Extensions;

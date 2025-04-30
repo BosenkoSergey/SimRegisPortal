@@ -94,7 +94,6 @@ public class ExceptionHandlingMiddleware
         if (userContext.IsAuthenticated)
         {
             using (LogContext.PushProperty(nameof(userContext.UserId), userContext.UserId))
-            using (LogContext.PushProperty(nameof(userContext.UserSessionId), userContext.UserSessionId))
             {
                 _logger.LogError(exception, exception.Message);
             }

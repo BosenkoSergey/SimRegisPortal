@@ -46,11 +46,11 @@ public class MappingProfile : Profile
 
         #region Responses
 
-        CreateMap<UserSession, AuthResponse>()
-            .ForMember(dest => dest.IsAdmin, opt => opt.MapFrom(src => src.User.IsAdmin))
+        CreateMap<User, AuthResponse>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
             .AfterMap((src, dest) =>
             {
-                dest.Permissions = src.User.Permissions.Select(p => p.PermissionType).ToList();
+                dest.Permissions = src.Permissions.Select(p => p.PermissionType).ToHashSet();
             });
 
         CreateMap<User, UserDto>()

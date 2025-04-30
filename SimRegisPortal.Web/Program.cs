@@ -13,9 +13,9 @@ using SimRegisPortal.Application.Mapper;
 using SimRegisPortal.Application.Services;
 using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Application.Services.SalaryCalculators;
+using SimRegisPortal.Application.Settings;
 using SimRegisPortal.Core.Localization;
 using SimRegisPortal.Core.Resources;
-using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Context;
 using SimRegisPortal.Persistence.Extensions;
 using SimRegisPortal.Web.Components;
@@ -107,8 +107,6 @@ builder.Services.AddSingleton(serviceProvider =>
 });
 
 #endregion
-
-builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
 
 #endregion
 

@@ -15,9 +15,9 @@ using SimRegisPortal.Application.Mapper;
 using SimRegisPortal.Application.Services;
 using SimRegisPortal.Application.Services.Interfaces;
 using SimRegisPortal.Application.Services.SalaryCalculators;
+using SimRegisPortal.Application.Settings;
 using SimRegisPortal.Core.Localization;
 using SimRegisPortal.Core.Resources;
-using SimRegisPortal.Core.Settings;
 using SimRegisPortal.Persistence.Context;
 using SimRegisPortal.Persistence.Extensions;
 using SimRegisPortal.WebApi.Middleware;
@@ -47,28 +47,6 @@ builder.Services.AddDbContext<AppDbContext>(
 #endregion
 
 builder.Services.AddHttpContextAccessor();
-
-#region AddAuthentication
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        var jwtSettings = appSettings.AuthSettings.AccessToken;
-        var key = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = !string.IsNullOrEmpty(jwtSettings.Issuer),
-            ValidIssuer = jwtSettings.Issuer,
-            ValidateAudience = !string.IsNullOrEmpty(jwtSettings.Audience),
-            ValidAudience = jwtSettings.Audience,
-            ClockSkew = TimeSpan.Zero
-        };
-    });
-
-#endregion
 
 builder.Services.AddAuthorization();
 
@@ -160,8 +138,6 @@ builder.Services.AddSingleton(serviceProvider =>
 });
 
 #endregion
-
-builder.Services.AddSingleton<IAccessTokenService, AccessTokenService>();
 
 #endregion
 

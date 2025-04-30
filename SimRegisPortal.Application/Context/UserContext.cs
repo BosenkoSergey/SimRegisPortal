@@ -12,7 +12,6 @@ public class UserContext : IUserContext
     public bool IsAuthenticated { get; }
     public bool IsAdmin { get; }
     public Guid UserId { get; }
-    public Guid UserSessionId { get; }
     public HashSet<int> Permissions { get; } = [];
 
     public UserContext(IHttpContextAccessor httpContextAccessor)
@@ -25,7 +24,6 @@ public class UserContext : IUserContext
         {
             IsAdmin = GetClaimValue<bool>(CustomClaimTypes.IsAdmin);
             UserId = GetClaimValue<Guid>(CustomClaimTypes.UserId);
-            UserSessionId = GetClaimValue<Guid>(CustomClaimTypes.SessionId);
             Permissions = GetClaimHashSet<int>(CustomClaimTypes.Permissions, Separators.UserPermissions);
         }
     }
