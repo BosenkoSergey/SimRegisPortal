@@ -1,0 +1,17 @@
+﻿@page "/auth/logout"
+
+@inject IJSRuntime JS
+
+<MudText Typo="Typo.h6" Class="mt-6 text-center">Logging out...</MudText>
+
+<form id="logoutForm" method="post" action="api/auth/logout"></form>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("eval", "document.getElementById('logoutForm').submit()");
+        }
+    }
+}
