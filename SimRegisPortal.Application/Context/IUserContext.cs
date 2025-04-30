@@ -10,8 +10,6 @@ public interface IUserContext
     Guid UserId { get; }
     HashSet<UserPermissionType> Permissions { get; }
 
-    Task SignInAsync(AuthResponse auth);
-    Task SignOutAsync();
     bool HasPermission(UserPermissionType permission);
     bool HasAnyPermission(params UserPermissionType[] requiredPermissions);
 }

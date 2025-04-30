@@ -1,10 +1,7 @@
 ﻿using System.Globalization;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using SimRegisPortal.Application.Constants;
-using SimRegisPortal.Application.Models.Auth;
 using SimRegisPortal.Core.Enums;
 
 namespace SimRegisPortal.Application.Context;
@@ -21,52 +18,7 @@ public class UserContext : IUserContext
     public UserContext(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
-        RefreshProperties();
-    }
 
-    public async Task SignInAsync(AuthResponse auth)
-    {
-        var claims = new List<Claim>
-        {
-            new(CustomClaimTypes.UserId, auth.UserId.ToString()),
-            new(CustomClaimTypes.IsAdmin, auth.IsAdmin.ToString()),
-            new(CustomClaimTypes.Permissions, string.Join(Separators.UserPermissions, auth.Permissions))
-        };
-
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var principal = new ClaimsPrincipal(identity);
-        var authProperties = new AuthenticationProperties
-        {
-            IsPersistent = true,
-            ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
-        };
-
-        await _httpContextAccessor.HttpContext!
-            .SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
-
-        RefreshProperties();
-    }
-
-    public async Task SignOutAsync()
-    {
-        await _httpContextAccessor.HttpContext!
-            .SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-        RefreshProperties();
-    }
-
-    public bool HasPermission(UserPermissionType permission)
-    {
-        return IsAdmin || Permissions.Contains(permission);
-    }
-
-    public bool HasAnyPermission(params UserPermissionType[] requiredPermissions)
-    {
-        return IsAdmin || Permissions.Overlaps(requiredPermissions);
-    }
-
-    private void RefreshProperties()
-    {
         IsAuthenticated = _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
 
         if (IsAuthenticated)
@@ -81,6 +33,16 @@ public class UserContext : IUserContext
             UserId = Guid.Empty;
             Permissions = [];
         }
+    }
+
+    public bool HasPermission(UserPermissionType permission)
+    {
+        return HasAnyPermission(permission);
+    }
+
+    public bool HasAnyPermission(params UserPermissionType[] requiredPermissions)
+    {
+        return IsAdmin || Permissions.Overlaps(requiredPermissions);
     }
 
     private T GetClaimValue<T>(string claimType)

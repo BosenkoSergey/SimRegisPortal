@@ -11,12 +11,12 @@ using SimRegisPortal.Persistence.Context;
 namespace SimRegisPortal.Application.Features.Users.Commands;
 
 public sealed record LoginCommand(LoginRequest Request)
-    : IRequest;
+    : IRequest<AuthResponse>;
 
 internal sealed class LoginHandler(AppDbContext DbContext, IMapper Mapper, IUserContext UserContext)
-    : IRequestHandler<LoginCommand>
+    : IRequestHandler<LoginCommand, AuthResponse>
 {
-    public async Task Handle(LoginCommand command, CancellationToken cancellationToken)
+    public async Task<AuthResponse> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
         var login = command.Request.Login.Trim();
         var user = await DbContext.Users
@@ -31,7 +31,6 @@ internal sealed class LoginHandler(AppDbContext DbContext, IMapper Mapper, IUser
             throw new CommonException("Validation.Login.InvalidCredentials");
         }
 
-        var authResponse = Mapper.Map<AuthResponse>(user);
-        await UserContext.SignInAsync(authResponse);
+        return Mapper.Map<AuthResponse>(user);
     }
 }

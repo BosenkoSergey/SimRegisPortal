@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
@@ -20,6 +21,7 @@ using SimRegisPortal.Core.Resources;
 using SimRegisPortal.Persistence.Context;
 using SimRegisPortal.Persistence.Extensions;
 using SimRegisPortal.Web.Components;
+using SimRegisPortal.Web.Controllers.Middleware;
 using SimRegisPortal.Web.Services;
 using SimRegisPortal.Web.Services.Interfaces;
 
@@ -47,19 +49,27 @@ builder.Services.AddDbContext<AppDbContext>(
 
 #endregion
 
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
 #region Auth
 
-builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
     {
         options.LoginPath = "/auth/login";
         options.LogoutPath = "/auth/logout";
         options.AccessDeniedPath = "/auth/denied";
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
         options.SlidingExpiration = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+        options.Cookie.HttpOnly = true;
+        options.Cookie.Path = "/";
     });
 builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
 
 #endregion
 
@@ -129,6 +139,12 @@ builder.Services.AddSingleton(serviceProvider =>
 
 #region Scoped
 
+builder.Services.AddScoped(sp =>
+{
+    var nav = sp.GetRequiredService<NavigationManager>();
+    return new HttpClient { BaseAddress = new Uri(nav.BaseUri) };
+});
+
 builder.Services.AddScoped<IErrorLocalizer, ErrorLocalizer>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<IEmailService, EmailService>();
@@ -151,6 +167,8 @@ builder.Services.AddHttpClient<IPrivatBankService, PrivatBankService>();
 
 #endregion
 
+builder.Services.AddControllers();
+
 
 var app = builder.Build();
 
@@ -162,22 +180,21 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseRouting();
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseAntiforgery();
+app.UseStaticFiles();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-var cookiePolicyOptions = new CookiePolicyOptions
-{
-    MinimumSameSitePolicy = SameSiteMode.Strict,
-};
-app.UseCookiePolicy(cookiePolicyOptions);
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-
-app.UseAuthorization();
-app.UseAuthentication();
+app.MapControllers();
 
 app.Run();
