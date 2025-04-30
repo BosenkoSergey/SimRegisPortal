@@ -1,10 +1,48 @@
 ﻿@implements IDisposable
 
 @inject NavigationManager NavigationManager
+@inject IUserContext UserContext
 
 <MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="exchange-rates" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Exchange Rates</MudNavLink>
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+            @if (UserContext.HasPermission(UserPermissionType.UsersRead))
+            {
+                <MudNavLink Href="users" Icon="@Icons.Material.Filled.PeopleOutline">Users</MudNavLink>
+            }
+            @if (UserContext.HasPermission(UserPermissionType.EmployeesRead))
+            {
+                <MudNavLink Href="employees" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.People">Employees</MudNavLink>
+            }
+            <MudNavLink Href="activities" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.WorkHistory">Activities</MudNavLink>
+            <MudNavLink Href="time-reports" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Work">Time Reports</MudNavLink>
+            @if (UserContext.HasPermission(UserPermissionType.CompaniesRead))
+            {
+                <MudNavLink Href="companies" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Business">Companies</MudNavLink>
+            }
+            @if (UserContext.HasPermission(UserPermissionType.ProjectsRead))
+            {
+                <MudNavLink Href="projects" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BusinessCenter">Projects</MudNavLink>
+            }
+            @if (UserContext.HasPermission(UserPermissionType.ContractsRead))
+            {
+                <MudNavLink Href="contracts" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Newspaper">Contracts</MudNavLink>
+            }
+            @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesRead))
+            {
+                <MudNavLink Href="exchange-rates" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CurrencyExchange">Exchange Rates</MudNavLink>
+            }
+            @if (UserContext.HasPermission(UserPermissionType.TaxSettingsRead))
+            {
+                <MudNavLink Href="tax-settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments">Tax Settings</MudNavLink>
+            }
+            <MudNavLink Href="auth/logout" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Logout">Logout</MudNavLink>
+        </Authorized>
+        <NotAuthorized>
+            <MudNavLink Href="auth/login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Password">Login</MudNavLink>
+        </NotAuthorized>
+    </AuthorizeView>
 </MudNavMenu>
 
 

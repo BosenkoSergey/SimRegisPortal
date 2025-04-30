@@ -17,15 +17,18 @@ public enum UserPermissionType
     ContractsRead = 500,
     ContractsWrite = 510,
 
-    TimeReportsRead = 600,
-    TimeReportsWrite = 610,
+    TimeReportsReadAll = 600,
+    TimeReportsWriteAll = 610,
 
-    ActivitiesRead = 700,
-    ActivitiesWrite = 710,
+    ActivitiesReadAll = 700,
+    ActivitiesWriteAll = 710,
 
     PaymentRequestsRead = 800,
     PaymentRequestsWrite = 810,
 
     ExchangeRatesRead = 900,
     ExchangeRatesWrite = 910,
+
+    TaxSettingsRead = 1000,
+    TaxSettingsWrite = 1010,
 }

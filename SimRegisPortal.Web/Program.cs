@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using MediatR.Extensions.FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using MudBlazor;
@@ -43,6 +44,22 @@ builder.Services.AddDbContext<AppDbContext>(
                 opts.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
             });
     });
+
+#endregion
+
+#region Auth
+
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/auth/login";
+        options.LogoutPath = "/auth/logout";
+        options.AccessDeniedPath = "/auth/denied";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.SlidingExpiration = true;
+    });
+builder.Services.AddAuthorization();
 
 #endregion
 
@@ -141,7 +158,7 @@ app.Services.PrepareDatabase();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/error", createScopeForErrors: true);
     app.UseHsts();
 }
 
@@ -152,5 +169,15 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+var cookiePolicyOptions = new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+};
+app.UseCookiePolicy(cookiePolicyOptions);
+
+
+app.UseAuthorization();
+app.UseAuthentication();
 
 app.Run();

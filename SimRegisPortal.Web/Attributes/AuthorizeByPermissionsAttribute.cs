@@ -8,11 +8,11 @@ namespace SimRegisPortal.Web.Attributes;
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
 public sealed class AuthorizeByPermissionsAttribute : Attribute, IAuthorizationFilter
 {
-    private readonly HashSet<UserPermissionType> _requiredPermissions;
+    private readonly UserPermissionType[] _requiredPermissions;
 
     public AuthorizeByPermissionsAttribute(params UserPermissionType[] permissions)
     {
-        _requiredPermissions = permissions.ToHashSet();
+        _requiredPermissions = permissions.Distinct().ToArray();
     }
 
     public void OnAuthorization(AuthorizationFilterContext context)
@@ -24,14 +24,11 @@ public sealed class AuthorizeByPermissionsAttribute : Attribute, IAuthorizationF
             return;
         }
 
-        if (userContext.IsAdmin)
+        if (userContext.HasAnyPermission(_requiredPermissions))
         {
             return;
         }
 
-        if (!userContext.Permissions.Overlaps(_requiredPermissions))
-        {
-            context.Result = new ForbidResult();
-        }
+        context.Result = new ForbidResult();
     }
 }

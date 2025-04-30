@@ -35,13 +35,14 @@ public class UserContext : IUserContext
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
-
-        await _httpContextAccessor.HttpContext!
-            .SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
+        var authProperties = new AuthenticationProperties
         {
             IsPersistent = true,
             ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
-        });
+        };
+
+        await _httpContextAccessor.HttpContext!
+            .SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
 
         RefreshProperties();
     }
@@ -52,6 +53,16 @@ public class UserContext : IUserContext
             .SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
         RefreshProperties();
+    }
+
+    public bool HasPermission(UserPermissionType permission)
+    {
+        return IsAdmin || Permissions.Contains(permission);
+    }
+
+    public bool HasAnyPermission(params UserPermissionType[] requiredPermissions)
+    {
+        return IsAdmin || Permissions.Overlaps(requiredPermissions);
     }
 
     private void RefreshProperties()
