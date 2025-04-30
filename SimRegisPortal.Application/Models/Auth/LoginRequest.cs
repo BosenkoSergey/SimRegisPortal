@@ -1,3 +1,7 @@
 ﻿namespace SimRegisPortal.Application.Models.Auth;
 
-public sealed record LoginRequest(string Login, string Password);
+public sealed class LoginRequest
+{
+    public string Login {  get; set; } = null!;
+    public string Password { get; set; } = null!;
+}

@@ -1,6 +1,6 @@
 ﻿namespace SimRegisPortal.Application.Models.Entities.Related;
 
-public sealed record ExchangeRateQueryParams
+public sealed class ExchangeRateQueryParams
 {
     public int? FromCurrencyId { get; set; }
     public int? ToCurrencyId { get; set; }
