@@ -232,6 +232,15 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The amount of fixed taxes exceeds the employee&apos;s salary..
+        /// </summary>
+        public static string Validation_NetSalary_Negative {
+            get {
+                return ResourceManager.GetString("Validation.NetSalary.Negative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password can only contain letters and digits..
         /// </summary>
         public static string Validation_Password_Invalid {

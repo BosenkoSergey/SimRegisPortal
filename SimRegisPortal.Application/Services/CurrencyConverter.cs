@@ -26,7 +26,7 @@ public sealed class CurrencyConverter(AppDbContext DbContext)
 
         if (rate != null)
         {
-            return amount * rate.Rate;
+            return Math.Round(amount * rate.Rate, 2);
         }
 
         var inverseRate = await DbContext.ExchangeRates
@@ -38,7 +38,7 @@ public sealed class CurrencyConverter(AppDbContext DbContext)
 
         if (inverseRate != null)
         {
-            return amount / inverseRate.Rate;
+            return Math.Round(amount / inverseRate.Rate, 2);
         }
 
         throw new CommonException("Validation.ExchangeRate.NotFound");

@@ -14,4 +14,10 @@ public sealed class TimeReport : BaseEntity<Guid>
     public Employee Employee { get; set; } = default!;
     public ICollection<EmployeeActivity> Activities { get; set; } = [];
     public ICollection<PaymentRequest> PaymentRequests { get; set; } = [];
+
+    public DateTime GetConversionDate()
+    {
+        var reportPeriodEnd = new DateTime(Year, Month, DateTime.DaysInMonth(Year, Month));
+        return reportPeriodEnd < DateTime.UtcNow.Date ? reportPeriodEnd : DateTime.UtcNow.Date;
+    }
 }

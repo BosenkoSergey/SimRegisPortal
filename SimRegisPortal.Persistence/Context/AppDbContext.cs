@@ -19,6 +19,7 @@ public class AppDbContext : DbContext
     public DbSet<ExchangeRate> ExchangeRates { get; set; } = null!;
     public DbSet<TimeReport> TimeReports { get; set; } = null!;
     public DbSet<PaymentRequest> PaymentRequests { get; set; } = null!;
+    public DbSet<TaxSetting> TaxSettings { get; set; } = null!;
     public DbSet<SystemLog> SystemLogs { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -87,6 +88,26 @@ public class AppDbContext : DbContext
             };
 
             Currencies.AddRange(currencies);
+            SaveChanges();
+        }
+
+        if (!TaxSettings.Any())
+        {
+            var localCurrencyId = Currencies.First(c => c.Code == "UAH").Id;
+            var taxSetting = new TaxSetting
+            {
+                LocalCurrencyId = localCurrencyId,
+                MinimumWage = 8000,
+                SocialTax = 22,
+                Fop2Pit = 20,
+                Fop2MilitaryTax = 10,
+                Fop3Pit = 5,
+                Fop3MilitaryTax = 1,
+                GigPit = 5,
+                GigMilitaryTax = 5
+            };
+
+            TaxSettings.Add(taxSetting);
             SaveChanges();
         }
     }
