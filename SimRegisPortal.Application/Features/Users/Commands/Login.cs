@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SimRegisPortal.Application.Context;
 using SimRegisPortal.Application.Models.Auth;
 using SimRegisPortal.Core.Enums;
 using SimRegisPortal.Core.Exceptions;
@@ -10,12 +11,12 @@ using SimRegisPortal.Persistence.Context;
 namespace SimRegisPortal.Application.Features.Users.Commands;
 
 public sealed record LoginCommand(LoginRequest Request)
-    : IRequest<AuthResponse>;
+    : IRequest;
 
-internal sealed class LoginHandler(AppDbContext DbContext, IMapper Mapper)
-    : IRequestHandler<LoginCommand, AuthResponse>
+internal sealed class LoginHandler(AppDbContext DbContext, IMapper Mapper, IUserContext UserContext)
+    : IRequestHandler<LoginCommand>
 {
-    public async Task<AuthResponse> Handle(LoginCommand command, CancellationToken cancellationToken)
+    public async Task Handle(LoginCommand command, CancellationToken cancellationToken)
     {
         var login = command.Request.Login.Trim();
         var user = await DbContext.Users
@@ -30,14 +31,7 @@ internal sealed class LoginHandler(AppDbContext DbContext, IMapper Mapper)
             throw new CommonException("Validation.Login.InvalidCredentials");
         }
 
-        return Mapper.Map<AuthResponse>(user);
+        var authResponse = Mapper.Map<AuthResponse>(user);
+        await UserContext.SignInAsync(authResponse);
     }
 }
-
-
-//var claims = new List<Claim>
-//        {
-//            new (CustomClaimTypes.IsAdmin, userSession.User.IsAdmin.ToString()),
-//            new (CustomClaimTypes.UserId, userSession.User.Id.ToString()),
-//            new (CustomClaimTypes.Permissions, userSession.User.Permissions.ToClaimValue())
-//        };

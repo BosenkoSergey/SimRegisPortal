@@ -8,11 +8,11 @@ namespace SimRegisPortal.Web.Attributes;
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
 public sealed class AuthorizeByPermissionsAttribute : Attribute, IAuthorizationFilter
 {
-    private readonly HashSet<int> _requiredPermissions;
+    private readonly HashSet<UserPermissionType> _requiredPermissions;
 
     public AuthorizeByPermissionsAttribute(params UserPermissionType[] permissions)
     {
-        _requiredPermissions = permissions.Select(p => (int)p).ToHashSet();
+        _requiredPermissions = permissions.ToHashSet();
     }
 
     public void OnAuthorization(AuthorizationFilterContext context)
