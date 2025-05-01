@@ -6,4 +6,9 @@ public sealed class ExchangeRateQueryParams
     public int? ToCurrencyId { get; set; }
     public DateTime? DateFrom { get; set; }
     public DateTime? DateTo { get; set; }
+
+    public ExchangeRateQueryParams()
+    {
+        DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    }
 }

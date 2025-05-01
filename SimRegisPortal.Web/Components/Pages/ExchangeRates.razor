@@ -6,48 +6,12 @@
 @using SimRegisPortal.Application.Features.ExchangeRates.Queries
 @using SimRegisPortal.Application.Models.Entities
 @using SimRegisPortal.Application.Models.Entities.Related
+@using SimRegisPortal.Web.Components.Filters
 
 <PageTitle>Exchange Rates</PageTitle>
 
 <MudPaper Class="mt-3 px-3 py-3">
-    <MudGrid Justify="Justify.FlexStart" Class="mb-3">
-        <MudItem Style="width: 220px;">
-            <MudDatePicker Label="Date From" @bind-Date="_queryParams.DateFrom" Clearable Variant="Variant.Outlined" />
-        </MudItem>
-
-        <MudItem Style="width: 220px;">
-            <MudDatePicker Label="Date To" @bind-Date="_queryParams.DateTo" Clearable Variant="Variant.Outlined" />
-        </MudItem>
-
-        <MudItem Style="width: 250px;">
-            <MudSelect Label="Currency From" @bind-Value="_queryParams.FromCurrencyId" Clearable Variant="Variant.Outlined">
-                @foreach (var currency in _currencyCodes)
-                {
-                    <MudSelectItem Value="@((int?)currency.Key)">
-                        @currency.Value
-                    </MudSelectItem>
-                }
-            </MudSelect>
-        </MudItem>
-
-        <MudItem Style="width: 250px;">
-            <MudSelect Label="Currency To" @bind-Value="_queryParams.ToCurrencyId" Clearable Variant="Variant.Outlined">
-                @foreach (var currency in _currencyCodes)
-                {
-                    <MudSelectItem Value="@((int?)currency.Key)">
-                        @currency.Value
-                    </MudSelectItem>
-                }
-            </MudSelect>
-        </MudItem>
-
-        <MudItem Style="width: 150px;" Class="d-flex align-center">
-            <MudButton OnClick="Search" Variant="Variant.Filled" Color="Color.Primary" Style="height: 56px; width: 100%;">
-                Search
-            </MudButton>
-        </MudItem>
-    </MudGrid>
-
+    <ExchangeRatesFilter QueryParams="_queryParams" CurrencyCodes="_currencyCodes" Search="Search" />
 
     <MudDataGrid Items="_rates" @ref="_grid"
     Filterable="true" Dense>
@@ -88,10 +52,7 @@
 @code {
     private Dictionary<int, string> _currencyCodes = new();
     private List<ExchangeRateDto> _rates = new();
-    private ExchangeRateQueryParams _queryParams = new()
-    {
-        DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)
-    };
+    private ExchangeRateQueryParams _queryParams = new();
 
     private MudDataGrid<ExchangeRateDto>? _grid;
 
