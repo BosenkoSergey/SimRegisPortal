@@ -48,6 +48,7 @@ public class MappingProfile : Profile
 
         CreateMap<User, AuthResponse>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Permissions, opt => opt.Ignore())
             .AfterMap((src, dest) =>
             {
                 dest.Permissions = src.Permissions.Select(p => p.PermissionType).ToHashSet();

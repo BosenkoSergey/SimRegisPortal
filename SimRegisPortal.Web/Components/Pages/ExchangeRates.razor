@@ -1,13 +1,11 @@
 ﻿@page "/exchange-rates"
 @inherits BaseComponent
 
+@attribute [Authorize]
+
 @using SimRegisPortal.Application.Features.Currencies.Queries
 @using SimRegisPortal.Application.Features.ExchangeRates.Commands
 @using SimRegisPortal.Application.Features.ExchangeRates.Queries
-@using SimRegisPortal.Application.Models.Entities
-@using SimRegisPortal.Application.Models.Entities.Related
-@using SimRegisPortal.Web.Components.Dialogs
-@using SimRegisPortal.Web.Components.Filters
 
 @inject IDialogService DialogService
 
@@ -20,12 +18,15 @@
         <ToolBarContent>
             <MudText Typo="Typo.h6">Exchange Rates</MudText>
             <MudSpacer />
-            <MudButton OnClick="OpenImportDialog" StartIcon="@Icons.Material.Filled.Sync" Variant="Variant.Outlined" Class="ml-2">
-                Import from Bank
-            </MudButton>
-            <MudButton OnClick="OpenAddDialog" StartIcon="@Icons.Material.Filled.CreateNewFolder" Variant="Variant.Outlined" Class="ml-2">
-                Add
-            </MudButton>
+            @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesWrite))
+            {
+                <MudButton OnClick="OpenImportDialog" StartIcon="@Icons.Material.Filled.Sync" Variant="Variant.Outlined" Class="ml-2">
+                    Import from Bank
+                </MudButton>
+                <MudButton OnClick="OpenAddDialog" StartIcon="@Icons.Material.Filled.CreateNewFolder" Variant="Variant.Outlined" Class="ml-2">
+                    Add
+                </MudButton>
+            }
         </ToolBarContent>
 
         <Columns>
@@ -44,11 +45,14 @@
             <PropertyColumn Property="x => x.Date" Title="Date" Format="yyyy-MM-dd" />
             <PropertyColumn Property="x => x.Rate" Title="Rate" Format="0.0000000" />
 
-            <TemplateColumn>
-                <CellTemplate Context="context">
-                    <MudIconButton OnClick="@(() => OpenEditDialog(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
-                </CellTemplate>
-            </TemplateColumn>
+            @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesWrite))
+            {
+                <TemplateColumn>
+                    <CellTemplate Context="context">
+                        <MudIconButton OnClick="@(() => OpenEditDialog(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                    </CellTemplate>
+                </TemplateColumn>
+            }
         </Columns>
 
         <PagerContent>
@@ -66,6 +70,12 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
+        if (!UserContext.HasPermission(UserPermissionType.ExchangeRatesRead))
+        {
+            NavManager.NavigateTo("/auth/denied", forceLoad: true);
+            return;
+        }
+
         await LoadCurrencies();
         await LoadRates();
     }

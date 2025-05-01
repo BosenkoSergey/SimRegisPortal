@@ -1,13 +1,11 @@
 ﻿@page "/tax-settings"
 @inherits BaseComponent
 
-@using MediatR
+@attribute [Authorize]
+
 @using SimRegisPortal.Application.Features.Currencies.Queries
 @using SimRegisPortal.Application.Features.TaxSettings.Commands
 @using SimRegisPortal.Application.Features.TaxSettings.Queries
-@using SimRegisPortal.Application.Models.Entities
-
-@inject NavigationManager NavigationManager
 
 <PageTitle>Tax Settings</PageTitle>
 
@@ -26,61 +24,58 @@
                 </MudSelect>
 
                 <MudNumericField @bind-Value="_model.MinimumWage" Label="Minimum Wage"
-                                 Required="true" RequiredError="Required"
-                                 Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                Required="true" RequiredError="Required"
+                Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
 
                 <MudNumericField @bind-Value="_model.SocialTax" Label="Social Tax"
-                                 Required="true" RequiredError="Required"
-                                 Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                Required="true" RequiredError="Required"
+                Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.Fop2Pit" Label="FOP 2 PIT"
-                                         Required="true" RequiredError="Required"
-                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                        Required="true" RequiredError="Required"
+                        Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.Fop2MilitaryTax" Label="FOP 2 Military Tax"
-                                         Required="true" RequiredError="Required"
-                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                        Required="true" RequiredError="Required"
+                        Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
 
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.Fop3Pit" Label="FOP 3 PIT"
-                                         Required="true" RequiredError="Required"
-                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                        Required="true" RequiredError="Required"
+                        Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.Fop3MilitaryTax" Label="FOP 3 Military Tax"
-                                         Required="true" RequiredError="Required"
-                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                        Required="true" RequiredError="Required"
+                        Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
 
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.GigPit" Label="GIG PIT"
-                                         Required="true" RequiredError="Required"
-                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                        Required="true" RequiredError="Required"
+                        Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.GigMilitaryTax" Label="GIG Military Tax"
-                                         Required="true" RequiredError="Required"
-                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                        Required="true" RequiredError="Required"
+                        Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                 </MudGrid>
 
-                <MudGrid Justify="Justify.FlexEnd" Class="mt-0">
-                    <MudItem>
-                        <MudButton Variant="Variant.Outlined" Style="min-width: 150px;" OnClick="NavigateBack">
-                            Back
-                        </MudButton>
-                    </MudItem>
-                    <MudItem>
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;" OnClick="Submit">
-                            Save
-                        </MudButton>
-                    </MudItem>
-                </MudGrid>
-
+                @if (UserContext.HasPermission(UserPermissionType.TaxSettingsWrite))
+                {
+                    <MudGrid Justify="Justify.FlexEnd" Class="mt-0">
+                        <MudItem>
+                            <MudButton OnClick="Submit" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
+                                Save
+                            </MudButton>
+                        </MudItem>
+                    </MudGrid>
+                }
             </MudStack>
         </MudForm>
     }
@@ -97,6 +92,12 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
+        if (!UserContext.HasPermission(UserPermissionType.TaxSettingsRead))
+        {
+            NavManager.NavigateTo("/auth/denied", forceLoad: true);
+            return;
+        }
+
         await LoadCurrencies();
         await LoadTaxSetting();
     }
@@ -134,6 +135,4 @@
             await Notifier.Exception(ex);
         }
     }
-
-    private void NavigateBack() => NavigationManager.NavigateTo("/");
 }
