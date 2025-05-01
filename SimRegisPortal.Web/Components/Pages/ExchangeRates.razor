@@ -10,41 +10,56 @@
 <PageTitle>Exchange Rates</PageTitle>
 
 <MudPaper Class="mt-3 px-3 py-3">
-    <MudStack Row Wrap="Wrap.Wrap" Justify="Justify.FlexStart" AlignItems="AlignItems.Start" Class="mx-3">
-        <MudDatePicker Label="Date From" @bind-Date="_queryParams.DateFrom" Clearable Variant="Variant.Outlined" />
-        <MudDatePicker Label="Date To" @bind-Date="_queryParams.DateTo" Clearable Variant="Variant.Outlined" />
+    <MudGrid Justify="Justify.FlexStart" Class="mb-3">
+        <MudItem Style="width: 220px;">
+            <MudDatePicker Label="Date From" @bind-Date="_queryParams.DateFrom" Clearable Variant="Variant.Outlined" />
+        </MudItem>
 
-        <MudSelect Label="Currency From"
-        @bind-Value="_queryParams.FromCurrencyId" Clearable
-        Variant="Variant.Outlined">
-            @foreach (var currency in _currencyCodes)
-            {
-                <MudSelectItem Value="@((int?)currency.Key)">@currency.Value</MudSelectItem>
-            }
-        </MudSelect>
+        <MudItem Style="width: 220px;">
+            <MudDatePicker Label="Date To" @bind-Date="_queryParams.DateTo" Clearable Variant="Variant.Outlined" />
+        </MudItem>
 
-        <MudSelect Label="Currency To"
-        @bind-Value="_queryParams.ToCurrencyId" Clearable
-        Variant="Variant.Outlined">
-            @foreach (var currency in _currencyCodes)
-            {
-                <MudSelectItem Value="@((int?)currency.Key)">@currency.Value</MudSelectItem>
-            }
-        </MudSelect>
+        <MudItem Style="width: 250px;">
+            <MudSelect Label="Currency From" @bind-Value="_queryParams.FromCurrencyId" Clearable Variant="Variant.Outlined">
+                @foreach (var currency in _currencyCodes)
+                {
+                    <MudSelectItem Value="@((int?)currency.Key)">
+                        @currency.Value
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
 
-        <MudButton OnClick="Search"
-        Variant="Variant.Filled" Color="Color.Primary"
-        Style="height: 56px; width: 150px; align-self: center;">
-            Search
-        </MudButton>
-    </MudStack>
+        <MudItem Style="width: 250px;">
+            <MudSelect Label="Currency To" @bind-Value="_queryParams.ToCurrencyId" Clearable Variant="Variant.Outlined">
+                @foreach (var currency in _currencyCodes)
+                {
+                    <MudSelectItem Value="@((int?)currency.Key)">
+                        @currency.Value
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+
+        <MudItem Style="width: 150px;" Class="d-flex align-center">
+            <MudButton OnClick="Search" Variant="Variant.Filled" Color="Color.Primary" Style="height: 56px; width: 100%;">
+                Search
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+
 
     <MudDataGrid Items="_rates" @ref="_grid"
     Filterable="true" Dense>
         <ToolBarContent>
             <MudText Typo="Typo.h6">Exchange Rates</MudText>
             <MudSpacer />
-            <MudButton StartIcon="@Icons.Material.Filled.Sync">Import from Bank</MudButton>
+            <MudButton StartIcon="@Icons.Material.Filled.Sync" Variant="Variant.Outlined" Class="ml-2">
+                Import from Bank
+            </MudButton>
+            <MudButton StartIcon="@Icons.Material.Filled.CreateNewFolder" Variant="Variant.Outlined" Class="ml-2">
+                Add
+            </MudButton>
         </ToolBarContent>
 
         <Columns>
@@ -60,17 +75,8 @@
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.Date" Title="Date">
-                <CellTemplate Context="context">
-                    @context.Item.Date.ToString("yyyy-MM-dd")
-                </CellTemplate>
-            </PropertyColumn>
-
-            <PropertyColumn Property="x => x.Rate" Title="Rate">
-                <CellTemplate Context="context">
-                    @context.Item.Rate.ToString("0.#######", CultureInfo.InvariantCulture)
-                </CellTemplate>
-            </PropertyColumn>
+            <PropertyColumn Property="x => x.Date" Title="Date" Format="yyyy-MM-dd" />
+            <PropertyColumn Property="x => x.Rate" Title="Rate" Format="0.0000000" />
         </Columns>
 
         <PagerContent>
