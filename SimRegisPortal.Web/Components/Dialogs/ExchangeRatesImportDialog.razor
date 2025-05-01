@@ -1,0 +1,38 @@
+﻿@using SimRegisPortal.Application.Features.ExchangeRates.Commands
+@using SimRegisPortal.Application.Models.Entities.Related
+
+@inject ISender Mediator
+
+<MudDialog Style="max-width: 350px;">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Import Exchange Rates
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudText Class="mb-2">Please select a date to import exchange rates from Privat24 bank.</MudText>
+        <MudDatePicker Label="Import date" @bind-Date="_request.ImportDate" DateFormat="yyyy-MM-dd" Required="true" Variant="Variant.Outlined" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Import">Import</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; } = default!;
+
+    private ExchangeRatesImportRequest _request = new();
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Import()
+    {
+        await Mediator.Send(new ImportExchangeRatesCommand(_request));
+
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+}

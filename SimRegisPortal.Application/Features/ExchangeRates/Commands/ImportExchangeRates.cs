@@ -17,7 +17,7 @@ internal sealed class ImportExchangeRatesHandler(
 {
     public async Task Handle(ImportExchangeRatesCommand command, CancellationToken cancellationToken)
     {
-        var date = command.Request.ImportDate.Date;
+        var date = command.Request.ImportDate!.Value.Date;
 
         var bankRates = await BankService.GetRatesAsync(date, cancellationToken);
 

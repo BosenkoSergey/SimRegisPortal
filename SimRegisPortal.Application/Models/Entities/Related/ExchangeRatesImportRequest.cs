@@ -2,5 +2,5 @@
 
 public sealed class ExchangeRatesImportRequest
 {
-    public DateTime ImportDate {  get; set; }
+    public DateTime? ImportDate { get; set; } = DateTime.UtcNow.Date;
 }

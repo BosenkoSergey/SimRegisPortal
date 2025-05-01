@@ -8,7 +8,6 @@
 @using SimRegisPortal.Application.Models.Entities
 
 @inject NavigationManager NavigationManager
-@inject ISnackbar Snackbar
 
 <PageTitle>Tax Settings</PageTitle>
 
@@ -122,13 +121,13 @@
 
         if (!_form.IsValid)
         {
-            await Notifier.Error("Form is not valid");
+            await Notifier.Error("Form is not valid.");
         }
 
         try
         {
             _model = await Mediator.Send(new SaveTaxSettingCommand(_model));
-            Snackbar.Add("Settings saved", Severity.Success);
+            await Notifier.Success("Settings saved.");
         }
         catch (Exception ex)
         {
