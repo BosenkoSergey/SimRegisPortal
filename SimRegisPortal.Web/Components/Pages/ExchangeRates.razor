@@ -23,7 +23,7 @@
             <MudButton OnClick="OpenImportDialog" StartIcon="@Icons.Material.Filled.Sync" Variant="Variant.Outlined" Class="ml-2">
                 Import from Bank
             </MudButton>
-            <MudButton StartIcon="@Icons.Material.Filled.CreateNewFolder" Variant="Variant.Outlined" Class="ml-2">
+            <MudButton OnClick="OpenAddDialog" StartIcon="@Icons.Material.Filled.CreateNewFolder" Variant="Variant.Outlined" Class="ml-2">
                 Add
             </MudButton>
         </ToolBarContent>
@@ -43,6 +43,12 @@
 
             <PropertyColumn Property="x => x.Date" Title="Date" Format="yyyy-MM-dd" />
             <PropertyColumn Property="x => x.Rate" Title="Rate" Format="0.0000000" />
+
+            <TemplateColumn>
+                <CellTemplate Context="context">
+                    <MudIconButton OnClick="@(() => OpenEditDialog(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                </CellTemplate>
+            </TemplateColumn>
         </Columns>
 
         <PagerContent>
@@ -97,6 +103,25 @@
         {
             await LoadRates();
             await Notifier.Success("Imported successfully.");
+        }
+    }
+
+    private async Task OpenAddDialog() => await OpenEditDialog(null);
+
+    private async Task OpenEditDialog(int? id)
+    {
+        var parameters = new DialogParameters<ExchangeRateEditDialog>
+        {
+            { x => x.EntityId, id },
+            { x => x.CurrencyCodes, _currencyCodes }
+        };
+
+        var dialog = await DialogService.ShowAsync<ExchangeRateEditDialog>(null, parameters);
+
+        var result = await dialog.Result;
+        if (result?.Data is true)
+        {
+            await LoadRates();
         }
     }
 }

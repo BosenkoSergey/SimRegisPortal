@@ -31,7 +31,7 @@ public sealed class SaveExchangeRateValidator
             .AnyAsync(r => r.Id != command.Dto.Id
                         && r.FromCurrencyId == command.Dto.FromCurrencyId
                         && r.ToCurrencyId == command.Dto.ToCurrencyId
-                        && r.Date == command.Dto.Date.Date,
+                        && r.Date == command.Dto.Date!.Value.Date,
                 cancellationToken);
         if (isExists)
         {

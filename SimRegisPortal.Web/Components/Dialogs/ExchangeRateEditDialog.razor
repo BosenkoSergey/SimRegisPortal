@@ -1,0 +1,102 @@
+﻿@using SimRegisPortal.Application.Features.Currencies.Queries
+@using SimRegisPortal.Application.Features.ExchangeRates.Commands
+@using SimRegisPortal.Application.Features.ExchangeRates.Queries
+@using SimRegisPortal.Application.Models.Entities
+@using SimRegisPortal.Web.Services
+@using SimRegisPortal.Web.Services.Interfaces
+
+@inject ISender Mediator
+@inject IUiNotifier UiNotifier
+
+<MudDialog Style="max-width: 350px;">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(_model?.IsNew is true ? "Add Exchange Rate" : "Edit Exchange Rate")</MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudForm @ref="_form">
+            <MudGrid GutterSize="16px">
+                <MudItem xs="12">
+                    <MudSelect Label="Currency From" @bind-Value="_model.FromCurrencyId" Required="true" Variant="Variant.Outlined">
+                        @foreach (var currency in CurrencyCodes)
+                        {
+                            <MudSelectItem Value="@currency.Key"> @currency.Value </MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudSelect Label="Currency To" @bind-Value="_model.ToCurrencyId" Required="true" Variant="Variant.Outlined">
+                        @foreach (var currency in CurrencyCodes)
+                        {
+                            <MudSelectItem Value="@currency.Key"> @currency.Value </MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudDatePicker @bind-Date="_model.Date" Label="Date" DateFormat="yyyy-MM-dd" Required="true" Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudNumericField @bind-Value="_model.Rate" Label="Rate" Required="true" Format="0.0000000"
+                    Immediate="true" Culture="@CultureInfo.InvariantCulture" Variant="Variant.Outlined" />
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter] public int? EntityId { get; set; }
+    [Parameter] public Dictionary<int, string> CurrencyCodes { get; set; } = default!;
+
+    private MudForm? _form;
+    private ExchangeRateDto _model = new()
+    {
+        IsNew = true,
+        Date = DateTime.UtcNow.Date
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (EntityId.HasValue)
+        {
+            _model = await Mediator.Send(new GetExchangeRateQuery(EntityId!.Value));
+        }
+        else if (CurrencyCodes.Count != 0)
+        {
+            _model.FromCurrencyId = CurrencyCodes.Keys.First();
+            _model.ToCurrencyId = CurrencyCodes.Keys.Last();
+        }
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Save()
+    {
+        if (_form is null) return;
+
+        await _form.Validate();
+
+        if (!_form.IsValid) return;
+
+        try
+        {
+            await Mediator.Send(new SaveExchangeRateCommand(_model));
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+        catch (Exception ex)
+        {
+            await UiNotifier.Exception(ex);
+        }
+    }
+}

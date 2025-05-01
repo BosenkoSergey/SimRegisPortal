@@ -14,9 +14,7 @@
         <MudSelect Label="Currency From" @bind-Value="QueryParams.FromCurrencyId" Clearable Variant="Variant.Outlined">
             @foreach (var currency in CurrencyCodes)
             {
-                <MudSelectItem Value="@((int?)currency.Key)">
-                    @currency.Value
-                </MudSelectItem>
+                <MudSelectItem Value="@((int?)currency.Key)"> @currency.Value </MudSelectItem>
             }
         </MudSelect>
     </MudItem>
@@ -25,9 +23,7 @@
         <MudSelect Label="Currency To" @bind-Value="QueryParams.ToCurrencyId" Clearable Variant="Variant.Outlined">
             @foreach (var currency in CurrencyCodes)
             {
-                <MudSelectItem Value="@((int?)currency.Key)">
-                    @currency.Value
-                </MudSelectItem>
+                <MudSelectItem Value="@((int?)currency.Key)"> @currency.Value </MudSelectItem>
             }
         </MudSelect>
     </MudItem>
