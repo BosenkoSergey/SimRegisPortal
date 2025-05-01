@@ -11,7 +11,7 @@ public abstract class BaseComponent : ComponentBase
 
     private bool _initialized;
 
-    protected sealed override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         if (_initialized)
         {

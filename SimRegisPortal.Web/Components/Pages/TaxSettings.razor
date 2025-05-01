@@ -1,0 +1,140 @@
+﻿@page "/tax-settings"
+@inherits BaseComponent
+
+@using MediatR
+@using SimRegisPortal.Application.Features.Currencies.Queries
+@using SimRegisPortal.Application.Features.TaxSettings.Commands
+@using SimRegisPortal.Application.Features.TaxSettings.Queries
+@using SimRegisPortal.Application.Models.Entities
+
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<PageTitle>Tax Settings</PageTitle>
+
+<MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
+    <MudText Typo="Typo.h5" GutterBottom>Tax Settings</MudText>
+
+    @if (_model != null)
+    {
+        <MudForm @ref="_form">
+            <MudStack Spacing="2">
+                <MudSelect T="int" Label="Local Currency" @bind-Value="_model.LocalCurrencyId" Required="true">
+                    @foreach (var currency in _currencyCodes)
+                    {
+                        <MudSelectItem Value="@currency.Key">@currency.Value</MudSelectItem>
+                    }
+                </MudSelect>
+
+                <MudNumericField @bind-Value="_model.MinimumWage" Label="Minimum Wage"
+                                 Required="true" RequiredError="Required"
+                                 Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+
+                <MudNumericField @bind-Value="_model.SocialTax" Label="Social Tax"
+                                 Required="true" RequiredError="Required"
+                                 Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="_model.Fop2Pit" Label="FOP 2 PIT"
+                                         Required="true" RequiredError="Required"
+                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="_model.Fop2MilitaryTax" Label="FOP 2 Military Tax"
+                                         Required="true" RequiredError="Required"
+                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="_model.Fop3Pit" Label="FOP 3 PIT"
+                                         Required="true" RequiredError="Required"
+                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="_model.Fop3MilitaryTax" Label="FOP 3 Military Tax"
+                                         Required="true" RequiredError="Required"
+                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="_model.GigPit" Label="GIG PIT"
+                                         Required="true" RequiredError="Required"
+                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="_model.GigMilitaryTax" Label="GIG Military Tax"
+                                         Required="true" RequiredError="Required"
+                                         Immediate="true" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                    </MudItem>
+                </MudGrid>
+
+                <MudGrid Justify="Justify.FlexEnd" Class="mt-0">
+                    <MudItem>
+                        <MudButton Variant="Variant.Outlined" Style="min-width: 150px;" OnClick="NavigateBack">
+                            Back
+                        </MudButton>
+                    </MudItem>
+                    <MudItem>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;" OnClick="Submit">
+                            Save
+                        </MudButton>
+                    </MudItem>
+                </MudGrid>
+
+            </MudStack>
+        </MudForm>
+    }
+    else
+    {
+        <MudProgressCircular Indeterminate Size="Size.Large" />
+    }
+</MudPaper>
+
+@code {
+    private MudForm? _form;
+    private TaxSettingDto? _model;
+    private Dictionary<int, string> _currencyCodes = new();
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        await LoadCurrencies();
+        await LoadTaxSetting();
+    }
+
+    private async Task LoadCurrencies()
+    {
+        var currencies = await Mediator.Send(new GetCurrenciesQuery());
+        _currencyCodes = currencies.ToDictionary(x => x.Id, x => x.DisplayName);
+    }
+
+    private async Task LoadTaxSetting()
+    {
+        _model = await Mediator.Send(new GetTaxSettingQuery());
+    }
+
+    private async Task Submit()
+    {
+        if (_form is null || _model is null)
+            return;
+
+        await _form.Validate();
+
+        if (!_form.IsValid)
+        {
+            await Notifier.Error("Form is not valid");
+        }
+
+        try
+        {
+            _model = await Mediator.Send(new SaveTaxSettingCommand(_model));
+            Snackbar.Add("Settings saved", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            await Notifier.Exception(ex);
+        }
+    }
+
+    private void NavigateBack() => NavigationManager.NavigateTo("/");
+}
