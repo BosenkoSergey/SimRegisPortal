@@ -1,0 +1,109 @@
+﻿@page "/contract"
+@page "/contract/{Id:guid}"
+@inherits BaseEditPage<Guid, ContractDto>
+
+@using SimRegisPortal.Application.Features.Contracts.Queries
+@using SimRegisPortal.Application.Features.Contracts.Commands
+@using SimRegisPortal.Application.Features.Projects.Queries
+@using SimRegisPortal.Application.Features.Employees.Queries
+
+@attribute [Authorize]
+
+<PageTitle>@PageTitle</PageTitle>
+
+<MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
+    <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
+
+    @if (_model != null)
+    {
+        <MudForm @ref="_form">
+            <MudStack Spacing="2">
+                <MudTextField @bind-Value="_model.Number" Label="Contract Number" Required />
+
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudSelect Label="Project" @bind-Value="_model.ProjectId" Required>
+                            @foreach (var project in _projects)
+                            {
+                                <MudSelectItem Value="@project.Key">@project.Value</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudSelect Label="Employee" @bind-Value="_model.EmployeeId" Required>
+                            @foreach (var employee in _employees)
+                            {
+                                <MudSelectItem Value="@employee.Key">@employee.Value</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
+
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudDatePicker @bind-Date="_model.DateFrom" Label="Date From" Required DateFormat="yyyy-MM-dd" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudDatePicker @bind-Date="_model.DateTo" Label="Date To" Required DateFormat="yyyy-MM-dd" />
+                    </MudItem>
+                </MudGrid>
+
+                <MudTextField @bind-Value="_model.Notes" Label="Notes" Lines="3" />
+
+                <MudGrid Justify="Justify.FlexEnd">
+                    <MudItem>
+                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Back</MudButton>
+                    </MudItem>
+                    <MudItem>
+                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Save</MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudStack>
+        </MudForm>
+    }
+    else
+    {
+        <MudProgressCircular Indeterminate Size="Size.Large" />
+    }
+</MudPaper>
+
+@code {
+    private Dictionary<Guid, string> _projects = new();
+    private Dictionary<Guid, string> _employees = new();
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        PageTitle = "Contract";
+        CheckPermissions(UserPermissionType.ContractsWrite);
+
+        var projectsResult = await SendSafeAsync(new GetProjectsLookupQuery());
+        if (projectsResult.IsSuccess)
+        {
+            _projects = projectsResult.Value!;
+        }
+
+        var employeesResult = await SendSafeAsync(new GetEmployeesLookupQuery());
+        if (employeesResult.IsSuccess)
+        {
+            _employees = employeesResult.Value!;
+        }
+
+        await LoadModelAsync();
+    }
+
+    protected override IRequest<ContractDto> GetCommand(Guid id) =>
+        new GetContractQuery(id);
+
+    protected override IRequest<ContractDto> SaveCommand(ContractDto model) =>
+        new SaveContractCommand(model);
+
+    protected override ContractDto CreateNew()
+    {
+        return new()
+        {
+            IsNew = true,
+            ProjectId = _projects.Keys.FirstOrDefault(),
+            EmployeeId = _employees.Keys.FirstOrDefault()
+        };
+    }
+}
