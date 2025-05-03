@@ -104,10 +104,10 @@
 
     private async Task LoadCurrencies()
     {
-        var result = await SendSafeAsync(new GetCurrenciesQuery());
+        var result = await SendSafeAsync(new GetCurrenciesLookupQuery());
         if (result.IsSuccess)
         {
-            _currencyCodes = result.Value!.ToDictionary(x => x.Id, x => x.DisplayName);
+            _currencyCodes = result.Value!;
 
         }
     }
