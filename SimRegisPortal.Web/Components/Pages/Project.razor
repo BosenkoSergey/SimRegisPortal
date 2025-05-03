@@ -1,9 +1,9 @@
 ﻿@page "/project"
 @page "/project/{Id:guid}"
-@inherits BaseComponent
+@inherits BaseEditPage<Guid, ProjectDto>
 
-@using SimRegisPortal.Application.Features.Projects.Commands
 @using SimRegisPortal.Application.Features.Projects.Queries
+@using SimRegisPortal.Application.Features.Projects.Commands
 @using SimRegisPortal.Application.Features.Companies.Queries
 
 @attribute [Authorize]
@@ -11,8 +11,7 @@
 <PageTitle>Project</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
-
-    <MudText Typo="Typo.h5" GutterBottom>@(_model?.IsNew is true ? "Add Project" : "Edit Project")</MudText>
+    <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
 
     @if (_model != null)
     {
@@ -59,18 +58,14 @@
     {
         <MudProgressCircular Indeterminate Size="Size.Large" />
     }
-
 </MudPaper>
 
 @code {
-    [Parameter] public Guid? Id { get; set; }
-
-    private MudForm? _form;
-    private ProjectDto? _model;
     private Dictionary<Guid, string> _companies = new();
 
     protected override async Task OnFirstInitializedAsync()
     {
+        PageTitle = "Project";
         CheckPermissions(UserPermissionType.ProjectsWrite);
 
         var companiesResult = await SendSafeAsync(new GetCompaniesLookupQuery());
@@ -79,31 +74,21 @@
             _companies = companiesResult.Value!;
         }
 
-        if (Id.HasValue)
-        {
-            var result = await SendSafeAsync(new GetProjectQuery(Id.Value));
-            if (result.IsSuccess)
-            {
-                _model = result.Value;
-            }
-        }
-        else
-        {
-            _model = new ProjectDto { IsNew = true };
-            _model.CompanyId = _companies.Keys.FirstOrDefault();
-        }
+        await LoadModelAsync();
     }
 
-    private async Task Save()
-    {
-        if (!await ValidateForm(_form)) return;
-        if (_model is null) return;
+    protected override IRequest<ProjectDto> GetCommand(Guid id)
+        => new GetProjectQuery(id);
 
-        var result = await SendSafeAsync(new SaveProjectCommand(_model));
-        if (result.IsSuccess)
+    protected override IRequest<ProjectDto> SaveCommand(ProjectDto model)
+        => new SaveProjectCommand(model);
+
+    protected override ProjectDto CreateNew()
+    {
+        return new()
         {
-            _model = result.Value;
-            await Notifier.Success("Saved successfully.");
-        }
+            IsNew = true,
+            CompanyId = _companies.Keys.FirstOrDefault()
+        };
     }
 }

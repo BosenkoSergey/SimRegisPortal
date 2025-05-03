@@ -1,6 +1,6 @@
 ﻿@page "/employee"
 @page "/employee/{Id:guid}"
-@inherits BaseComponent
+@inherits BaseEditPage<Guid, EmployeeDto>
 
 @using SimRegisPortal.Application.Features.Employees.Queries
 @using SimRegisPortal.Application.Features.Employees.Commands
@@ -12,7 +12,7 @@
 <PageTitle>Employee</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
-    <MudText Typo="Typo.h5" GutterBottom>@(_model?.IsNew is true ? "Add Employee" : "Edit Employee")</MudText>
+    <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
 
     @if (_model != null)
     {
@@ -44,7 +44,7 @@
                                 <MudTextField @bind-Value="_model.TaxNumber" Label="Tax Number" />
                             </MudItem>
                         </MudGrid>
-                        
+
                         <MudTextField @bind-Value="_model.Position" Label="Position" />
 
                         <MudGrid>
@@ -60,7 +60,6 @@
 
                 <MudTabPanel Text="Invoicing">
                     <MudStack Spacing="2" Class="mt-3">
-
                         <MudSelect T="SalaryScheme" Label="Salary Scheme" @bind-Value="_model.SalaryScheme" Required>
                             @foreach (var scheme in Enum.GetValues<SalaryScheme>())
                             {
@@ -68,7 +67,8 @@
                             }
                         </MudSelect>
 
-                        <MudNumericField @bind-Value="_model.HourlyRate" Label="Hourly Rate" Format="0.00" Culture="@CultureInfo.InvariantCulture" Required />
+                        <MudNumericField @bind-Value="_model.HourlyRate" Label="Hourly Rate" Format="0.00"
+                                         Culture="@CultureInfo.InvariantCulture" Required />
 
                         <MudSelect Label="Currency" @bind-Value="_model.HourlyRateCurrencyId" Required>
                             @foreach (var currency in _currencies)
@@ -76,7 +76,6 @@
                                 <MudSelectItem Value="@currency.Key">@currency.Value</MudSelectItem>
                             }
                         </MudSelect>
-
                     </MudStack>
                 </MudTabPanel>
             </MudTabs>
@@ -98,15 +97,12 @@
 </MudPaper>
 
 @code {
-    [Parameter] public Guid? Id { get; set; }
-
-    private MudForm? _form;
-    private EmployeeDto? _model;
     private Dictionary<Guid, string> _users = new();
     private Dictionary<int, string> _currencies = new();
 
     protected override async Task OnFirstInitializedAsync()
     {
+        PageTitle = "Employee";
         CheckPermissions(UserPermissionType.EmployeesWrite);
 
         var usersResult = await SendSafeAsync(new GetUsersLookupQuery());
@@ -121,37 +117,23 @@
             _currencies = currenciesResult.Value!;
         }
 
-        if (Id.HasValue)
-        {
-            var employeesResult = await SendSafeAsync(new GetEmployeeQuery(Id.Value));
-            if (employeesResult.IsSuccess)
-            {
-                _model = employeesResult.Value;
-            }
-        }
-        else
-        {
-            _model = new EmployeeDto
-            {
-                IsNew = true,
-                HireDate = DateTime.UtcNow.Date,
-                SalaryScheme = SalaryScheme.FOP3,
-                UserId = _users.Keys.FirstOrDefault(),
-                HourlyRateCurrencyId = _currencies.Keys.FirstOrDefault()
-            };
-        }
+        await LoadModelAsync();
     }
 
-    private async Task Save()
-    {
-        if (!await ValidateForm(_form)) return;
-        if (_model is null) return;
+    protected override IRequest<EmployeeDto> GetCommand(Guid id)
+        => new GetEmployeeQuery(id);
 
-        var result = await SendSafeAsync(new SaveEmployeeCommand(_model));
-        if (result.IsSuccess)
+    protected override IRequest<EmployeeDto> SaveCommand(EmployeeDto model)
+        => new SaveEmployeeCommand(model);
+
+    protected override EmployeeDto CreateNew(){
+        return new()
         {
-            _model = result.Value;
-            await Notifier.Success("Saved successfully.");
-        }
+            IsNew = true,
+            HireDate = DateTime.UtcNow.Date,
+            SalaryScheme = SalaryScheme.FOP3,
+            UserId = _users.Keys.FirstOrDefault(),
+            HourlyRateCurrencyId = _currencies.Keys.FirstOrDefault()
+        };
     }
 }
