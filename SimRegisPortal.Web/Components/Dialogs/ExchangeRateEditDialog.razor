@@ -1,9 +1,8 @@
-﻿@using SimRegisPortal.Application.Features.Currencies.Queries
+﻿@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.Currencies.Queries
 @using SimRegisPortal.Application.Features.ExchangeRates.Commands
 @using SimRegisPortal.Application.Features.ExchangeRates.Queries
-
-@inject ISender Mediator
-@inject IUiNotifier UiNotifier
 
 <MudDialog Style="max-width: 350px;">
     <TitleContent>
@@ -93,7 +92,7 @@
         }
         catch (Exception ex)
         {
-            await UiNotifier.Exception(ex);
+            await Notifier.Exception(ex);
         }
     }
 }
