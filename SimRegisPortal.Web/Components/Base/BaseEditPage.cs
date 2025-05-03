@@ -25,7 +25,7 @@ public abstract class BaseEditPage<TKey, TDto> : BaseComponent
         return new TDto() { IsNew = true };
     }
 
-    protected async Task LoadModelAsync()
+    protected virtual async Task LoadModelAsync()
     {
         if (Id.HasValue)
         {

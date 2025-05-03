@@ -1,5 +1,5 @@
 ﻿@page "/tax-settings"
-@inherits BaseComponent
+@inherits BaseEditPage<int, TaxSettingDto>
 
 @attribute [Authorize]
 
@@ -7,10 +7,10 @@
 @using SimRegisPortal.Application.Features.TaxSettings.Commands
 @using SimRegisPortal.Application.Features.TaxSettings.Queries
 
-<PageTitle>Tax Settings</PageTitle>
+<PageTitle>@PageTitle</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
-    <MudText Typo="Typo.h5" GutterBottom>Tax Settings</MudText>
+    <MudText Typo="Typo.h5" GutterBottom>@PageTitle</MudText>
 
     @if (_model != null)
     {
@@ -24,45 +24,34 @@
                 </MudSelect>
 
                 <MudNumericField @bind-Value="_model.MinimumWage" Label="Minimum Wage"
-                Required RequiredError="Required"
-                Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
-
+                                 Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                 <MudNumericField @bind-Value="_model.SocialTax" Label="Social Tax"
-                Required RequiredError="Required"
-                Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                                 Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.Fop2Pit" Label="FOP 2 PIT"
-                        Required RequiredError="Required"
-                        Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                                         Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.Fop2MilitaryTax" Label="FOP 2 Military Tax"
-                        Required RequiredError="Required"
-                        Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                                         Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
-
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.Fop3Pit" Label="FOP 3 PIT"
-                        Required RequiredError="Required"
-                        Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                                         Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.Fop3MilitaryTax" Label="FOP 3 Military Tax"
-                        Required RequiredError="Required"
-                        Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                                         Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
-
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.GigPit" Label="GIG PIT"
-                        Required RequiredError="Required"
-                        Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                                         Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <MudNumericField @bind-Value="_model.GigMilitaryTax" Label="GIG Military Tax"
-                        Required RequiredError="Required"
-                        Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+                                         Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                 </MudGrid>
 
@@ -70,7 +59,7 @@
                 {
                     <MudGrid Justify="Justify.FlexEnd" Class="mt-0">
                         <MudItem>
-                            <MudButton OnClick="Submit" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
+                            <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
                                 Save
                             </MudButton>
                         </MudItem>
@@ -86,48 +75,35 @@
 </MudPaper>
 
 @code {
-    private MudForm? _form;
-    private TaxSettingDto? _model;
     private Dictionary<int, string> _currencies = new();
 
     protected override async Task OnFirstInitializedAsync()
     {
+        PageTitle = "Tax Settings";
         CheckPermissions(UserPermissionType.TaxSettingsRead);
 
-        await LoadCurrencies();
-        await LoadTaxSetting();
-    }
-
-    private async Task LoadCurrencies()
-    {
-        var result = await SendSafeAsync(new GetCurrenciesLookupQuery());
-        if (result.IsSuccess)
+        var currenciesResult = await SendSafeAsync(new GetCurrenciesLookupQuery());
+        if (currenciesResult.IsSuccess)
         {
-            _currencies = result.Value!;
+            _currencies = currenciesResult.Value!;
 
         }
+
+        await LoadModelAsync();
     }
 
-    private async Task LoadTaxSetting()
+    protected override async Task LoadModelAsync()
     {
-        var result = await SendSafeAsync(new GetTaxSettingQuery());
+        var result = await SendSafeAsync(GetCommand(default));
         if (result.IsSuccess)
         {
             _model = result.Value;
         }
     }
 
-    private async Task Submit()
-    {
-        if (!await ValidateForm(_form)) return;
-        if (_model is null) return;
+    protected override IRequest<TaxSettingDto> GetCommand(int _) =>
+        new GetTaxSettingQuery();
 
-        var result = await SendSafeAsync(new SaveTaxSettingCommand(_model));
-        if (result.IsSuccess)
-        {
-            _model = result.Value;
-            await Notifier.Success("Settings saved.");
-
-        }
-    }
+    protected override IRequest<TaxSettingDto> SaveCommand(TaxSettingDto model) =>
+        new SaveTaxSettingCommand(model);
 }
