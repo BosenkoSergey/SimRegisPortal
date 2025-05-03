@@ -52,7 +52,7 @@
     [CascadingParameter]
     private IMudDialogInstance MudDialog { get; set; } = default!;
 
-    [Parameter] public int? EntityId { get; set; }
+    [Parameter] public int? Id { get; set; }
     [Parameter] public Dictionary<int, string> CurrencyCodes { get; set; } = default!;
 
     private MudForm? _form;
@@ -64,9 +64,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (EntityId.HasValue)
+        if (Id.HasValue)
         {
-            var result = await SendSafeAsync(new GetExchangeRateQuery(EntityId!.Value));
+            var result = await SendSafeAsync(new GetExchangeRateQuery(Id!.Value));
             if (result.IsSuccess)
             {
                 _model = result.Value!;

@@ -1,0 +1,119 @@
+﻿@page "/company"
+@page "/company/{Id:guid}"
+@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.Companies.Commands
+@using SimRegisPortal.Application.Features.Companies.Queries
+
+@attribute [Authorize]
+
+<PageTitle>Company</PageTitle>
+
+<MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
+
+    <MudText Typo="Typo.h5" GutterBottom>@(_model?.IsNew is true ? "Add Company" : "Edit Company")</MudText>
+
+    @if (_model != null)
+    {
+        <MudForm @ref="_form">
+            <MudStack Spacing="2">
+                <MudTextField @bind-Value="_model.Name" Label="Name" Required />
+
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="_model.TaxNumber" Label="Tax Number" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="_model.RegistrationNumber" Label="Registration Number" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="_model.Phone" Label="Phone" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="_model.Email" Label="Email" />
+                    </MudItem>
+                </MudGrid>
+                
+                <MudTextField @bind-Value="_model.ContactPerson" Label="Contact Person" />
+                <MudTextField @bind-Value="_model.Address" Label="Address" Lines="2" />
+                <MudTextField @bind-Value="_model.Notes" Label="Notes" Lines="3" />
+
+                <MudGrid Justify="Justify.FlexEnd">
+                    <MudItem>
+                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">
+                            Back
+                        </MudButton>
+                    </MudItem>
+                    @if (UserContext.HasPermission(UserPermissionType.CompaniesWrite))
+                    {
+                        <MudItem>
+                            <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
+                                Save
+                            </MudButton>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudStack>
+        </MudForm>
+    }
+    else
+    {
+        <MudProgressCircular Indeterminate Size="Size.Large" />
+    }
+
+</MudPaper>
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+
+    private MudForm? _form;
+    private CompanyDto? _model;
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        if (!UserContext.HasPermission(UserPermissionType.CompaniesRead))
+        {
+            NavManager.NavigateTo("/auth/denied", forceLoad: true);
+            return;
+        }
+
+        if (Id.HasValue)
+        {
+            var result = await SendSafeAsync(new GetCompanyQuery(Id.Value));
+            if (result.IsSuccess)
+            {
+                _model = result.Value;
+            }
+        }
+        else
+        {
+            _model = new CompanyDto() { IsNew = true };
+        }
+    }
+
+    private async Task Save()
+    {
+        if (_form is null || _model is null) return;
+
+        await _form.Validate();
+
+        if (!_form.IsValid)
+        {
+            await Notifier.Error("Form is not valid.");
+            return;
+        }
+
+        var result = await SendSafeAsync(new SaveCompanyCommand(_model));
+        if (result.IsSuccess)
+        {
+            _model = result.Value;
+            await Notifier.Success("Saved successfully.");
+        }
+    }
+
+    private void GoBack()
+    {
+        NavManager.NavigateTo("javascript:history.back()");
+    }
+}
