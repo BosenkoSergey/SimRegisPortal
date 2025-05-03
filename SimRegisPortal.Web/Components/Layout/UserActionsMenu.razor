@@ -1,7 +1,5 @@
 ﻿@inherits BaseComponent
 
-@inject IDialogService DialogService
-
 @if (UserContext.IsAuthenticated)
 {
     <MudText Class="mr-2">@UserContext.UserName</MudText>

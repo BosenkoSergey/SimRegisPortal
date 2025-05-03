@@ -1,5 +1,5 @@
 ﻿@page "/employees"
-@inherits BaseComponent
+@inherits BaseViewPage<Guid, EmployeeDto>
 
 @using SimRegisPortal.Application.Features.Employees.Queries
 @using SimRegisPortal.Application.Features.Users.Queries
@@ -7,16 +7,16 @@
 
 @attribute [Authorize]
 
-<PageTitle>Employees</PageTitle>
+<PageTitle>@PageTitle</PageTitle>
 
 <MudPaper Class="mt-3 px-3 py-3">
-    <MudDataGrid Items="_employees" @ref="_grid" Filterable Hover Dense>
+    <MudDataGrid Items="_entities" @ref="_grid" Filterable Hover Dense>
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Employees</MudText>
+            <MudText Typo="Typo.h6">@PageTitle</MudText>
             <MudSpacer />
             @if (UserContext.HasPermission(UserPermissionType.EmployeesWrite))
             {
-                <MudButton OnClick="AddEmployee" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
+                <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
                     Add
                 </MudButton>
             }
@@ -55,7 +55,7 @@
             {
                 <TemplateColumn>
                     <CellTemplate Context="context">
-                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => EditEmployee(context.Item.Id))" Size="Size.Small" />
+                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => Edit(context.Item.Id))" Size="Size.Small" />
                     </CellTemplate>
                 </TemplateColumn>
             }
@@ -68,13 +68,14 @@
 </MudPaper>
 
 @code {
-    private List<EmployeeDto> _employees = new();
     private Dictionary<Guid, string> _users = new();
     private Dictionary<int, string> _currencies = new();
-    private MudDataGrid<EmployeeDto>? _grid;
 
     protected override async Task OnFirstInitializedAsync()
     {
+        PageTitle = "Employees";
+        EditPageUrl = "/employee";
+
         CheckPermissions(UserPermissionType.EmployeesRead);
 
         var usersResult = await SendSafeAsync(new GetUsersLookupQuery());
@@ -83,21 +84,15 @@
             _users = usersResult.Value!;
         }
 
-        var curenciesResult = await SendSafeAsync(new GetCurrenciesQuery());
-        if (curenciesResult.IsSuccess)
+        var currenciesResult = await SendSafeAsync(new GetCurrenciesQuery());
+        if (currenciesResult.IsSuccess)
         {
-            _currencies = curenciesResult.Value!.ToDictionary(c => c.Id, c => c.Symbol);
-
+            _currencies = currenciesResult.Value!.ToDictionary(c => c.Id, c => c.Symbol);
         }
 
-        var remployeesresult = await SendSafeAsync(new GetEmployeesQuery());
-        if (remployeesresult.IsSuccess)
-        {
-            _employees = remployeesresult.Value!.ToList();
-        }
+        await LoadEntities();
     }
 
-    private void AddEmployee() => NavManager.NavigateTo("/employee");
-
-    private void EditEmployee(Guid id) => NavManager.NavigateTo($"/employee/{id}");
+    protected override IRequest<IEnumerable<EmployeeDto>> GetCommand() =>
+        new GetEmployeesQuery();
 }

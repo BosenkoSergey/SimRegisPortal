@@ -12,6 +12,7 @@ public abstract class BaseComponent : ComponentBase
     [Inject] protected ISender Mediator { get; set; } = default!;
     [Inject] protected IUserContext UserContext { get; set; } = default!;
     [Inject] protected IUiNotifier Notifier { get; set; } = default!;
+    [Inject] protected IDialogService DialogService { get; set; } = default!;
     [Inject] protected NavigationManager NavManager { get; set; } = default!;
 
     private bool _initialized;

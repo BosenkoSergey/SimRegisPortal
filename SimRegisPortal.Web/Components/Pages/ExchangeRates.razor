@@ -1,22 +1,20 @@
 ﻿@page "/exchange-rates"
-@inherits BaseComponent
+@inherits BaseViewPage<int, ExchangeRateDto>
+
+@using SimRegisPortal.Application.Features.Currencies.Queries
+@using SimRegisPortal.Application.Features.ExchangeRates.Queries
+@using SimRegisPortal.Application.Features.ExchangeRates.Commands
 
 @attribute [Authorize]
 
-@using SimRegisPortal.Application.Features.Currencies.Queries
-@using SimRegisPortal.Application.Features.ExchangeRates.Commands
-@using SimRegisPortal.Application.Features.ExchangeRates.Queries
-
-@inject IDialogService DialogService
-
-<PageTitle>Exchange Rates</PageTitle>
+<PageTitle>@PageTitle</PageTitle>
 
 <MudPaper Class="mt-3 px-3 py-3">
     <ExchangeRatesFilter QueryParams="_queryParams" CurrencyCodes="_currencies" Search="Search" />
 
-    <MudDataGrid Items="_rates" @ref="_grid" Filterable Dense>
+    <MudDataGrid Items="_entities" @ref="_grid" Filterable Dense>
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Exchange Rates</MudText>
+            <MudText Typo="Typo.h6">@PageTitle</MudText>
             <MudSpacer />
             @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesWrite))
             {
@@ -35,13 +33,11 @@
                     @_currencies.GetValueOrDefault(context.Item.FromCurrencyId)
                 </CellTemplate>
             </PropertyColumn>
-
             <PropertyColumn Property="x => x.ToCurrencyId" Title="To">
                 <CellTemplate Context="context">
                     @_currencies.GetValueOrDefault(context.Item.ToCurrencyId)
                 </CellTemplate>
             </PropertyColumn>
-
             <PropertyColumn Property="x => x.Date" Title="Date" Format="yyyy-MM-dd" />
             <PropertyColumn Property="x => x.Rate" Title="Rate" Format="0.0000000" />
 
@@ -63,18 +59,19 @@
 
 @code {
     private Dictionary<int, string> _currencies = new();
-    private List<ExchangeRateDto> _rates = new();
     private ExchangeRateQueryParams _queryParams = new();
-
-    private MudDataGrid<ExchangeRateDto>? _grid;
 
     protected override async Task OnFirstInitializedAsync()
     {
+        PageTitle = "Exchange Rates";
         CheckPermissions(UserPermissionType.ExchangeRatesRead);
 
         await LoadCurrencies();
-        await LoadRates();
+        await LoadEntities();
     }
+
+    protected override IRequest<IEnumerable<ExchangeRateDto>> GetCommand() =>
+        new GetExchangeRatesQuery(_queryParams);
 
     private async Task LoadCurrencies()
     {
@@ -82,33 +79,22 @@
         if (result.IsSuccess)
         {
             _currencies = result.Value!;
-
-        }
-    }
-
-    private async Task LoadRates()
-    {
-        var result = await SendSafeAsync(new GetExchangeRatesQuery(_queryParams));
-        if (result.IsSuccess)
-        {
-            _rates = result.Value!.ToList();
-
         }
     }
 
     private async Task Search()
     {
-        await LoadRates();
+        await LoadEntities();
     }
 
     private async Task OpenImportDialog()
     {
         var dialog = await DialogService.ShowAsync<ExchangeRatesImportDialog>();
-
         var result = await dialog.Result;
+
         if (result?.Data is true)
         {
-            await LoadRates();
+            await LoadEntities();
             await Notifier.Success("Imported successfully.");
         }
     }
@@ -124,11 +110,11 @@
         };
 
         var dialog = await DialogService.ShowAsync<ExchangeRateEditDialog>(null, parameters);
-
         var result = await dialog.Result;
+
         if (result?.Data is true)
         {
-            await LoadRates();
+            await LoadEntities();
         }
     }
 }

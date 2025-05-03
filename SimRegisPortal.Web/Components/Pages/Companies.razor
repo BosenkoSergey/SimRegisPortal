@@ -1,21 +1,21 @@
 ﻿@page "/companies"
-@inherits BaseComponent
+@inherits BaseViewPage<Guid, CompanyDto>
 
 @using SimRegisPortal.Application.Features.Companies.Queries
 
 @attribute [Authorize]
 
-<PageTitle>Companies</PageTitle>
+<PageTitle>@PageTitle</PageTitle>
 
 <MudPaper Class="mt-3 px-3 py-3">
-    <MudDataGrid Items="_companies" @ref="_grid" Filterable Dense>
+    <MudDataGrid Items="_entities" @ref="_grid" Filterable Dense>
 
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Companies</MudText>
+            <MudText Typo="Typo.h6">@PageTitle</MudText>
             <MudSpacer />
             @if (UserContext.HasPermission(UserPermissionType.CompaniesWrite))
             {
-                <MudButton OnClick="AddCompany" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
+                <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
                     Add
                 </MudButton>
             }
@@ -33,7 +33,7 @@
             {
                 <TemplateColumn>
                     <CellTemplate Context="context">
-                        <MudIconButton OnClick="@(() => EditCompany(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                        <MudIconButton OnClick="@(() => Edit(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
                     </CellTemplate>
                 </TemplateColumn>
             }
@@ -47,27 +47,16 @@
 </MudPaper>
 
 @code {
-    private List<CompanyDto> _companies = new();
-    private MudDataGrid<CompanyDto>? _grid;
-
     protected override async Task OnFirstInitializedAsync()
     {
+        PageTitle = "Companies";
+        EditPageUrl = "/company";
+
         CheckPermissions(UserPermissionType.CompaniesRead);
 
-        var result = await SendSafeAsync(new GetCompaniesQuery());
-        if (result.IsSuccess)
-        {
-            _companies = result.Value!.ToList();
-        }
+        await LoadEntities();
     }
 
-    private void AddCompany()
-    {
-        NavManager.NavigateTo("/company");
-    }
-
-    private void EditCompany(Guid id)
-    {
-        NavManager.NavigateTo($"/company/{id}");
-    }
+    protected override IRequest<IEnumerable<CompanyDto>> GetCommand() =>
+        new GetCompaniesQuery();
 }

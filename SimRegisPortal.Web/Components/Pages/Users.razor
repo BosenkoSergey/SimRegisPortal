@@ -1,21 +1,21 @@
 ﻿@page "/users"
-@inherits BaseComponent
+@inherits BaseViewPage<Guid, UserDto>
 
 @using SimRegisPortal.Application.Features.Users.Commands
 @using SimRegisPortal.Application.Features.Users.Queries
 
 @attribute [Authorize]
 
-<PageTitle>Users</PageTitle>
+<PageTitle>@PageTitle</PageTitle>
 
 <MudPaper Class="mt-3 px-3 py-3">
-    <MudDataGrid Items="_users" @ref="_userGrid" Filterable Hover Dense>
+    <MudDataGrid Items="_entities" @ref="_grid" Filterable Hover Dense>
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Users</MudText>
+            <MudText Typo="Typo.h6">@PageTitle</MudText>
             <MudSpacer />
             @if (UserContext.HasPermission(UserPermissionType.UsersWrite))
             {
-                <MudButton OnClick="AddUser" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
+                <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
                     Add
                 </MudButton>
             }
@@ -44,7 +44,7 @@
             {
                 <TemplateColumn>
                     <CellTemplate Context="context">
-                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => EditUser(context.Item.Id))" Size="Size.Small" />
+                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => Edit(context.Item.Id))" Size="Size.Small" />
                         <MudTooltip Text="Reset password">
                             <MudIconButton Icon="@Icons.Material.Filled.LockReset" OnClick="@(() => ResetPassword(context.Item.Id))" Size="Size.Small" />
                         </MudTooltip>
@@ -75,31 +75,18 @@
 </MudPaper>
 
 @code {
-    [Inject] private IDialogService DialogService { get; set; } = default!;
-
-    private List<UserDto> _users = new();
-    private MudDataGrid<UserDto>? _userGrid;
-
     protected override async Task OnFirstInitializedAsync()
     {
+        PageTitle = "Users";
+        EditPageUrl = "/user";
+
         CheckPermissions(UserPermissionType.UsersRead);
 
-        var result = await SendSafeAsync(new GetUsersQuery());
-        if (result.IsSuccess)
-        {
-            _users = result.Value!.ToList();
-        }
+        await LoadEntities();
     }
 
-    private void AddUser()
-    {
-        NavManager.NavigateTo("/user");
-    }
-
-    private void EditUser(Guid id)
-    {
-        NavManager.NavigateTo($"/user/{id}");
-    }
+    protected override IRequest<IEnumerable<UserDto>> GetCommand() =>
+        new GetUsersQuery();
 
     private async Task ResetPassword(Guid id)
     {
