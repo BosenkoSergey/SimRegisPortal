@@ -1,0 +1,78 @@
+﻿@page "/system-logs"
+@inherits BaseViewPage<long, SystemLogDto>
+
+@using SimRegisPortal.Application.Features.SystemLogs.Queries
+
+@attribute [Authorize]
+
+<PageTitle>@PageTitle</PageTitle>
+
+<MudPaper Class="mt-3 px-3 py-3">
+    <SystemLogSearchPanel QueryParams="_queryParams" Search="Search" />
+
+    <MudDataGrid Items="_entities" @ref="_grid" Filterable Hover Dense>
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">@PageTitle</MudText>
+            <MudSpacer />
+        </ToolBarContent>
+
+        <Columns>
+            <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
+            <PropertyColumn Property="x => x.TimeStamp" Title="Timestamp" Format="yyyy-MM-dd HH:mm:ss" />
+            <PropertyColumn Property="x => x.Level" Title="Level" />
+            <PropertyColumn Property="x => x.Message" Title="Message">
+                <CellTemplate Context="context">
+                    <MudText Title="@context.Item.Message">
+                        @(context.Item.Message.Length > 150 ? context.Item.Message[..150] + "..." : context.Item.Message)
+                    </MudText>
+                </CellTemplate>
+            </PropertyColumn>
+        </Columns>
+
+        <ChildRowContent>
+            <MudPaper Class="px-4 py-2">
+                <MudText Typo="Typo.subtitle2" Class="mb-1">Full Message:</MudText>
+                <MudText Class="mud-font-monospace mud-text-body2 mb-2" Style="white-space: pre-wrap;">
+                    @context.Item.Message
+                </MudText>
+
+                @if (!string.IsNullOrWhiteSpace(context.Item.Exception))
+                {
+                    <MudText Typo="Typo.subtitle2" Class="mb-1">Exception:</MudText>
+                    <MudText Class="mud-font-monospace mud-text-body2 mb-2" Style="white-space: pre-wrap;">
+                        @context.Item.Exception
+                    </MudText>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(context.Item.Properties))
+                {
+                    <MudText Typo="Typo.subtitle2" Class="mb-1">Properties:</MudText>
+                    <MudText Class="mud-font-monospace mud-text-body2" Style="white-space: pre-wrap;">
+                        @context.Item.Properties
+                    </MudText>
+                }
+            </MudPaper>
+        </ChildRowContent>
+
+        <PagerContent>
+            <MudDataGridPager />
+        </PagerContent>
+    </MudDataGrid>
+</MudPaper>
+
+@code {
+    private SystemLogQueryParams _queryParams = new();
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        PageTitle = "System Logs";
+        CheckPermissions(UserPermissionType.SystemLogsRead);
+
+        await LoadEntities();
+    }
+
+    protected override IRequest<IEnumerable<SystemLogDto>> GetCommand() =>
+        new GetSystemLogsQuery(_queryParams);
+
+    private async Task Search() => await LoadEntities();
+}

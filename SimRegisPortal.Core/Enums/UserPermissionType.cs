@@ -63,4 +63,7 @@ public enum UserPermissionType
 
     [Description("tax-settings-write")]
     TaxSettingsWrite = 1010,
+
+    [Description("system-logs-read")]
+    SystemLogsRead = 1100,
 }

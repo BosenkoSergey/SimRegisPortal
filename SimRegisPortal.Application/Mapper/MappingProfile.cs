@@ -78,6 +78,8 @@ public class MappingProfile : Profile
 
         CreateMap<TaxSetting, TaxSettingDto>();
 
+        CreateMap<SystemLog, SystemLogDto>();
+
         #endregion
 
         #region Others
