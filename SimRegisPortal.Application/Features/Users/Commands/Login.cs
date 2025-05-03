@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SimRegisPortal.Application.Context;
 using SimRegisPortal.Application.Models.Auth;
 using SimRegisPortal.Core.Enums;
 using SimRegisPortal.Core.Exceptions;
@@ -13,7 +12,7 @@ namespace SimRegisPortal.Application.Features.Users.Commands;
 public sealed record LoginCommand(LoginRequest Request)
     : IRequest<AuthResponse>;
 
-internal sealed class LoginHandler(AppDbContext DbContext, IMapper Mapper, IUserContext UserContext)
+internal sealed class LoginHandler(AppDbContext DbContext, IMapper Mapper)
     : IRequestHandler<LoginCommand, AuthResponse>
 {
     public async Task<AuthResponse> Handle(LoginCommand command, CancellationToken cancellationToken)

@@ -20,10 +20,10 @@
             <MudSpacer />
             @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesWrite))
             {
-                <MudButton OnClick="OpenImportDialog" StartIcon="@Icons.Material.Filled.Sync" Variant="Variant.Outlined" Class="ml-2">
+                <MudButton OnClick="OpenImportDialog" StartIcon="@Icons.Material.Filled.CloudSync" Variant="Variant.Outlined" Class="ml-2">
                     Import from Bank
                 </MudButton>
-                <MudButton OnClick="OpenAddDialog" StartIcon="@Icons.Material.Filled.CreateNewFolder" Variant="Variant.Outlined" Class="ml-2">
+                <MudButton OnClick="OpenAddDialog" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
                     Add
                 </MudButton>
             }

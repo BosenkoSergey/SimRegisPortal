@@ -58,7 +58,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Permissions, opt => opt.Ignore())
             .AfterMap((src, dest) =>
             {
-                dest.Permissions = src.Permissions.Select(al => al.PermissionType).ToList();
+                dest.Permissions = src.Permissions.Select(al => al.PermissionType).ToHashSet();
             });
 
         CreateMap<Currency, CurrencyDto>();

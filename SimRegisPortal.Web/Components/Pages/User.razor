@@ -1,0 +1,118 @@
+﻿@page "/user"
+@page "/user/{Id:guid}"
+@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.Users.Queries
+@using SimRegisPortal.Application.Features.Users.Commands
+
+@attribute [Authorize]
+
+<PageTitle>User</PageTitle>
+
+<MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
+
+    <MudText Typo="Typo.h5" GutterBottom>@(_model?.IsNew is true ? "Add User" : "Edit User")</MudText>
+
+    @if (_model != null)
+    {
+        <MudForm @ref="_form">
+            <MudTabs Rounded>
+                <MudTabPanel Text="General">
+                    <MudStack Spacing="2" Class="mt-3">
+                        <MudTextField @bind-Value="_model.FullName" Label="Full Name" Required />
+                        <MudTextField @bind-Value="_model.Login" Label="Login" Required />
+                        <MudTextField @bind-Value="_model.Email" Label="Email" Required InputType="InputType.Email" />
+                        <MudSelect T="UserStatus" Label="Status" @bind-Value="_model.Status" Required>
+                            @foreach (var status in Enum.GetValues<UserStatus>())
+                            {
+                                <MudSelectItem Value="@status">@status.ToString()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudStack>
+                </MudTabPanel>
+
+                <MudTabPanel Text="Access">
+                    <MudStack Spacing="2" Class="mt-3">
+                        <MudCheckBox @bind-Value="_model.IsAdmin" Label="Is Admin" />
+                        <MudDivider />
+                        <MudText Typo="Typo.subtitle2">Permissions:</MudText>
+                        <MudTable T="UserPermissionType" Items="_allPermissions" @bind-SelectedItems="_model.Permissions"
+                                  Hover Dense Bordered MultiSelection>
+                            <HeaderContent>
+                                <MudTh>Permission</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd>@context.GetDescription()</MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    </MudStack>
+                </MudTabPanel>
+            </MudTabs>
+
+            <MudGrid Justify="Justify.FlexEnd" Class="mt-4">
+                <MudItem>
+                    <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">
+                        Back
+                    </MudButton>
+                </MudItem>
+                @if (UserContext.HasPermission(UserPermissionType.UsersWrite))
+                {
+                    <MudItem>
+                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
+                            Save
+                        </MudButton>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudForm>
+    }
+    else
+    {
+        <MudProgressCircular Indeterminate Size="Size.Large" />
+    }
+
+</MudPaper>
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+
+    private MudForm? _form;
+    private UserDto? _model;
+    private List<UserPermissionType> _allPermissions = null!;
+
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        CheckPermissions(UserPermissionType.UsersRead);
+
+        _allPermissions = Enum.GetValues<UserPermissionType>()
+            .OrderBy(p => p.GetDescription())
+            .ToList();
+
+        if (Id.HasValue)
+        {
+            var result = await SendSafeAsync(new GetUserQuery(Id.Value));
+            if (result.IsSuccess)
+            {
+                _model = result.Value;
+            }
+        }
+        else
+        {
+            _model = new UserDto { IsNew = true };
+        }
+    }
+
+    private async Task Save()
+    {
+        if (!await ValidateForm(_form)) return;
+        if (_model is null) return;
+
+        var result = await SendSafeAsync(new SaveUserCommand(_model));
+        if (result.IsSuccess)
+        {
+            _model = result.Value;
+            await Notifier.Success("Saved successfully.");
+        }
+    }
+}
