@@ -13,7 +13,7 @@
         <MudForm @ref="_form">
             <MudGrid GutterSize="16px">
                 <MudItem xs="12">
-                    <MudSelect Label="Currency From" @bind-Value="_model.FromCurrencyId" Required="true" Variant="Variant.Outlined">
+                    <MudSelect Label="Currency From" @bind-Value="_model.FromCurrencyId" Required Variant="Variant.Outlined">
                         @foreach (var currency in CurrencyCodes)
                         {
                             <MudSelectItem Value="@currency.Key"> @currency.Value </MudSelectItem>
@@ -22,7 +22,7 @@
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudSelect Label="Currency To" @bind-Value="_model.ToCurrencyId" Required="true" Variant="Variant.Outlined">
+                    <MudSelect Label="Currency To" @bind-Value="_model.ToCurrencyId" Required Variant="Variant.Outlined">
                         @foreach (var currency in CurrencyCodes)
                         {
                             <MudSelectItem Value="@currency.Key"> @currency.Value </MudSelectItem>
@@ -31,12 +31,12 @@
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudDatePicker @bind-Date="_model.Date" Label="Date" DateFormat="yyyy-MM-dd" Required="true" Variant="Variant.Outlined" />
+                    <MudDatePicker @bind-Date="_model.Date" Label="Date" DateFormat="yyyy-MM-dd" Required Variant="Variant.Outlined" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudNumericField @bind-Value="_model.Rate" Label="Rate" Required="true" Format="0.0000000"
-                    Immediate="true" Culture="@CultureInfo.InvariantCulture" Variant="Variant.Outlined" />
+                    <MudNumericField @bind-Value="_model.Rate" Label="Rate" Required Format="0.0000000"
+                    Immediate Culture="@CultureInfo.InvariantCulture" Variant="Variant.Outlined" />
                 </MudItem>
             </MudGrid>
         </MudForm>

@@ -1,0 +1,85 @@
+﻿@page "/users"
+@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.Users.Queries
+
+@attribute [Authorize]
+
+<PageTitle>Users</PageTitle>
+
+<MudPaper Class="mt-3 px-3 py-3">
+    <MudText Typo="Typo.h6">Users</MudText>
+
+    <MudButton StartIcon="@Icons.Material.Filled.PersonAdd" Variant="Variant.Outlined" OnClick="AddUser" Class="mb-2">
+        Add
+    </MudButton>
+
+    <MudDataGrid Items="_users" @ref="_userGrid" Filterable Hover Dense>
+        <Columns>
+            <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
+            <PropertyColumn Property="x => x.FullName" Title="Full Name" />
+            <PropertyColumn Property="x => x.Login" Title="Login" />
+            <PropertyColumn Property="x => x.Email" Title="Email" />
+            <PropertyColumn Property="x => x.Status" Title="Status">
+                <CellTemplate Context="context">
+                    @context.Item.Status.ToString()
+                </CellTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="x => x.IsAdmin" Title="Admin">
+                <CellTemplate>
+                    <MudCheckBox Value="@context.Item.IsAdmin" ReadOnly />
+                </CellTemplate>
+            </PropertyColumn>
+            <TemplateColumn>
+                <CellTemplate Context="context">
+                    <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => EditUser(context.Item.Id))" Size="Size.Small" />
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+
+        <ChildRowContent>
+            <MudPaper Class="px-4 py-2">
+                <MudText Typo="Typo.subtitle2" Class="mb-2">Permissions:</MudText>
+                @if (context.Item.Permissions?.Count > 0)
+                {
+                    <MudStack Row Spacing="1" Wrap="Wrap.Wrap">
+                    @foreach (var perm in context.Item.Permissions.Select(p => p.GetDescription()).OrderBy(p => p))
+                    {
+                        <MudChip Variant="Variant.Outlined">@perm</MudChip>
+                    }
+                    </MudStack>
+                }
+                else
+                {
+                    <MudText>No permissions assigned.</MudText>
+                }
+            </MudPaper>
+        </ChildRowContent>
+    </MudDataGrid>
+</MudPaper>
+
+@code {
+    private List<UserDto> _users = new();
+    private MudDataGrid<UserDto>? _userGrid;
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        CheckPermissions(UserPermissionType.UsersRead);
+
+        var result = await SendSafeAsync(new GetUsersQuery());
+        if (result.IsSuccess)
+        {
+            _users = result.Value!.ToList();
+        }
+    }
+
+    private void AddUser()
+    {
+        NavManager.NavigateTo("/user");
+    }
+
+    private void EditUser(Guid id)
+    {
+        NavManager.NavigateTo($"/user/{id}");
+    }
+}
