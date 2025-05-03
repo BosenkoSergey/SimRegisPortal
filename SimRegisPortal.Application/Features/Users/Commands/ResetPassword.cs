@@ -31,7 +31,7 @@ internal sealed class ResetPasswordHandler(AppDbContext DbContext, IEmailService
                 dest.Password = password;
             }));
 
-        await EmailService.SendUserCreatedEmailAsync(message);
+        await EmailService.SendPasswordResetEmailAsync(message);
     }
 
     private async Task<User> GetEntity(Guid id, CancellationToken cancellationToken)

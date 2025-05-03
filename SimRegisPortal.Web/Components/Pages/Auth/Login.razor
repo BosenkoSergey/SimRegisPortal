@@ -13,8 +13,8 @@
     <MudText Typo="Typo.h3" GutterBottom>Log in</MudText>
 
     <form method="post" action="api/auth/login">
-        <MudTextField @bind-Value="Model.Login" Label="Login or Email" Required FullWidth Class="mt-4" />
-        <MudTextField @bind-Value="Model.Password" Label="Password" InputType="InputType.Password" Required FullWidth Class="mt-4" />
+        <MudTextField @bind-Value="Model.Login" Name="Login" Label="Login or Email" Required FullWidth Class="mt-4" />
+        <MudTextField @bind-Value="Model.Password" Name="Password" Label="Password" InputType="InputType.Password" Required FullWidth Class="mt-4" />
 
         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" FullWidth Class="mt-4">
             Login

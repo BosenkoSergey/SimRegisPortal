@@ -55,14 +55,11 @@
                         Back
                     </MudButton>
                 </MudItem>
-                @if (UserContext.HasPermission(UserPermissionType.UsersWrite))
-                {
-                    <MudItem>
-                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
-                            Save
-                        </MudButton>
-                    </MudItem>
-                }
+                <MudItem>
+                    <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
+                        Save
+                    </MudButton>
+                </MudItem>
             </MudGrid>
         </MudForm>
     }
@@ -83,7 +80,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        CheckPermissions(UserPermissionType.UsersRead);
+        CheckPermissions(UserPermissionType.UsersWrite);
 
         _allPermissions = Enum.GetValues<UserPermissionType>()
             .OrderBy(p => p.GetDescription())

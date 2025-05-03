@@ -1,6 +1,7 @@
 ﻿@page "/users"
 @inherits BaseComponent
 
+@using SimRegisPortal.Application.Features.Users.Commands
 @using SimRegisPortal.Application.Features.Users.Queries
 
 @attribute [Authorize]
@@ -22,24 +23,34 @@
 
         <Columns>
             <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
+
             <PropertyColumn Property="x => x.FullName" Title="Full Name" />
             <PropertyColumn Property="x => x.Login" Title="Login" />
             <PropertyColumn Property="x => x.Email" Title="Email" />
+
             <PropertyColumn Property="x => x.Status" Title="Status">
                 <CellTemplate Context="context">
                     @context.Item.Status.ToString()
                 </CellTemplate>
             </PropertyColumn>
+
             <PropertyColumn Property="x => x.IsAdmin" Title="Admin">
                 <CellTemplate>
                     <MudCheckBox Value="@context.Item.IsAdmin" ReadOnly />
                 </CellTemplate>
             </PropertyColumn>
-            <TemplateColumn>
-                <CellTemplate Context="context">
-                    <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => EditUser(context.Item.Id))" Size="Size.Small" />
-                </CellTemplate>
-            </TemplateColumn>
+
+            @if (UserContext.HasPermission(UserPermissionType.UsersWrite))
+            {
+                <TemplateColumn>
+                    <CellTemplate Context="context">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => EditUser(context.Item.Id))" Size="Size.Small" />
+                        <MudTooltip Text="Reset password">
+                            <MudIconButton Icon="@Icons.Material.Filled.LockReset" OnClick="@(() => ResetPassword(context.Item.Id))" Size="Size.Small" />
+                        </MudTooltip>
+                    </CellTemplate>
+                </TemplateColumn>
+            }
         </Columns>
 
         <ChildRowContent>
@@ -48,10 +59,10 @@
                 @if (context.Item.Permissions?.Count > 0)
                 {
                     <MudStack Row Spacing="1" Wrap="Wrap.Wrap">
-                    @foreach (var perm in context.Item.Permissions.Select(p => p.GetDescription()).OrderBy(p => p))
-                    {
-                        <MudChip Variant="Variant.Outlined">@perm</MudChip>
-                    }
+                        @foreach (var perm in context.Item.Permissions.Select(p => p.GetDescription()).OrderBy(p => p))
+                        {
+                            <MudChip Variant="Variant.Outlined">@perm</MudChip>
+                        }
                     </MudStack>
                 }
                 else
@@ -64,6 +75,8 @@
 </MudPaper>
 
 @code {
+    [Inject] private IDialogService DialogService { get; set; } = default!;
+
     private List<UserDto> _users = new();
     private MudDataGrid<UserDto>? _userGrid;
 
@@ -86,5 +99,22 @@
     private void EditUser(Guid id)
     {
         NavManager.NavigateTo($"/user/{id}");
+    }
+
+    private async Task ResetPassword(Guid id)
+    {
+        var confirmed = await DialogService.ShowMessageBox(
+            title: "Confirm Reset",
+            markupMessage: (MarkupString)$"Are you sure you want to send a new password for this user?",
+            yesText: "Yes", cancelText: "Cancel", options: new DialogOptions { CloseButton = true });
+
+        if (confirmed == true)
+        {
+            var result = await SendSafeAsync(new ResetPasswordCommand(id));
+            if (result)
+            {
+                await Notifier.Success("Password reset.");
+            }
+        }
     }
 }
