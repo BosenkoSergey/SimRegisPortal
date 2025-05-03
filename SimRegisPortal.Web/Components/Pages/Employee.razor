@@ -1,0 +1,157 @@
+﻿@page "/employee"
+@page "/employee/{Id:guid}"
+@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.Employees.Queries
+@using SimRegisPortal.Application.Features.Employees.Commands
+@using SimRegisPortal.Application.Features.Users.Queries
+@using SimRegisPortal.Application.Features.Currencies.Queries
+
+@attribute [Authorize]
+
+<PageTitle>Employee</PageTitle>
+
+<MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
+    <MudText Typo="Typo.h5" GutterBottom>@(_model?.IsNew is true ? "Add Employee" : "Edit Employee")</MudText>
+
+    @if (_model != null)
+    {
+        <MudForm @ref="_form">
+            <MudTabs Rounded>
+                <MudTabPanel Text="General">
+                    <MudStack Spacing="2" Class="mt-3">
+                        <MudSelect T="Guid?" Label="User Account" @bind-Value="_model.UserId" Clearable>
+                            @foreach (var user in _users)
+                            {
+                                <MudSelectItem Value="@((Guid?)user.Key)">@user.Value</MudSelectItem>
+                            }
+                        </MudSelect>
+
+                        <MudTextField @bind-Value="_model.LastName" Label="Last Name" Required />
+
+                        <MudGrid>
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_model.FirstName" Label="First Name" Required />
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_model.MiddleName" Label="Middle Name" />
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_model.PassportNumber" Label="Passport" />
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_model.TaxNumber" Label="Tax Number" />
+                            </MudItem>
+                        </MudGrid>
+                        
+                        <MudTextField @bind-Value="_model.Position" Label="Position" />
+
+                        <MudGrid>
+                            <MudItem xs="12" sm="6">
+                                <MudDatePicker @bind-Date="_model.HireDate" Label="Hire Date" Required DateFormat="yyyy-MM-dd" />
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudDatePicker @bind-Date="_model.DismissalDate" Label="Dismissal Date" DateFormat="yyyy-MM-dd" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudStack>
+                </MudTabPanel>
+
+                <MudTabPanel Text="Invoicing">
+                    <MudStack Spacing="2" Class="mt-3">
+
+                        <MudSelect T="SalaryScheme" Label="Salary Scheme" @bind-Value="_model.SalaryScheme" Required>
+                            @foreach (var scheme in Enum.GetValues<SalaryScheme>())
+                            {
+                                <MudSelectItem Value="@scheme">@scheme.ToString()</MudSelectItem>
+                            }
+                        </MudSelect>
+
+                        <MudNumericField @bind-Value="_model.HourlyRate" Label="Hourly Rate" Format="0.00" Culture="@CultureInfo.InvariantCulture" Required />
+
+                        <MudSelect Label="Currency" @bind-Value="_model.HourlyRateCurrencyId" Required>
+                            @foreach (var currency in _currencies)
+                            {
+                                <MudSelectItem Value="@currency.Key">@currency.Value</MudSelectItem>
+                            }
+                        </MudSelect>
+
+                    </MudStack>
+                </MudTabPanel>
+            </MudTabs>
+
+            <MudGrid Justify="Justify.FlexEnd" Class="mt-4">
+                <MudItem>
+                    <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Back</MudButton>
+                </MudItem>
+                <MudItem>
+                    <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Save</MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    }
+    else
+    {
+        <MudProgressCircular Indeterminate Size="Size.Large" />
+    }
+</MudPaper>
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+
+    private MudForm? _form;
+    private EmployeeDto? _model;
+    private Dictionary<Guid, string> _users = new();
+    private Dictionary<int, string> _currencies = new();
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        CheckPermissions(UserPermissionType.EmployeesWrite);
+
+        var usersResult = await SendSafeAsync(new GetUsersLookupQuery());
+        if (usersResult.IsSuccess)
+        {
+            _users = usersResult.Value!;
+        }
+
+        var currenciesResult = await SendSafeAsync(new GetCurrenciesLookupQuery());
+        if (currenciesResult.IsSuccess)
+        {
+            _currencies = currenciesResult.Value!;
+        }
+
+        if (Id.HasValue)
+        {
+            var employeesResult = await SendSafeAsync(new GetEmployeeQuery(Id.Value));
+            if (employeesResult.IsSuccess)
+            {
+                _model = employeesResult.Value;
+            }
+        }
+        else
+        {
+            _model = new EmployeeDto
+            {
+                IsNew = true,
+                HireDate = DateTime.UtcNow.Date,
+                SalaryScheme = SalaryScheme.FOP3,
+                UserId = _users.Keys.FirstOrDefault(),
+                HourlyRateCurrencyId = _currencies.Keys.FirstOrDefault()
+            };
+        }
+    }
+
+    private async Task Save()
+    {
+        if (!await ValidateForm(_form)) return;
+        if (_model is null) return;
+
+        var result = await SendSafeAsync(new SaveEmployeeCommand(_model));
+        if (result.IsSuccess)
+        {
+            _model = result.Value;
+            await Notifier.Success("Saved successfully.");
+        }
+    }
+}

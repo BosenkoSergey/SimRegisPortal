@@ -11,7 +11,7 @@ public sealed class EmployeeDto : BaseEntityDto<Guid>
     public string? TaxNumber { get; set; }
     public string? PassportNumber { get; set; }
     public string? Position { get; set; }
-    public DateTime HireDate { get; set; }
+    public DateTime? HireDate { get; set; }
     public DateTime? DismissalDate { get; set; }
     public decimal HourlyRate { get; set; }
     public int HourlyRateCurrencyId { get; set; }

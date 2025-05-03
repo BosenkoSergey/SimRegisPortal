@@ -18,9 +18,6 @@ public sealed class SaveEmployeeValidator
         RuleFor(x => x.Dto.FirstName)
             .NotEmpty().WithTemplate("Validation.Field.Required", "First Name");
 
-        RuleFor(x => x.Dto.MiddleName)
-            .NotEmpty().WithTemplate("Validation.Field.Required", "Middle Name");
-
         RuleFor(x => x.Dto.LastName)
             .NotEmpty().WithTemplate("Validation.Field.Required", "Last Name");
 
@@ -43,7 +40,7 @@ public sealed class SaveEmployeeValidator
     {
         var isUserLinked = await _dbContext.Employees
             .AnyAsync(r => r.Id != command.Dto.Id
-                        && r.UserId != command.Dto.UserId,
+                        && r.UserId == command.Dto.UserId,
                 cancellationToken);
         if (isUserLinked)
         {
