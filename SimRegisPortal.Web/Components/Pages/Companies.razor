@@ -29,11 +29,14 @@
             <PropertyColumn Property="x => x.Email" Title="Email" />
             <PropertyColumn Property="x => x.ContactPerson" Title="Contact Person" />
 
-            <TemplateColumn>
-                <CellTemplate Context="context">
-                    <MudIconButton OnClick="@(() => EditCompany(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
-                </CellTemplate>
-            </TemplateColumn>
+            @if (UserContext.HasPermission(UserPermissionType.CompaniesWrite))
+            {
+                <TemplateColumn>
+                    <CellTemplate Context="context">
+                        <MudIconButton OnClick="@(() => EditCompany(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                    </CellTemplate>
+                </TemplateColumn>
+            }
         </Columns>
 
         <PagerContent>

@@ -46,14 +46,11 @@
                             Back
                         </MudButton>
                     </MudItem>
-                    @if (UserContext.HasPermission(UserPermissionType.ProjectsWrite))
-                    {
-                        <MudItem>
-                            <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
-                                Save
-                            </MudButton>
-                        </MudItem>
-                    }
+                    <MudItem>
+                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
+                            Save
+                        </MudButton>
+                    </MudItem>
                 </MudGrid>
             </MudStack>
         </MudForm>
@@ -74,7 +71,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        CheckPermissions(UserPermissionType.ProjectsRead);
+        CheckPermissions(UserPermissionType.ProjectsWrite);
 
         var companiesResult = await SendSafeAsync(new GetCompaniesLookupQuery());
         if (companiesResult.IsSuccess)
