@@ -23,6 +23,8 @@
         </ToolBarContent>
 
         <Columns>
+            <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
+
             <PropertyColumn Property="x => x.Name" Title="Name" />
             <PropertyColumn Property="x => x.TaxNumber" Title="Tax Number" />
             <PropertyColumn Property="x => x.RegistrationNumber" Title="Registration Number" />
@@ -40,6 +42,26 @@
                 </TemplateColumn>
             }
         </Columns>
+
+        <ChildRowContent>
+            <MudPaper Class="px-4 py-2">
+                @if (!string.IsNullOrWhiteSpace(context.Item.Address))
+                {
+                    <MudText Typo="Typo.subtitle2" Class="mb-1">Address:</MudText>
+                    <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
+                        @context.Item.Address
+                    </MudText>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(context.Item.Notes))
+                {
+                    <MudText Typo="Typo.subtitle2" Class="mb-1">Notes:</MudText>
+                    <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
+                        @context.Item.Notes
+                    </MudText>
+                }
+            </MudPaper>
+        </ChildRowContent>
 
         <PagerContent>
             <MudDataGridPager />

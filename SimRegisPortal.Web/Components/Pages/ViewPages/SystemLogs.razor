@@ -18,6 +18,7 @@
 
         <Columns>
             <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
+
             <PropertyColumn Property="x => x.TimeStamp" Title="Timestamp" Format="yyyy-MM-dd HH:mm:ss" />
             <PropertyColumn Property="x => x.Level" Title="Level" />
             <PropertyColumn Property="x => x.Message" Title="Message">
@@ -32,14 +33,14 @@
         <ChildRowContent>
             <MudPaper Class="px-4 py-2">
                 <MudText Typo="Typo.subtitle2" Class="mb-1">Full Message:</MudText>
-                <MudText Class="mud-font-monospace mud-text-body2 mb-2" Style="white-space: pre-wrap;">
+                <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
                     @context.Item.Message
                 </MudText>
 
                 @if (!string.IsNullOrWhiteSpace(context.Item.Exception))
                 {
                     <MudText Typo="Typo.subtitle2" Class="mb-1">Exception:</MudText>
-                    <MudText Class="mud-font-monospace mud-text-body2 mb-2" Style="white-space: pre-wrap;">
+                    <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
                         @context.Item.Exception
                     </MudText>
                 }
@@ -47,7 +48,7 @@
                 @if (!string.IsNullOrWhiteSpace(context.Item.Properties))
                 {
                     <MudText Typo="Typo.subtitle2" Class="mb-1">Properties:</MudText>
-                    <MudText Class="mud-font-monospace mud-text-body2" Style="white-space: pre-wrap;">
+                    <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
                         @context.Item.Properties
                     </MudText>
                 }

@@ -24,6 +24,8 @@
         </ToolBarContent>
 
         <Columns>
+            <HierarchyColumn InitiallyExpandedFunc="@(x => false)" ButtonDisabledFunc="@(x => string.IsNullOrWhiteSpace(x.Notes))" />
+
             <PropertyColumn Property="x => x.ProjectId" Title="Project">
                 <CellTemplate Context="context">
                     @_projects.GetValueOrDefault(context.Item.ProjectId)
@@ -50,6 +52,15 @@
                 </TemplateColumn>
             }
         </Columns>
+
+        <ChildRowContent>
+            <MudPaper Class="px-4 py-2">
+                <MudText Typo="Typo.subtitle2" Class="mb-1">Notes:</MudText>
+                <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
+                    @context.Item.Notes
+                </MudText>
+            </MudPaper>
+        </ChildRowContent>
 
         <PagerContent>
             <MudDataGridPager />
