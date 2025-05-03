@@ -66,7 +66,12 @@
     {
         if (EntityId.HasValue)
         {
-            _model = await Mediator.Send(new GetExchangeRateQuery(EntityId!.Value));
+            var result = await SendSafeAsync(new GetExchangeRateQuery(EntityId!.Value));
+            if (result.IsSuccess)
+            {
+                _model = result.Value!;
+
+            }
         }
         else if (CurrencyCodes.Count != 0)
         {
@@ -85,14 +90,11 @@
 
         if (!_form.IsValid) return;
 
-        try
+        var result = await SendSafeAsync(new SaveExchangeRateCommand(_model));
+        if (result.IsSuccess)
         {
-            await Mediator.Send(new SaveExchangeRateCommand(_model));
             MudDialog.Close(DialogResult.Ok(true));
-        }
-        catch (Exception ex)
-        {
-            await Notifier.Exception(ex);
+
         }
     }
 }

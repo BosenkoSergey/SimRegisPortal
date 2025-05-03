@@ -30,8 +30,11 @@
 
     private async Task Import()
     {
-        await Mediator.Send(new ImportExchangeRatesCommand(_request));
+        var result = await SendSafeAsync(new ImportExchangeRatesCommand(_request));
+        if (result)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
 
-        MudDialog.Close(DialogResult.Ok(true));
+        }
     }
 }

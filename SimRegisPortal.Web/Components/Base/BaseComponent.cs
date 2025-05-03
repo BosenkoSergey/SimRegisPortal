@@ -23,15 +23,46 @@ public abstract class BaseComponent : ComponentBase
 
         _initialized = true;
 
+        await ExecuteSafeAsync(OnFirstInitializedAsync);
+    }
+
+    protected virtual Task OnFirstInitializedAsync() => Task.CompletedTask;
+
+    protected async Task<bool> ExecuteSafeAsync(Func<Task> action)
+    {
         try
         {
-            await OnFirstInitializedAsync();
+            await action();
+            return true;
         }
         catch (Exception ex)
         {
             await Notifier.Exception(ex);
+            return false;
         }
     }
 
-    protected virtual Task OnFirstInitializedAsync() => Task.CompletedTask;
+    protected async Task<(bool IsSuccess, T? Value)> ExecuteSafeAsync<T>(Func<Task<T>> action)
+    {
+        try
+        {
+            var value = await action();
+            return (true, value);
+        }
+        catch (Exception ex)
+        {
+            await Notifier.Exception(ex);
+            return (false, default);
+        }
+    }
+
+    protected async Task<bool> SendSafeAsync(IRequest request)
+    {
+        return await ExecuteSafeAsync(() => Mediator.Send(request));
+    }
+
+    protected async Task<(bool IsSuccess, T? Value)> SendSafeAsync<T>(IRequest<T> request)
+    {
+        return await ExecuteSafeAsync(() => Mediator.Send(request));
+    }
 }

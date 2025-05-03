@@ -82,26 +82,27 @@
 
     private async Task LoadCurrencies()
     {
-        var currencies = await Mediator.Send(new GetCurrenciesQuery());
-        _currencyCodes = currencies.ToDictionary(x => x.Id, x => x.DisplayName);
+        var result = await SendSafeAsync(new GetCurrenciesQuery());
+        if (result.IsSuccess)
+        {
+            _currencyCodes = result.Value!.ToDictionary(x => x.Id, x => x.DisplayName);
+
+        }
     }
 
     private async Task LoadRates()
     {
-        var exchangeRates = await Mediator.Send(new GetExchangeRatesQuery(_queryParams));
-        _rates = exchangeRates.ToList();
+        var result = await SendSafeAsync(new GetExchangeRatesQuery(_queryParams));
+        if (result.IsSuccess)
+        {
+            _rates = result.Value!.ToList();
+
+        }
     }
 
     private async Task Search()
     {
-        try
-        {
-            await LoadRates();
-        }
-        catch (Exception ex)
-        {
-            await Notifier.Exception(ex);
-        }
+        await LoadRates();
     }
 
     private async Task OpenImportDialog()

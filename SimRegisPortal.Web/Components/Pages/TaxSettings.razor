@@ -104,13 +104,21 @@
 
     private async Task LoadCurrencies()
     {
-        var currencies = await Mediator.Send(new GetCurrenciesQuery());
-        _currencyCodes = currencies.ToDictionary(x => x.Id, x => x.DisplayName);
+        var result = await SendSafeAsync(new GetCurrenciesQuery());
+        if (result.IsSuccess)
+        {
+            _currencyCodes = result.Value!.ToDictionary(x => x.Id, x => x.DisplayName);
+
+        }
     }
 
     private async Task LoadTaxSetting()
     {
-        _model = await Mediator.Send(new GetTaxSettingQuery());
+        var result = await SendSafeAsync(new GetTaxSettingQuery());
+        if (result.IsSuccess)
+        {
+            _model = result.Value;
+        }
     }
 
     private async Task Submit()
@@ -125,14 +133,12 @@
             await Notifier.Error("Form is not valid.");
         }
 
-        try
+        var result = await SendSafeAsync(new SaveTaxSettingCommand(_model));
+        if (result.IsSuccess)
         {
-            _model = await Mediator.Send(new SaveTaxSettingCommand(_model));
+            _model = result.Value;
             await Notifier.Success("Settings saved.");
-        }
-        catch (Exception ex)
-        {
-            await Notifier.Exception(ex);
+
         }
     }
 }
