@@ -100,7 +100,9 @@ builder.Services.AddMediatR(cfg =>
 
 builder.Services.AddMudServices(config =>
 {
-    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
+    config.SnackbarConfiguration.MaxDisplayedSnackbars = 5;
+    config.SnackbarConfiguration.PreventDuplicates = false;
 });
 
 builder.Services.AddRazorComponents()
