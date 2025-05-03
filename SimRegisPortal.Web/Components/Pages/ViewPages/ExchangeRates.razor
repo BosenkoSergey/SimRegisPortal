@@ -18,10 +18,10 @@
             <MudSpacer />
             @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesWrite))
             {
-                <MudButton OnClick="OpenImportDialog" StartIcon="@Icons.Material.Filled.CloudSync" Variant="Variant.Outlined" Class="ml-2">
+                <MudButton OnClick="Import" StartIcon="@Icons.Material.Filled.CloudSync" Variant="Variant.Outlined" Class="ml-2">
                     Import from Bank
                 </MudButton>
-                <MudButton OnClick="OpenAddDialog" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
+                <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
                     Add
                 </MudButton>
             }
@@ -45,7 +45,7 @@
             {
                 <TemplateColumn>
                     <CellTemplate Context="context">
-                        <MudIconButton OnClick="@(() => OpenEditDialog(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                        <MudIconButton OnClick="@(() => Edit(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
                     </CellTemplate>
                 </TemplateColumn>
             }
@@ -87,7 +87,7 @@
         await LoadEntities();
     }
 
-    private async Task OpenImportDialog()
+    private async Task Import()
     {
         var dialog = await DialogService.ShowAsync<ExchangeRatesImportDialog>();
         var result = await dialog.Result;
@@ -99,13 +99,13 @@
         }
     }
 
-    private async Task OpenAddDialog() => await OpenEditDialog(null);
+    protected override async Task Add() => await Edit(default);
 
-    private async Task OpenEditDialog(int? id)
+    protected override async Task Edit(int id)
     {
         var parameters = new DialogParameters<ExchangeRateEditDialog>
         {
-            { x => x.Id, id },
+            { x => x.Id, id == default ? null : id },
             { x => x.CurrencyCodes, _currencies }
         };
 

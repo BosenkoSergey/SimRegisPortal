@@ -15,6 +15,7 @@ public abstract class BaseViewPage<TKey, TDto> : BaseComponent
     protected List<TDto> _entities = [];
 
     protected abstract IRequest<IEnumerable<TDto>> GetCommand();
+    //protected abstract IRequest DeleteCommand(TKey Id);
 
     protected async Task LoadEntities()
     {
@@ -25,13 +26,24 @@ public abstract class BaseViewPage<TKey, TDto> : BaseComponent
         }
     }
 
-    protected void Add()
+    protected virtual Task Add()
     {
         NavManager.NavigateTo(EditPageUrl);
+        return Task.CompletedTask;
     }
 
-    protected void Edit(Guid id)
+    protected virtual Task Edit(TKey id)
     {
         NavManager.NavigateTo($"{EditPageUrl}/{id}");
+        return Task.CompletedTask;
     }
+
+    //protected virtual async Task Delete(TKey id)
+    //{
+    //    var result = await SendSafeAsync(DeleteCommand(id));
+    //    if (result)
+    //    {
+    //        await Notifier.Success("Deleted successfully.");
+    //    }
+    //}
 }
