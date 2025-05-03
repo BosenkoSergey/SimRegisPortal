@@ -49,11 +49,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        if (!UserContext.HasPermission(UserPermissionType.CompaniesRead))
-        {
-            NavManager.NavigateTo("/auth/denied", forceLoad: true);
-            return;
-        }
+        CheckPermissions(UserPermissionType.CompaniesRead);
 
         var result = await SendSafeAsync(new GetCompaniesQuery());
         if (result.IsSuccess)

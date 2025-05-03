@@ -1,43 +1,43 @@
-﻿@page "/company"
-@page "/company/{Id:guid}"
+﻿@page "/project"
+@page "/project/{Id:guid}"
 @inherits BaseComponent
 
-@using SimRegisPortal.Application.Features.Companies.Commands
+@using SimRegisPortal.Application.Features.Projects.Commands
+@using SimRegisPortal.Application.Features.Projects.Queries
 @using SimRegisPortal.Application.Features.Companies.Queries
 
 @attribute [Authorize]
 
-<PageTitle>Company</PageTitle>
+<PageTitle>Project</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
 
-    <MudText Typo="Typo.h5" GutterBottom>@(_model?.IsNew is true ? "Add Company" : "Edit Company")</MudText>
+    <MudText Typo="Typo.h5" GutterBottom>@(_model?.IsNew is true ? "Add Project" : "Edit Project")</MudText>
 
     @if (_model != null)
     {
         <MudForm @ref="_form">
             <MudStack Spacing="2">
+
+                <MudSelect T="Guid" Label="Company" @bind-Value="_model.CompanyId" Required>
+                    @foreach (var company in _companies)
+                    {
+                        <MudSelectItem Value="@company.Key">@company.Value</MudSelectItem>
+                    }
+                </MudSelect>
+
                 <MudTextField @bind-Value="_model.Name" Label="Name" Required />
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.TaxNumber" Label="Tax Number" />
+                        <MudDatePicker Label="Start Date" @bind-Date="_model.StartDate" DateFormat="yyyy-MM-dd" Required />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.RegistrationNumber" Label="Registration Number" />
-                    </MudItem>
-
-                    <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.Phone" Label="Phone" />
-                    </MudItem>
-                    <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.Email" Label="Email" />
+                        <MudDatePicker Label="End Date" @bind-Date="_model.EndDate" DateFormat="yyyy-MM-dd" />
                     </MudItem>
                 </MudGrid>
-                
-                <MudTextField @bind-Value="_model.ContactPerson" Label="Contact Person" />
-                <MudTextField @bind-Value="_model.Address" Label="Address" Lines="2" />
-                <MudTextField @bind-Value="_model.Notes" Label="Notes" Lines="3" />
+
+                <MudTextField @bind-Value="_model.Description" Label="Description" Lines="3" />
 
                 <MudGrid Justify="Justify.FlexEnd">
                     <MudItem>
@@ -45,7 +45,7 @@
                             Back
                         </MudButton>
                     </MudItem>
-                    @if (UserContext.HasPermission(UserPermissionType.CompaniesWrite))
+                    @if (UserContext.HasPermission(UserPermissionType.ProjectsWrite))
                     {
                         <MudItem>
                             <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
@@ -68,15 +68,22 @@
     [Parameter] public Guid? Id { get; set; }
 
     private MudForm? _form;
-    private CompanyDto? _model;
+    private ProjectDto? _model;
+    private Dictionary<Guid, string> _companies = new();
 
     protected override async Task OnFirstInitializedAsync()
     {
-        CheckPermissions(UserPermissionType.CompaniesRead);
+        CheckPermissions(UserPermissionType.ProjectsRead);
+
+        var companiesResult = await SendSafeAsync(new GetCompaniesLookupQuery());
+        if (companiesResult.IsSuccess)
+        {
+            _companies = companiesResult.Value!;
+        }
 
         if (Id.HasValue)
         {
-            var result = await SendSafeAsync(new GetCompanyQuery(Id.Value));
+            var result = await SendSafeAsync(new GetProjectQuery(Id.Value));
             if (result.IsSuccess)
             {
                 _model = result.Value;
@@ -84,7 +91,8 @@
         }
         else
         {
-            _model = new CompanyDto() { IsNew = true };
+            _model = new ProjectDto { IsNew = true };
+            _model.CompanyId = _companies.Keys.FirstOrDefault();
         }
     }
 
@@ -93,7 +101,7 @@
         if (!await ValidateForm(_form)) return;
         if (_model is null) return;
 
-        var result = await SendSafeAsync(new SaveCompanyCommand(_model));
+        var result = await SendSafeAsync(new SaveProjectCommand(_model));
         if (result.IsSuccess)
         {
             _model = result.Value;

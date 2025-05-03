@@ -5,7 +5,7 @@ using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.Base.Queries;
 
-public record GetLookupQuery<TKey>
+public abstract record GetLookupQuery<TKey>
     : IRequest<Dictionary<TKey, string>>
     where TKey : struct;
 

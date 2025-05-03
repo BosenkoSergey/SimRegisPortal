@@ -92,11 +92,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        if (!UserContext.HasPermission(UserPermissionType.TaxSettingsRead))
-        {
-            NavManager.NavigateTo("/auth/denied", forceLoad: true);
-            return;
-        }
+        CheckPermissions(UserPermissionType.TaxSettingsRead);
 
         await LoadCurrencies();
         await LoadTaxSetting();
@@ -123,15 +119,8 @@
 
     private async Task Submit()
     {
-        if (_form is null || _model is null)
-            return;
-
-        await _form.Validate();
-
-        if (!_form.IsValid)
-        {
-            await Notifier.Error("Form is not valid.");
-        }
+        if (!await ValidateForm(_form)) return;
+        if (_model is null) return;
 
         var result = await SendSafeAsync(new SaveTaxSettingCommand(_model));
         if (result.IsSuccess)

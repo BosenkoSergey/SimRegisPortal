@@ -70,11 +70,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        if (!UserContext.HasPermission(UserPermissionType.ExchangeRatesRead))
-        {
-            NavManager.NavigateTo("/auth/denied", forceLoad: true);
-            return;
-        }
+        CheckPermissions(UserPermissionType.ExchangeRatesRead);
 
         await LoadCurrencies();
         await LoadRates();

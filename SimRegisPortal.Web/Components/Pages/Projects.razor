@@ -1,0 +1,80 @@
+﻿@page "/projects"
+@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.Companies.Queries
+@using SimRegisPortal.Application.Features.Projects.Queries
+
+@attribute [Authorize]
+
+<PageTitle>Projects</PageTitle>
+
+<MudPaper Class="mt-3 px-3 py-3">
+    <MudDataGrid Items="_projects" @ref="_grid" Filterable="true" Dense>
+
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Projects</MudText>
+            <MudSpacer />
+            @if (UserContext.HasPermission(UserPermissionType.ProjectsWrite))
+            {
+                <MudButton OnClick="AddProject" StartIcon="@Icons.Material.Filled.CreateNewFolder" Variant="Variant.Outlined" Class="ml-2">
+                    Add
+                </MudButton>
+            }
+        </ToolBarContent>
+
+        <Columns>
+            <PropertyColumn Property="x => x.CompanyId" Title="Company">
+                <CellTemplate Context="context">
+                    @_companies.GetValueOrDefault(context.Item.CompanyId)
+                </CellTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="x => x.Name" Title="Name" />
+            <PropertyColumn Property="x => x.StartDate" Title="Start Date" Format="yyyy-MM-dd" />
+            <PropertyColumn Property="x => x.EndDate" Title="End Date" Format="yyyy-MM-dd" />
+            <PropertyColumn Property="x => x.Description" Title="Description" />
+            <TemplateColumn>
+                <CellTemplate Context="context">
+                    <MudIconButton OnClick="@(() => EditProject(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+
+        <PagerContent>
+            <MudDataGridPager />
+        </PagerContent>
+
+    </MudDataGrid>
+</MudPaper>
+
+@code {
+    private List<ProjectDto> _projects = new();
+    private Dictionary<Guid, string> _companies = new();
+    private MudDataGrid<ProjectDto>? _grid;
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        CheckPermissions(UserPermissionType.ProjectsRead);
+
+        var companiesResult = await SendSafeAsync(new GetCompaniesLookupQuery());
+        if (companiesResult.IsSuccess)
+        {
+            _companies = companiesResult.Value!;
+        }
+
+        var projectsResult = await SendSafeAsync(new GetProjectsQuery());
+        if (projectsResult.IsSuccess)
+        {
+            _projects = projectsResult.Value!.ToList();
+        }
+    }
+
+    private void AddProject()
+    {
+        NavManager.NavigateTo("/project");
+    }
+
+    private void EditProject(Guid id)
+    {
+        NavManager.NavigateTo($"/project/{id}");
+    }
+}
