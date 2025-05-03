@@ -66,8 +66,8 @@ public class AppDbContext : DbContext
 
             var systemProjects = new[]
             {
-                new Project { CompanyId = defaultCompany.Id, Name = "Paid Leave", Description = "Vacation time tracking", StartDate = DateTime.UtcNow },
-                new Project { CompanyId = defaultCompany.Id, Name = "Sick Leave", Description = "Sick leave tracking", StartDate = DateTime.UtcNow }
+                new Project { CompanyId = defaultCompany.Id, Name = "Paid Leave", Description = "Vacation time tracking", StartDate = DateTime.UtcNow, IsInternal = true },
+                new Project { CompanyId = defaultCompany.Id, Name = "Sick Leave", Description = "Sick leave tracking", StartDate = DateTime.UtcNow, IsInternal = true }
             };
 
             Projects.AddRange(systemProjects);
