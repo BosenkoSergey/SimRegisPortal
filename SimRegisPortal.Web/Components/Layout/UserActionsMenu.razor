@@ -1,0 +1,46 @@
+﻿@inherits BaseComponent
+
+@inject IDialogService DialogService
+
+@if (UserContext.IsAuthenticated)
+{
+    <MudText Class="mr-2">@UserContext.UserName</MudText>
+
+    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
+             Color="Color.Inherit"
+             AnchorOrigin="Origin.BottomRight"
+             TransformOrigin="Origin.TopRight">
+
+        <MudMenuItem OnClick="OpenChangePasswordDialog">
+            <span class="d-flex align-center">
+                <MudIcon Icon="@Icons.Material.Filled.VpnKey" Class="mr-2" />
+                Change Password
+            </span>
+        </MudMenuItem>
+
+        <MudMenuItem OnClick="Logout">
+            <span class="d-flex align-center">
+                <MudIcon Icon="@Icons.Material.Filled.Logout" Class="mr-2" />
+                Logout
+            </span>
+        </MudMenuItem>
+
+    </MudMenu>
+}
+
+@code {
+    private async Task OpenChangePasswordDialog()
+    {
+        var parameters = new DialogParameters<ChangePasswordDialog>
+        {
+            { x => x.UserId, UserContext.UserId }
+        };
+
+        await DialogService.ShowAsync<ChangePasswordDialog>(null, parameters);
+    }
+
+    private void Logout()
+    {
+        NavManager.NavigateTo("/auth/logout", forceLoad: true);
+    }
+}

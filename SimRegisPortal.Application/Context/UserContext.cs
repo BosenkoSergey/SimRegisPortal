@@ -13,6 +13,7 @@ public class UserContext : IUserContext
     public bool IsAuthenticated { get; private set; }
     public bool IsAdmin { get; private set; }
     public Guid UserId { get; private set; }
+    public string UserName { get; private set; }
     public HashSet<UserPermissionType> Permissions { get; private set; } = [];
 
     public UserContext(IHttpContextAccessor httpContextAccessor)
@@ -25,12 +26,14 @@ public class UserContext : IUserContext
         {
             IsAdmin = GetClaimValue<bool>(CustomClaimTypes.IsAdmin);
             UserId = GetClaimValue<Guid>(CustomClaimTypes.UserId);
+            UserName = GetClaimValue<string>(CustomClaimTypes.UserName);
             Permissions = GetClaimHashSet<UserPermissionType>(CustomClaimTypes.Permissions, Separators.UserPermissions);
         }
         else
         {
             IsAdmin = false;
             UserId = Guid.Empty;
+            UserName = string.Empty;
             Permissions = [];
         }
     }

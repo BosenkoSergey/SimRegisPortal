@@ -84,11 +84,7 @@
 
     private async Task Save()
     {
-        if (_form is null) return;
-
-        await _form.Validate();
-
-        if (!_form.IsValid) return;
+        if (!await ValidateForm(_form)) return;
 
         var result = await SendSafeAsync(new SaveExchangeRateCommand(_model));
         if (result.IsSuccess)
