@@ -46,6 +46,7 @@
                 <TemplateColumn>
                     <CellTemplate Context="context">
                         <MudIconButton OnClick="@(() => Edit(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                        <MudIconButton OnClick="@(() => Delete(context.Item.Id))" Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Small" />
                     </CellTemplate>
                 </TemplateColumn>
             }
@@ -72,6 +73,9 @@
 
     protected override IRequest<IEnumerable<ExchangeRateDto>> GetCommand() =>
         new GetExchangeRatesQuery(_queryParams);
+
+    protected override IRequest DeleteCommand(int Id) =>
+        new DeleteExchangeRateCommand(Id);
 
     private async Task LoadCurrencies()
     {

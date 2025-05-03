@@ -1,6 +1,7 @@
 ﻿@page "/employees"
 @inherits BaseViewPage<Guid, EmployeeDto>
 
+@using SimRegisPortal.Application.Features.Employees.Commands
 @using SimRegisPortal.Application.Features.Employees.Queries
 @using SimRegisPortal.Application.Features.Users.Queries
 @using SimRegisPortal.Application.Features.Currencies.Queries
@@ -56,6 +57,7 @@
                 <TemplateColumn>
                     <CellTemplate Context="context">
                         <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => Edit(context.Item.Id))" Size="Size.Small" />
+                        <MudIconButton OnClick="@(() => Delete(context.Item.Id))" Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Small" />
                     </CellTemplate>
                 </TemplateColumn>
             }
@@ -95,4 +97,7 @@
 
     protected override IRequest<IEnumerable<EmployeeDto>> GetCommand() =>
         new GetEmployeesQuery();
+
+    protected override IRequest DeleteCommand(Guid Id) =>
+        new DeleteEmployeeCommand(Id);
 }

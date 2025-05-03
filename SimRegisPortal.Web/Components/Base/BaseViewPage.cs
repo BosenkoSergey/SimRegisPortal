@@ -15,7 +15,8 @@ public abstract class BaseViewPage<TKey, TDto> : BaseComponent
     protected List<TDto> _entities = [];
 
     protected abstract IRequest<IEnumerable<TDto>> GetCommand();
-    //protected abstract IRequest DeleteCommand(TKey Id);
+    protected virtual IRequest DeleteCommand(TKey Id) =>
+        throw new NotSupportedException();
 
     protected async Task LoadEntities()
     {
@@ -38,12 +39,13 @@ public abstract class BaseViewPage<TKey, TDto> : BaseComponent
         return Task.CompletedTask;
     }
 
-    //protected virtual async Task Delete(TKey id)
-    //{
-    //    var result = await SendSafeAsync(DeleteCommand(id));
-    //    if (result)
-    //    {
-    //        await Notifier.Success("Deleted successfully.");
-    //    }
-    //}
+    protected virtual async Task Delete(TKey id)
+    {
+        var result = await SendSafeAsync(DeleteCommand(id));
+        if (result)
+        {
+            await Notifier.Success("Deleted successfully.");
+            await LoadEntities();
+        }
+    }
 }

@@ -87,7 +87,7 @@
 
     protected override IRequest<IEnumerable<UserDto>> GetCommand() =>
         new GetUsersQuery();
-
+        
     private async Task ResetPassword(Guid id)
     {
         var confirmed = await DialogService.ShowMessageBox(

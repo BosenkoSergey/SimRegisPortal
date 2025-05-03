@@ -2,6 +2,7 @@
 @inherits BaseViewPage<Guid, ProjectDto>
 
 @using SimRegisPortal.Application.Features.Companies.Queries
+@using SimRegisPortal.Application.Features.Projects.Commands
 @using SimRegisPortal.Application.Features.Projects.Queries
 
 @attribute [Authorize]
@@ -45,6 +46,7 @@
                 <TemplateColumn>
                     <CellTemplate Context="context">
                         <MudIconButton OnClick="@(() => Edit(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                        <MudIconButton OnClick="@(() => Delete(context.Item.Id))" Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Small" />
                     </CellTemplate>
                 </TemplateColumn>
             }
@@ -77,4 +79,7 @@
 
     protected override IRequest<IEnumerable<ProjectDto>> GetCommand() =>
         new GetProjectsQuery();
+
+    protected override IRequest DeleteCommand(Guid Id) =>
+        new DeleteProjectCommand(Id);
 }

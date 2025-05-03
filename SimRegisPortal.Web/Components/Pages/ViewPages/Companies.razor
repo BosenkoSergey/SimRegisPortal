@@ -1,6 +1,7 @@
 ﻿@page "/companies"
 @inherits BaseViewPage<Guid, CompanyDto>
 
+@using SimRegisPortal.Application.Features.Companies.Commands
 @using SimRegisPortal.Application.Features.Companies.Queries
 
 @attribute [Authorize]
@@ -34,6 +35,7 @@
                 <TemplateColumn>
                     <CellTemplate Context="context">
                         <MudIconButton OnClick="@(() => Edit(context.Item.Id))" Icon="@Icons.Material.Outlined.Edit" Size="Size.Small" />
+                        <MudIconButton OnClick="@(() => Delete(context.Item.Id))" Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Small" />
                     </CellTemplate>
                 </TemplateColumn>
             }
@@ -59,4 +61,7 @@
 
     protected override IRequest<IEnumerable<CompanyDto>> GetCommand() =>
         new GetCompaniesQuery();
+
+    protected override IRequest DeleteCommand(Guid Id) =>
+        new DeleteCompanyCommand(Id);
 }
