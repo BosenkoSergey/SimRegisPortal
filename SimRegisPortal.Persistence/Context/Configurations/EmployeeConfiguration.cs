@@ -26,6 +26,12 @@ internal class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.LastName)
             .HasMaxLength(EntityFieldPresets.DefaultStringLength);
 
+        builder.Property(e => e.TaxNumber)
+            .HasMaxLength(EntityFieldPresets.DefaultStringLength);
+
+        builder.Property(e => e.PassportNumber)
+            .HasMaxLength(EntityFieldPresets.DefaultStringLength);
+
         builder.Property(e => e.Position)
             .HasMaxLength(EntityFieldPresets.DefaultStringLength);
 
