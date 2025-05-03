@@ -1,0 +1,103 @@
+﻿@page "/employees"
+@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.Employees.Queries
+@using SimRegisPortal.Application.Features.Users.Queries
+@using SimRegisPortal.Application.Features.Currencies.Queries
+
+@attribute [Authorize]
+
+<PageTitle>Employees</PageTitle>
+
+<MudPaper Class="mt-3 px-3 py-3">
+    <MudDataGrid Items="_employees" @ref="_grid" Filterable Hover Dense>
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Employees</MudText>
+            <MudSpacer />
+            @if (UserContext.HasPermission(UserPermissionType.EmployeesWrite))
+            {
+                <MudButton OnClick="AddEmployee" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
+                    Add
+                </MudButton>
+            }
+        </ToolBarContent>
+
+        <Columns>
+            <PropertyColumn Property="x => x.LastName" Title="Full Name">
+                <CellTemplate Context="context">
+                    @($"{context.Item.LastName} {context.Item.FirstName} {context.Item.MiddleName}")
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.UserId" Title="User Account">
+                <CellTemplate Context="context">
+                    @_users.GetValueOrDefault(context.Item.UserId ?? Guid.Empty)
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.Position" Title="Position" />
+            <PropertyColumn Property="x => x.HireDate" Title="Hire Date" Format="yyyy-MM-dd" />
+            <PropertyColumn Property="x => x.DismissalDate" Title="Dismissal Date" Format="yyyy-MM-dd" />
+
+            <PropertyColumn Property="x => x.SalaryScheme" Title="Salary Scheme">
+                <CellTemplate Context="context">
+                    @context.Item.SalaryScheme.GetDescription()
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.HourlyRate" Title="Hourly Rate">
+                <CellTemplate Context="context">
+                    @($"{context.Item.HourlyRate} {_currencies.GetValueOrDefault(context.Item.HourlyRateCurrencyId)}")
+                </CellTemplate>
+            </PropertyColumn>
+
+            @if (UserContext.HasPermission(UserPermissionType.EmployeesWrite))
+            {
+                <TemplateColumn>
+                    <CellTemplate Context="context">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => EditEmployee(context.Item.Id))" Size="Size.Small" />
+                    </CellTemplate>
+                </TemplateColumn>
+            }
+        </Columns>
+
+        <PagerContent>
+            <MudDataGridPager />
+        </PagerContent>
+    </MudDataGrid>
+</MudPaper>
+
+@code {
+    private List<EmployeeDto> _employees = new();
+    private Dictionary<Guid, string> _users = new();
+    private Dictionary<int, string> _currencies = new();
+    private MudDataGrid<EmployeeDto>? _grid;
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        CheckPermissions(UserPermissionType.EmployeesRead);
+
+        var usersResult = await SendSafeAsync(new GetUsersLookupQuery());
+        if (usersResult.IsSuccess)
+        {
+            _users = usersResult.Value!;
+        }
+
+        var curenciesResult = await SendSafeAsync(new GetCurrenciesQuery());
+        if (curenciesResult.IsSuccess)
+        {
+            _currencies = curenciesResult.Value!.ToDictionary(c => c.Id, c => c.Symbol);
+
+        }
+
+        var remployeesresult = await SendSafeAsync(new GetEmployeesQuery());
+        if (remployeesresult.IsSuccess)
+        {
+            _employees = remployeesresult.Value!.ToList();
+        }
+    }
+
+    private void AddEmployee() => NavManager.NavigateTo("/employee");
+
+    private void EditEmployee(Guid id) => NavManager.NavigateTo($"/employee/{id}");
+}

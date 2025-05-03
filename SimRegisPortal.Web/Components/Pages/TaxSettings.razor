@@ -17,7 +17,7 @@
         <MudForm @ref="_form">
             <MudStack Spacing="2">
                 <MudSelect T="int" Label="Local Currency" @bind-Value="_model.LocalCurrencyId" Required>
-                    @foreach (var currency in _currencyCodes)
+                    @foreach (var currency in _currencies)
                     {
                         <MudSelectItem Value="@currency.Key">@currency.Value</MudSelectItem>
                     }
@@ -88,7 +88,7 @@
 @code {
     private MudForm? _form;
     private TaxSettingDto? _model;
-    private Dictionary<int, string> _currencyCodes = new();
+    private Dictionary<int, string> _currencies = new();
 
     protected override async Task OnFirstInitializedAsync()
     {
@@ -103,7 +103,7 @@
         var result = await SendSafeAsync(new GetCurrenciesLookupQuery());
         if (result.IsSuccess)
         {
-            _currencyCodes = result.Value!;
+            _currencies = result.Value!;
 
         }
     }
