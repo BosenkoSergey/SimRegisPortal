@@ -30,20 +30,23 @@ internal sealed class SaveEmployeeActivityHandler(AppDbContext dbContext, IMappe
 
     private async Task UpdateTimeReport(EmployeeActivity entity)
     {
+        var reportYear = entity.Date.Year;
+        var reportMonth = (Month)entity.Date.Month;
+
         var timeReport = await DbContext.TimeReports
             .AsNoTracking()
             .FirstOrDefaultAsync(r =>
                 r.EmployeeId == entity.EmployeeId &&
-                r.Year == entity.Date.Year &&
-                r.Month == entity.Date.Month);
+                r.Year == reportYear &&
+                r.Month == reportMonth);
 
         if (timeReport == null)
         {
             entity.TimeReport = new TimeReport()
             {
                 EmployeeId = entity.EmployeeId,
-                Year = entity.Date.Year,
-                Month = entity.Date.Month
+                Year = reportYear,
+                Month = reportMonth
             };
         }
         else if (timeReport.Status != TimeReportStatus.Draft)
