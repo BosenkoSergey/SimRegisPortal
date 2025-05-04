@@ -49,7 +49,7 @@ internal sealed class SaveEmployeeActivityHandler(AppDbContext dbContext, IMappe
                 Month = reportMonth
             };
         }
-        else if (timeReport.Status != TimeReportStatus.Draft)
+        else if (timeReport.Status is not (TimeReportStatus.New or TimeReportStatus.Rejected))
         {
             throw new CommonException("Validation.TimeReport.Finilized");
         }

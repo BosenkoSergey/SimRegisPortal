@@ -2,6 +2,7 @@
 @inherits BaseViewPage<Guid, TimeReportDto>
 
 @using SimRegisPortal.Application.Features.Employees.Queries
+@using SimRegisPortal.Application.Features.TimeReports.Commands
 @using SimRegisPortal.Application.Features.TimeReports.Queries
 
 @attribute [Authorize]
@@ -46,6 +47,43 @@
                     @context.Item.UpdatedAt.ToString("yyyy-MM-dd HH:mm")
                 </CellTemplate>
             </PropertyColumn>
+
+            <TemplateColumn Title="Actions">
+                <CellTemplate Context="context">
+                    <MudStack Row Spacing="1">
+                        @if (UserContext.HasPermission(UserPermissionType.TimeReportsWriteAll) || UserContext.EmployeeId == context.Item.EmployeeId)
+                        {
+                            @if (context.Item.Status is TimeReportStatus.New or TimeReportStatus.Rejected)
+                            {
+                                <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Finalized))" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small">
+                                    Finalize
+                                </MudButton>
+                            }
+                        }
+                        @if (UserContext.HasPermission(UserPermissionType.TimeReportsWriteAll))
+                        {
+                            @if (context.Item.Status is TimeReportStatus.Finalized)
+                            {
+                                <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Rejected))" Color="Color.Error" Variant="Variant.Filled" Size="Size.Small">
+                                    Reject
+                                </MudButton>
+                                <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Approved))" Color="Color.Success" Variant="Variant.Filled" Size="Size.Small">
+                                    Approve
+                                </MudButton>
+                            }
+                            @if (context.Item.Status is TimeReportStatus.Approved)
+                            {
+                                <MudButton OnClick="@(() => Recalculate(context.Item.Id))" Color="Color.Warning" Variant="Variant.Filled" Size="Size.Small">
+                                    Recalculate
+                                </MudButton>
+                                <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Closed))" Color="Color.Info" Variant="Variant.Filled" Size="Size.Small">
+                                    Close
+                                </MudButton>
+                            }
+                        }
+                    </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
         </Columns>
 
         <PagerContent>
@@ -78,4 +116,24 @@
 
     protected override IRequest<IEnumerable<TimeReportDto>> GetCommand() =>
         new GetTimeReportsQuery(_queryParams);
+
+    private async Task SetStatus(Guid id, TimeReportStatus status)
+    {
+        var result = await SendSafeAsync(new ChangeTimeReportStatusCommand(id, status));
+        if (result)
+        {
+            await Notifier.Success("Updated successfully.");
+            await LoadEntities();
+        }
+    }
+
+    private async Task Recalculate(Guid id)
+    {
+        var result = await SendSafeAsync(new RecalculateTimeReportCommand(id));
+        if (result)
+        {
+            await Notifier.Success("Recalculated successfully.");
+            await LoadEntities();
+        }
+    }
 }
