@@ -153,6 +153,12 @@
   <data name="Validation.Employee.User.AlreadyLinked" xml:space="preserve">
     <value>This User account is already linked to another Employee.</value>
   </data>
+  <data name="Validation.EmployeeActivity.NegativeDuration" xml:space="preserve">
+    <value>Hours must be greater than zero.</value>
+  </data>
+  <data name="Validation.EmployeeActivity.NotContracted" xml:space="preserve">
+    <value>This user is not contracted for selected project and period.</value>
+  </data>
   <data name="Validation.ExchangeRate.AlreadyExists" xml:space="preserve">
     <value>An exchange rate with this CurrencyFrom, CurrencyTo and Date already exists.</value>
   </data>

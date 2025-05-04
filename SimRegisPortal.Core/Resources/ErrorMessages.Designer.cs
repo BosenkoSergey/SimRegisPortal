@@ -169,6 +169,24 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hours must be greater than zero..
+        /// </summary>
+        public static string Validation_EmployeeActivity_NegativeDuration {
+            get {
+                return ResourceManager.GetString("Validation.EmployeeActivity.NegativeDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This user is not contracted for selected project and period..
+        /// </summary>
+        public static string Validation_EmployeeActivity_NotContracted {
+            get {
+                return ResourceManager.GetString("Validation.EmployeeActivity.NotContracted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An exchange rate with this CurrencyFrom, CurrencyTo and Date already exists..
         /// </summary>
         public static string Validation_ExchangeRate_AlreadyExists {

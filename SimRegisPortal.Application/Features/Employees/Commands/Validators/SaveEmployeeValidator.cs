@@ -22,8 +22,7 @@ public sealed class SaveEmployeeValidator
             .NotEmpty().WithTemplate("Validation.Field.Required", "Last Name");
 
         RuleFor(x => x.Dto.HourlyRate)
-            .GreaterThanOrEqualTo(0)
-            .WithTemplate("Validation.Employee.HourlyRate");
+            .GreaterThan(0).WithTemplate("Validation.Employee.HourlyRate");
 
         RuleFor(x => x.Dto)
             .Must(dto => dto.DismissalDate == null || dto.DismissalDate > dto.HireDate)
