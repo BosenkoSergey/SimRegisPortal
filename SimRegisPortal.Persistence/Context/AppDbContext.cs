@@ -40,12 +40,13 @@ public class AppDbContext : DbContext
             {
                 FullName = "Administrator",
                 Email = "admin@srp.local",
-                Login = "Admin",
-                PasswordHash = PasswordHelper.GetHash("Admin123"),
+                Login = "admin",
+                PasswordHash = PasswordHelper.GetHash("admin"),
                 IsAdmin = true
             };
 
             Users.Add(admin);
+
             SaveChanges();
         }
 
