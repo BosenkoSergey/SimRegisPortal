@@ -144,6 +144,11 @@
         {
             await Notifier.Success("Updated successfully.");
             await LoadEntities();
+
+            if (status == TimeReportStatus.Approved)
+            {
+                await Recalculate(id);
+            }
         }
     }
 

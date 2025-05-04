@@ -37,8 +37,8 @@ internal sealed class ImportExchangeRatesHandler(
                 continue;
             }
 
-            Upsert(existingRates, fromCurrencyId, toCurrencyId, date, rate.SaleRateNB);
-            Upsert(existingRates, toCurrencyId, fromCurrencyId, date, 1 / rate.PurchaseRateNB);
+            Upsert(existingRates, fromCurrencyId, toCurrencyId, date, 1 / rate.PurchaseRateNB);
+            Upsert(existingRates, toCurrencyId, fromCurrencyId, date, rate.SaleRateNB);
         }
 
         await DbContext.SaveChangesAsync(cancellationToken);
