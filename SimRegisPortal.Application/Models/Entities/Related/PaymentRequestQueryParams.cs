@@ -14,5 +14,6 @@ public sealed class PaymentRequestQueryParams
     {
         Year = DateTime.UtcNow.Year;
         Month = (Month)DateTime.UtcNow.Month;
+        IsPaid = false;
     }
 }
