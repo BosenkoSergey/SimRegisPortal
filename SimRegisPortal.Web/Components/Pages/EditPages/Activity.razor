@@ -42,7 +42,7 @@
                         <MudDatePicker Label="Date" @bind-Date="_model.Date" Required DateFormat="yyyy-MM-dd" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudNumericField @bind-Value="_model.Hours" Label="Hours" Required Format="0.##" Culture="@CultureInfo.InvariantCulture" />
+                        <MudTimePicker Label="Duration" Time="_duration" TimeChanged="OnDurationChanged" Editable Required />
                     </MudItem>
                 </MudGrid>
 
@@ -69,6 +69,16 @@
     private Dictionary<Guid, string> _projects = new();
     private Dictionary<Guid, string> _employees = new();
 
+    private TimeSpan _duration;
+
+    private void OnDurationChanged(TimeSpan? value)
+    {
+        if (value is null) return;
+
+        _duration = value.Value;
+        _model!.Hours = Math.Round((decimal)_duration.TotalMinutes / 60, 2);
+    }
+
     protected override async Task OnFirstInitializedAsync()
     {
         PageTitle = "Activity";
@@ -93,6 +103,12 @@
         }
 
         await LoadModelAsync();
+
+        if (_model != null)
+        {
+            var totalMinutes = (int)(_model.Hours * 60);
+            _duration = new TimeSpan(totalMinutes / 60, totalMinutes % 60, 0);
+        }
     }
 
     protected override IRequest<EmployeeActivityDto> GetCommand(Guid id) =>
@@ -108,7 +124,7 @@
             IsNew = true,
             Date = DateTime.UtcNow.Date,
             ProjectId = _projects.Keys.FirstOrDefault(),
-            EmployeeId = UserContext.EmployeeId ?? _employees.Keys.FirstOrDefault()
+            EmployeeId = UserContext.EmployeeId ?? _employees.Keys.FirstOrDefault(),
         };
     }
 }

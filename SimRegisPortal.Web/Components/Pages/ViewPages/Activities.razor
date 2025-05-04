@@ -28,13 +28,19 @@
                     @_projects.GetValueOrDefault(context.Item.ProjectId)
                 </CellTemplate>
             </PropertyColumn>
+
             <PropertyColumn Property="x => x.EmployeeId" Title="Employee">
                 <CellTemplate Context="context">
                     @_employees.GetValueOrDefault(context.Item.EmployeeId)
                 </CellTemplate>
             </PropertyColumn>
+
             <PropertyColumn Property="x => x.Date" Title="Date" Format="yyyy-MM-dd" />
-            <PropertyColumn Property="x => x.Hours" Title="Hours" Format="0.##" />
+            <PropertyColumn Property="x => x.Hours" Title="Duration">
+                <CellTemplate Context="context">
+                    @($"{(int)context.Item.Hours}:{(int)(context.Item.Hours * 60 % 60):00}")
+                </CellTemplate>
+            </PropertyColumn>
             <PropertyColumn Property="x => x.Description" Title="Description" />
 
             <TemplateColumn>
