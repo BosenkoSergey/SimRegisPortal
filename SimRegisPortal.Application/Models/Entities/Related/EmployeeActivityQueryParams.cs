@@ -2,6 +2,7 @@
 
 public sealed class EmployeeActivityQueryParams
 {
+    public Guid? TimeReportId { get; set; }
     public DateTime? DateFrom { get; set; }
     public DateTime? DateTo { get; set; }
     public Guid? ProjectId { get; set; }
@@ -13,7 +14,12 @@ public sealed class EmployeeActivityQueryParams
         DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
     }
 
-    public EmployeeActivityQueryParams(Guid employeeId) : this()
+    public EmployeeActivityQueryParams(Guid timeReportId)
+    {
+        TimeReportId = timeReportId;
+    }
+
+    public void LockEmployee(Guid employeeId)
     {
         EmployeeId = employeeId;
         IsLockedEmployee = true;

@@ -18,6 +18,11 @@ internal sealed class GetPaymentRequestsHandler(AppDbContext dbContext, IMapper 
     {
         var entitiesQuery = GetEntitiesQuery();
 
+        if (query.QueryParams.TimeReportId.HasValue)
+        {
+            entitiesQuery = entitiesQuery.Where(r =>
+                r.TimeReportId == query.QueryParams.TimeReportId.Value);
+        }
         if (query.QueryParams.Year.HasValue)
         {
             entitiesQuery = entitiesQuery.Where(r =>

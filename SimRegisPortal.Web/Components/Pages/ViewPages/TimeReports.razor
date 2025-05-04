@@ -12,13 +12,19 @@
 <MudPaper Class="mt-3 px-3 py-3">
     <TimeReportSearchPanel QueryParams="_queryParams" Employees="_employees" Search="Search" />
 
-    <MudDataGrid Items="_entities" @ref="_grid" Filterable Hover Dense>
+    <MudDataGrid T="TimeReportDto" Items="_entities" @ref="_grid" @bind-SelectedItem="_selectedTimeReport" Filterable Hover Dense>
         <ToolBarContent>
             <MudText Typo="Typo.h6">@PageTitle</MudText>
             <MudSpacer />
         </ToolBarContent>
 
         <Columns>
+            <TemplateColumn Title="">
+                <CellTemplate Context="context">
+                    <MudCheckBox Value="@(context.Item.Id == _selectedTimeReport?.Id)" ReadOnly />
+                </CellTemplate>
+            </TemplateColumn>
+
             <PropertyColumn Property="x => x.EmployeeId" Title="Employee">
                 <CellTemplate Context="context">
                     @_employees.GetValueOrDefault(context.Item.EmployeeId)
@@ -90,11 +96,25 @@
             <MudDataGridPager />
         </PagerContent>
     </MudDataGrid>
+
+    @if (_selectedTimeReport != null)
+    {
+        <MudTabs Class="mt-3" Rounded>
+            <MudTabPanel Text="Activities">
+                <ActivitiesView TimeReportId="@_selectedTimeReport.Id" />
+            </MudTabPanel>
+            <MudTabPanel Text="Payment Requests">
+                <PaymentRequestsView TimeReportId="@_selectedTimeReport.Id" />
+            </MudTabPanel>
+        </MudTabs>
+    }
 </MudPaper>
 
 @code {
     private TimeReportQueryParams _queryParams = new();
     private Dictionary<Guid, string> _employees = new();
+
+    private TimeReportDto? _selectedTimeReport;
 
     protected override async Task OnFirstInitializedAsync()
     {
@@ -102,7 +122,7 @@
 
         if (!UserContext.HasPermission(UserPermissionType.TimeReportsReadAll))
         {
-            _queryParams = new(UserContext.EmployeeId ?? Guid.Empty);
+            _queryParams.LockEmployee(UserContext.EmployeeId ?? Guid.Empty);
         }
 
         var result = await SendSafeAsync(new GetEmployeesLookupQuery());

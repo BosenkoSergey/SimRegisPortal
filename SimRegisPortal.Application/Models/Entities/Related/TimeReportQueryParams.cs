@@ -16,7 +16,7 @@ public sealed class TimeReportQueryParams
         Month = (Month)DateTime.UtcNow.Month;
     }
 
-    public TimeReportQueryParams(Guid employeeId) : this()
+    public void LockEmployee(Guid employeeId)
     {
         EmployeeId = employeeId;
         IsLockedEmployee = true;

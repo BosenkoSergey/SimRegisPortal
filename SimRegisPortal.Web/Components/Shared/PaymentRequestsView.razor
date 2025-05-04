@@ -1,0 +1,112 @@
+﻿@inherits BaseViewPage<Guid, PaymentRequestDto>
+
+@using SimRegisPortal.Application.Features.Currencies.Queries
+@using SimRegisPortal.Application.Features.Employees.Queries
+@using SimRegisPortal.Application.Features.PaymentRequests.Queries
+@using SimRegisPortal.Application.Features.PaymentRequests.Commands
+
+@if (!TimeReportId.HasValue)
+{
+    <PaymentRequestSearchPanel QueryParams="_queryParams" Employees="_employees" Search="Search" />
+}
+
+<MudDataGrid Items="_entities" @ref="_grid" Filterable Dense>
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">@PageTitle</MudText>
+        <MudSpacer />
+    </ToolBarContent>
+
+    <Columns>
+        <PropertyColumn Property="x => x.Year" Title="Year" />
+        <PropertyColumn Property="x => x.Month" Title="Month" />
+        <PropertyColumn Property="x => x.EmployeeFullName" Title="Employee" />
+        <PropertyColumn Property="x => x.Type" Title="Type" />
+        <PropertyColumn Property="x => x.Amount" Title="Amount" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+
+        <PropertyColumn Property="x => x.CurrencyId" Title="Currency">
+            <CellTemplate Context="context">
+                @_currencies.GetValueOrDefault(context.Item.CurrencyId)
+            </CellTemplate>
+        </PropertyColumn>
+
+        <PropertyColumn Property="x => x.IsPaid" Title="Paid">
+            <CellTemplate Context="context">
+                <MudCheckBox Value="@context.Item.IsPaid" ReadOnly />
+            </CellTemplate>
+        </PropertyColumn>
+
+        <TemplateColumn>
+            <CellTemplate Context="context">
+                <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => Edit(context.Item.Id))" Size="Size.Small" />
+                <MudIconButton OnClick="@(() => Delete(context.Item.Id))" Icon="@Icons.Material.Filled.DeleteForever" Size="Size.Small" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+
+    <PagerContent>
+        <MudDataGridPager />
+    </PagerContent>
+</MudDataGrid>
+
+@code {
+    [Parameter] public Guid? TimeReportId { get; set; }
+
+    private PaymentRequestQueryParams _queryParams = new();
+    private Dictionary<Guid, string> _employees = new();
+    private Dictionary<int, string> _currencies = new();
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        PageTitle = "Payment Requests";
+        CheckPermissions(UserPermissionType.PaymentRequestsReadAll);
+
+        var employeesResult = await SendSafeAsync(new GetEmployeesLookupQuery());
+        if (employeesResult.IsSuccess)
+        {
+            _employees = employeesResult.Value!;
+        }
+
+        var currenciesResult = await SendSafeAsync(new GetCurrenciesLookupQuery());
+        if (currenciesResult.IsSuccess)
+        {
+            _currencies = currenciesResult.Value!;
+        }
+
+        await LoadEntities();
+    }
+
+    protected override IRequest<IEnumerable<PaymentRequestDto>> GetCommand() =>
+        new GetPaymentRequestsQuery(_queryParams);
+
+    protected override IRequest DeleteCommand(Guid Id) =>
+        new DeletePaymentRequestCommand(Id);
+
+    protected override Task Add() =>
+        throw new NotSupportedException();
+
+    protected override async Task Edit(Guid id)
+    {
+        var parameters = new DialogParameters<PaymentRequestEditDialog>
+        {
+            { x => x.Id, id },
+            { x => x.CurrencyLookup, _currencies }
+        };
+
+        var dialog = await DialogService.ShowAsync<PaymentRequestEditDialog>(null, parameters);
+        var result = await dialog.Result;
+
+        if (result?.Data is true)
+        {
+            await LoadEntities();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (TimeReportId.HasValue)
+        {
+            _queryParams = new(TimeReportId.Value);
+            await LoadEntities();
+        }
+    }
+}

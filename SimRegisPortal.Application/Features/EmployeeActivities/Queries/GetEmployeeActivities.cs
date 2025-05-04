@@ -18,6 +18,11 @@ internal sealed class GetEmployeeActivitiesHandler(AppDbContext dbContext, IMapp
     {
         var entitiesQuery = GetEntitiesQuery();
 
+        if (query.QueryParams.TimeReportId.HasValue)
+        {
+            entitiesQuery = entitiesQuery.Where(r =>
+                r.TimeReportId == query.QueryParams.TimeReportId.Value);
+        }
         if (query.QueryParams.DateFrom.HasValue)
         {
             entitiesQuery = entitiesQuery.Where(r =>
