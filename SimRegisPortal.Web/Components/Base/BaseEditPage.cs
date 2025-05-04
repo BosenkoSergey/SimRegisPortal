@@ -41,7 +41,7 @@ public abstract class BaseEditPage<TKey, TDto> : BaseComponent
         }
     }
 
-    protected async Task Save()
+    protected virtual async Task Save()
     {
         if (!await ValidateForm(_form)) return;
         if (_model is null) return;

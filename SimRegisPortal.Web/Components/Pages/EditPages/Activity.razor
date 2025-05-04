@@ -42,7 +42,16 @@
                         <MudDatePicker Label="Date" @bind-Date="_model.Date" Editable Required DateFormat="yyyy-MM-dd" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudTimePicker Label="Duration" Time="_duration" TimeChanged="OnDurationChanged" Editable Required />
+                        <MudGrid>
+                            <MudItem xs="6">
+                                <MudNumericField Label="Hours" @bind-Value="_durationHours" Min="0" Max="999"
+                                Immediate Required />
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudNumericField Label="Minutes" @bind-Value="_durationMinutes" Min="0" Max="59"
+                                Immediate Required />
+                            </MudItem>
+                        </MudGrid>
                     </MudItem>
                 </MudGrid>
 
@@ -69,15 +78,8 @@
     private Dictionary<Guid, string> _projects = new();
     private Dictionary<Guid, string> _employees = new();
 
-    private TimeSpan _duration;
-
-    private void OnDurationChanged(TimeSpan? value)
-    {
-        if (value is null) return;
-
-        _duration = value.Value;
-        _model!.Hours = Math.Round((decimal)_duration.TotalMinutes / 60, 2);
-    }
+    private int _durationHours;
+    private int _durationMinutes;
 
     protected override async Task OnFirstInitializedAsync()
     {
@@ -107,8 +109,19 @@
         if (_model != null)
         {
             var totalMinutes = (int)(_model.Hours * 60);
-            _duration = new TimeSpan(totalMinutes / 60, totalMinutes % 60, 0);
+            _durationHours = totalMinutes / 60;
+            _durationMinutes = totalMinutes % 60;
         }
+    }
+
+    protected override async Task Save()
+    {
+        if (_model != null)
+        {
+            _model.Hours = _durationHours + Math.Round(_durationMinutes / 60m, 2);
+        }
+        
+        await base.Save();
     }
 
     protected override IRequest<EmployeeActivityDto> GetCommand(Guid id) =>
