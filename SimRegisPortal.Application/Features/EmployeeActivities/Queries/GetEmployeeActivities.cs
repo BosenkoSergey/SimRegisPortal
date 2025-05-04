@@ -39,6 +39,8 @@ internal sealed class GetEmployeeActivitiesHandler(AppDbContext dbContext, IMapp
                 r.EmployeeId == query.QueryParams.EmployeeId.Value);
         }
 
-        return await entitiesQuery.ToListAsync(cancellationToken);
+        return await entitiesQuery
+            .OrderByDescending(r => r.Date)
+            .ToListAsync(cancellationToken);
     }
 }

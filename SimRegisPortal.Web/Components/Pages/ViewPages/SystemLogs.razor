@@ -74,6 +74,4 @@
 
     protected override IRequest<IEnumerable<SystemLogDto>> GetCommand() =>
         new GetSystemLogsQuery(_queryParams);
-
-    private async Task Search() => await LoadEntities();
 }

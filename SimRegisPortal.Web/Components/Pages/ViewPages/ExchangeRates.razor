@@ -86,11 +86,6 @@
         }
     }
 
-    private async Task Search()
-    {
-        await LoadEntities();
-    }
-
     private async Task Import()
     {
         var dialog = await DialogService.ShowAsync<ExchangeRatesImportDialog>();

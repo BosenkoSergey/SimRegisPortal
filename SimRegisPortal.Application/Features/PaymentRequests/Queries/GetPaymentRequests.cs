@@ -33,8 +33,23 @@ internal sealed class GetPaymentRequestsHandler(AppDbContext dbContext, IMapper 
             entitiesQuery = entitiesQuery.Where(r =>
                 r.TimeReport.EmployeeId == query.QueryParams.EmployeeId.Value);
         }
+        if (query.QueryParams.Type.HasValue)
+        {
+            entitiesQuery = entitiesQuery.Where(r =>
+                r.Type == query.QueryParams.Type.Value);
+        }
+        if (query.QueryParams.IsPaid.HasValue)
+        {
+            entitiesQuery = entitiesQuery.Where(r =>
+                r.IsPaid == query.QueryParams.IsPaid.Value);
+        }
 
-        return await entitiesQuery.ToListAsync(cancellationToken);
+        return await entitiesQuery
+            .OrderByDescending(r => r.TimeReport.Year)
+                .ThenByDescending(r => r.TimeReport.Month)
+                .ThenByDescending(r => r.TimeReport.EmployeeId)
+                .ThenBy(r => r.Type)
+            .ToListAsync(cancellationToken);
     }
 
     protected override IQueryable<PaymentRequest> GetEntitiesQuery()

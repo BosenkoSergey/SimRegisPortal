@@ -1,0 +1,80 @@
+﻿@inherits BaseComponent
+
+@using SimRegisPortal.Application.Features.PaymentRequests.Queries
+@using SimRegisPortal.Application.Features.PaymentRequests.Commands
+
+<MudDialog Style="max-width: 400px;">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Edit Payment Request</MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudForm @ref="_form">
+            <MudGrid GutterSize="16px">
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_model.Year" Label="Year" Disabled />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_model.Month" Label="Month" Disabled />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_model.EmployeeFullName" Label="Employee" Disabled />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_model.Type" Label="Type" Disabled />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudNumericField @bind-Value="_model.Amount" Label="Amount" Format="0.00"
+                    Immediate Required Culture="@CultureInfo.InvariantCulture" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudSelect T="int" Label="Currency" @bind-Value="_model.CurrencyId" Required>
+                        @foreach (var currency in CurrencyLookup)
+                        {
+                            <MudSelectItem Value="@currency.Key">@currency.Value</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudCheckBox @bind-Value="_model.IsPaid" Label="Is Paid" />
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public Guid Id { get; set; }
+    [Parameter] public Dictionary<int, string> CurrencyLookup { get; set; } = default!;
+
+    private MudForm? _form;
+    private PaymentRequestDto _model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await SendSafeAsync(new GetPaymentRequestQuery(Id));
+        if (result.IsSuccess)
+        {
+            _model = result.Value!;
+        }
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Save()
+    {
+        if (!await ValidateForm(_form)) return;
+
+        var result = await SendSafeAsync(new SavePaymentRequestCommand(_model));
+        if (result.IsSuccess)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+}

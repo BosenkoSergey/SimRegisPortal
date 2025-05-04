@@ -27,6 +27,11 @@ public abstract class BaseViewPage<TKey, TDto> : BaseComponent
         }
     }
 
+    protected virtual async Task Search()
+    {
+        await LoadEntities();
+    }
+
     protected virtual Task Add()
     {
         NavManager.NavigateTo(EditPageUrl);

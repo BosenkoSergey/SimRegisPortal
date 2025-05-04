@@ -8,6 +8,7 @@ public sealed class PaymentRequestQueryParams
     public Month? Month { get; set; }
     public Guid? EmployeeId { get; set; }
     public PaymentRequestType? Type { get; set; }
+    public bool? IsPaid { get; set; }
 
     public PaymentRequestQueryParams()
     {

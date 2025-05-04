@@ -33,8 +33,17 @@ internal sealed class GetTimeReportsHandler(AppDbContext dbContext, IMapper mapp
             entitiesQuery = entitiesQuery.Where(r =>
                 r.EmployeeId == query.QueryParams.EmployeeId.Value);
         }
+        if (query.QueryParams.Status.HasValue)
+        {
+            entitiesQuery = entitiesQuery.Where(r =>
+                r.Status == query.QueryParams.Status.Value);
+        }
 
-        return await entitiesQuery.ToListAsync(cancellationToken);
+        return await entitiesQuery
+            .OrderByDescending(r => r.Year)
+                .ThenByDescending(r => r.Month)
+                .ThenByDescending(r => r.EmployeeId)
+            .ToListAsync(cancellationToken);
     }
 
     protected override IEnumerable<TimeReportDto> CreateResponse(IEnumerable<TimeReport> entities)
