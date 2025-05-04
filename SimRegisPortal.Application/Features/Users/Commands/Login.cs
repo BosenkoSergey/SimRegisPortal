@@ -20,6 +20,7 @@ internal sealed class LoginHandler(AppDbContext DbContext, IMapper Mapper)
         var login = command.Request.Login.Trim();
         var user = await DbContext.Users
                 .Include(u => u.Permissions)
+                .Include(u => u.Employee)
                 .Where(u => u.Status == UserStatus.Active)
                 .Where(u => u.Login == login || u.Email == login)
                 .FirstOrDefaultAsync(cancellationToken)

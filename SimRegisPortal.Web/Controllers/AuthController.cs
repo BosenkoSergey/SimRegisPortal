@@ -29,6 +29,7 @@ public class AuthController : ControllerBase
         {
             new(CustomClaimTypes.UserId, response.UserId.ToString()),
             new(CustomClaimTypes.UserName, response.UserName.ToString()),
+            new(CustomClaimTypes.EmployeeId, response.EmployeeId?.ToString() ?? string.Empty),
             new(CustomClaimTypes.IsAdmin, response.IsAdmin.ToString()),
             new(CustomClaimTypes.Permissions, string.Join(Separators.UserPermissions, response.Permissions))
         };

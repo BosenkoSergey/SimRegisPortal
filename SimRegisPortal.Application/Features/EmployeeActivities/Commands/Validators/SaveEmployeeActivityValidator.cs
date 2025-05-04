@@ -36,8 +36,8 @@ public sealed class SaveEmployeeActivityValidator
             var isContracted = await _dbContext.Contracts
             .AnyAsync(r => r.ProjectId == command.Dto.ProjectId
                         && r.EmployeeId == command.Dto.EmployeeId
-                        && r.DateFrom <= command.Dto.Date.Date
-                        && r.DateTo >= command.Dto.Date.Date,
+                        && r.DateFrom <= command.Dto.Date!.Value.Date
+                        && r.DateTo >= command.Dto.Date!.Value.Date,
                 cancellationToken);
             if (!isContracted)
             {

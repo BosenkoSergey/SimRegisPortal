@@ -13,6 +13,7 @@ public class UserContext : IUserContext
     public bool IsAuthenticated { get; private set; }
     public bool IsAdmin { get; private set; }
     public Guid UserId { get; private set; }
+    public Guid? EmployeeId { get; private set; }
     public string UserName { get; private set; }
     public HashSet<UserPermissionType> Permissions { get; private set; } = [];
 
@@ -27,6 +28,7 @@ public class UserContext : IUserContext
             IsAdmin = GetClaimValue<bool>(CustomClaimTypes.IsAdmin);
             UserId = GetClaimValue<Guid>(CustomClaimTypes.UserId);
             UserName = GetClaimValue<string>(CustomClaimTypes.UserName);
+            EmployeeId = GetClaimNullableValue<Guid>(CustomClaimTypes.EmployeeId);
             Permissions = GetClaimHashSet<UserPermissionType>(CustomClaimTypes.Permissions, Separators.UserPermissions);
         }
         else
@@ -34,6 +36,7 @@ public class UserContext : IUserContext
             IsAdmin = false;
             UserId = Guid.Empty;
             UserName = string.Empty;
+            EmployeeId = null;
             Permissions = [];
         }
     }
@@ -46,6 +49,19 @@ public class UserContext : IUserContext
     public bool HasAnyPermission(params UserPermissionType[] requiredPermissions)
     {
         return IsAdmin || Permissions.Overlaps(requiredPermissions);
+    }
+
+    private T? GetClaimNullableValue<T>(string claimType)
+        where T : struct
+    {
+        try
+        {
+            return GetClaimValue<T>(claimType);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     private T GetClaimValue<T>(string claimType)

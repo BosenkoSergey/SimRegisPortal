@@ -1,0 +1,114 @@
+﻿@page "/activity"
+@page "/activity/{Id:guid}"
+@inherits BaseEditPage<Guid, EmployeeActivityDto>
+
+@using SimRegisPortal.Application.Features.EmployeeActivities.Commands
+@using SimRegisPortal.Application.Features.EmployeeActivities.Queries
+@using SimRegisPortal.Application.Features.Projects.Queries
+@using SimRegisPortal.Application.Features.Employees.Queries
+
+@attribute [Authorize]
+
+<PageTitle>@PageTitle</PageTitle>
+
+<MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
+    <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
+
+    @if (_model != null)
+    {
+        <MudForm @ref="_form">
+            <MudStack Spacing="2">
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudSelect Label="Project" @bind-Value="_model.ProjectId" Required>
+                            @foreach (var project in _projects)
+                            {
+                                <MudSelectItem Value="@project.Key">@project.Value</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudSelect Label="Employee" @bind-Value="_model.EmployeeId" Required>
+                            @foreach (var employee in _employees)
+                            {
+                                <MudSelectItem Value="@employee.Key">@employee.Value</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
+
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudDatePicker Label="Date" @bind-Date="_model.Date" Required DateFormat="yyyy-MM-dd" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="_model.Hours" Label="Hours" Required Format="0.##" Culture="@CultureInfo.InvariantCulture" />
+                    </MudItem>
+                </MudGrid>
+
+                <MudTextField @bind-Value="_model.Description" Label="Description" Lines="3" />
+
+                <MudGrid Justify="Justify.FlexEnd">
+                    <MudItem>
+                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Back</MudButton>
+                    </MudItem>
+                    <MudItem>
+                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Save</MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudStack>
+        </MudForm>
+    }
+    else
+    {
+        <MudProgressCircular Indeterminate Size="Size.Large" />
+    }
+</MudPaper>
+
+@code {
+    private Dictionary<Guid, string> _projects = new();
+    private Dictionary<Guid, string> _employees = new();
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        PageTitle = "Activity";
+
+        var projectsResult = await SendSafeAsync(new GetProjectsLookupQuery());
+        if (projectsResult.IsSuccess)
+        {
+            _projects = projectsResult.Value!;
+        }
+
+        var employeesResult = await SendSafeAsync(new GetEmployeesLookupQuery());
+        if (employeesResult.IsSuccess)
+        {
+            _employees = employeesResult.Value!;
+
+            if (!UserContext.HasPermission(UserPermissionType.ActivitiesWriteAll))
+            {
+                _employees = _employees
+                    .Where(e => e.Key == UserContext.EmployeeId)
+                    .ToDictionary(i => i.Key, i => i.Value);
+            }
+        }
+
+        await LoadModelAsync();
+    }
+
+    protected override IRequest<EmployeeActivityDto> GetCommand(Guid id) =>
+        new GetEmployeeActivityQuery(id);
+
+    protected override IRequest<EmployeeActivityDto> SaveCommand(EmployeeActivityDto model) =>
+        new SaveEmployeeActivityCommand(model);
+
+    protected override EmployeeActivityDto CreateNew()
+    {
+        return new()
+        {
+            IsNew = true,
+            Date = DateTime.UtcNow.Date,
+            ProjectId = _projects.Keys.FirstOrDefault(),
+            EmployeeId = UserContext.EmployeeId ?? _employees.Keys.FirstOrDefault()
+        };
+    }
+}

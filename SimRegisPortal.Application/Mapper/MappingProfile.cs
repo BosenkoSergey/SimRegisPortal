@@ -55,6 +55,7 @@ public class MappingProfile : Profile
         CreateMap<User, AuthResponse>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.FullName))
+            .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee != null ? (Guid?)src.Employee.Id : null))
             .ForMember(dest => dest.Permissions, opt => opt.Ignore())
             .AfterMap((src, dest) =>
             {

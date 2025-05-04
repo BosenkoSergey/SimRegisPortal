@@ -1,0 +1,92 @@
+﻿@page "/activities"
+@inherits BaseViewPage<Guid, EmployeeActivityDto>
+
+@using SimRegisPortal.Application.Features.EmployeeActivities.Queries
+@using SimRegisPortal.Application.Features.EmployeeActivities.Commands
+@using SimRegisPortal.Application.Features.Projects.Queries
+@using SimRegisPortal.Application.Features.Employees.Queries
+
+@attribute [Authorize]
+
+<PageTitle>@PageTitle</PageTitle>
+
+<MudPaper Class="mt-3 px-3 py-3">
+    <EmployeeActivitySearchPanel QueryParams="_queryParams" Projects="_projects" Employees="_employees" Search="Search" />
+
+    <MudDataGrid Items="_entities" @ref="_grid" Filterable Dense>
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">@PageTitle</MudText>
+            <MudSpacer />
+            <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
+                Add
+            </MudButton>
+        </ToolBarContent>
+
+        <Columns>
+            <PropertyColumn Property="x => x.ProjectId" Title="Project">
+                <CellTemplate Context="context">
+                    @_projects.GetValueOrDefault(context.Item.ProjectId)
+                </CellTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="x => x.EmployeeId" Title="Employee">
+                <CellTemplate Context="context">
+                    @_employees.GetValueOrDefault(context.Item.EmployeeId)
+                </CellTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="x => x.Date" Title="Date" Format="yyyy-MM-dd" />
+            <PropertyColumn Property="x => x.Hours" Title="Hours" Format="0.##" />
+            <PropertyColumn Property="x => x.Description" Title="Description" />
+
+            <TemplateColumn>
+                <CellTemplate Context="context">
+                    @if (UserContext.HasPermission(UserPermissionType.ActivitiesWriteAll) || UserContext.EmployeeId == context.Item.EmployeeId)
+                    {
+                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => Edit(context.Item.Id))" Size="Size.Small" />
+                        <MudIconButton Icon="@Icons.Material.Filled.DeleteForever" OnClick="@(() => Delete(context.Item.Id))" Size="Size.Small" />
+                    }
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+
+        <PagerContent>
+            <MudDataGridPager />
+        </PagerContent>
+    </MudDataGrid>
+</MudPaper>
+
+@code {
+    private EmployeeActivityQueryParams _queryParams = new();
+    private Dictionary<Guid, string> _projects = new();
+    private Dictionary<Guid, string> _employees = new();
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        PageTitle = "Activities";
+        EditPageUrl = "/activity";
+
+        if (!UserContext.HasPermission(UserPermissionType.ActivitiesReadAll))
+        {
+            _queryParams = new(UserContext.EmployeeId ?? Guid.Empty);
+        }
+
+        var projectsResult = await SendSafeAsync(new GetProjectsLookupQuery());
+        if (projectsResult.IsSuccess)
+        {
+            _projects = projectsResult.Value!;
+        }
+
+        var employeesResult = await SendSafeAsync(new GetEmployeesLookupQuery());
+        if (employeesResult.IsSuccess)
+        {
+            _employees = employeesResult.Value!;
+        }
+
+        await LoadEntities();
+    }
+
+    protected override IRequest<IEnumerable<EmployeeActivityDto>> GetCommand() =>
+        new GetEmployeeActivitiesQuery(_queryParams);
+
+    protected override IRequest DeleteCommand(Guid Id) =>
+        new DeleteEmployeeActivityCommand(Id);
+}

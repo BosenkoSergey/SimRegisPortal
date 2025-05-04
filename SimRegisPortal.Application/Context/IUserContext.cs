@@ -1,5 +1,4 @@
-﻿using SimRegisPortal.Application.Models.Auth;
-using SimRegisPortal.Core.Enums;
+﻿using SimRegisPortal.Core.Enums;
 
 namespace SimRegisPortal.Application.Context;
 
@@ -9,6 +8,7 @@ public interface IUserContext
     bool IsAdmin { get; }
     Guid UserId { get; }
     string UserName { get; }
+    Guid? EmployeeId { get; }
     HashSet<UserPermissionType> Permissions { get; }
 
     bool HasPermission(UserPermissionType permission);
