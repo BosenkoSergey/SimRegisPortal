@@ -1,0 +1,42 @@
+﻿<MudGrid Justify="Justify.FlexStart" Class="mb-3">
+    <MudItem Style="width: 220px;">
+        <MudDatePicker Label="Date From" @bind-Date="QueryParams.DateFrom" Clearable Variant="Variant.Outlined" />
+    </MudItem>
+
+    <MudItem Style="width: 220px;">
+        <MudDatePicker Label="Date To" @bind-Date="QueryParams.DateTo" Clearable Variant="Variant.Outlined" />
+    </MudItem>
+
+    <MudItem Style="width: 250px;">
+        <MudSelect Label="Project" @bind-Value="QueryParams.ProjectId" Clearable Variant="Variant.Outlined">
+            @foreach (var project in Projects)
+            {
+                <MudSelectItem Value="@((Guid?)project.Key)"> @project.Value </MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+
+    <MudItem Style="width: 250px;">
+        <MudSelect Label="Employee" @bind-Value="QueryParams.EmployeeId" Disabled="@QueryParams.IsLockedEmployee" Clearable Variant="Variant.Outlined">
+            @foreach (var employee in Employees)
+            {
+                <MudSelectItem Value="@((Guid?)employee.Key)"> @employee.Value </MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+
+    <MudItem Style="width: 150px;" Class="d-flex align-center">
+        <MudButton OnClick="@(() => Search.InvokeAsync(null))"
+                   Variant="Variant.Filled" Color="Color.Primary"
+                   Style="height: 56px; width: 100%;">
+            Search
+        </MudButton>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Parameter] public EmployeeActivityQueryParams QueryParams { get; set; } = default!;
+    [Parameter] public Dictionary<Guid, string> Projects { get; set; } = default!;
+    [Parameter] public Dictionary<Guid, string> Employees { get; set; } = default!;
+    [Parameter] public EventCallback Search { get; set; }
+}

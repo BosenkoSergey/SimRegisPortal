@@ -39,6 +39,12 @@ public class MappingProfile : Profile
         CreateMap<EmployeeActivityDto, EmployeeActivity>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
 
+        CreateMap<TimeReportDto, TimeReport>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        CreateMap<PaymentRequestDto, PaymentRequest>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
         CreateMap<TaxSettingDto, TaxSetting>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
 
@@ -75,6 +81,14 @@ public class MappingProfile : Profile
         CreateMap<Employee, EmployeeDto>();
 
         CreateMap<EmployeeActivity, EmployeeActivityDto>();
+
+        CreateMap<TimeReport, TimeReportDto>();
+
+        CreateMap<PaymentRequest, PaymentRequestDto>()
+            .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.TimeReport.Year))
+            .ForMember(dest => dest.Month, opt => opt.MapFrom(src => src.TimeReport.Month))
+            .ForMember(dest => dest.EmployeeFullName, opt => opt.MapFrom(src =>
+                $"{src.TimeReport.Employee.LastName} {src.TimeReport.Employee.FirstName} {src.TimeReport.Employee.MiddleName}"));
 
         CreateMap<TaxSetting, TaxSettingDto>();
 

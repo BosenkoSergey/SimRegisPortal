@@ -34,20 +34,20 @@ public enum UserPermissionType
     [Description("contracts-write")]
     ContractsWrite = 510,
 
-    [Description("all-timere-ports-read")]
+    [Description("timere-ports-read-all")]
     TimeReportsReadAll = 600,
 
-    [Description("all-timere-ports-write")]
+    [Description("timere-ports-write-all")]
     TimeReportsWriteAll = 610,
 
-    [Description("all-activities-read")]
+    [Description("activities-read-all")]
     ActivitiesReadAll = 700,
 
-    [Description("all-activities-write")]
+    [Description("activities-write-all")]
     ActivitiesWriteAll = 710,
 
-    [Description("payment-requests-read")]
-    PaymentRequestsRead = 800,
+    [Description("payment-requests-read-all")]
+    PaymentRequestsReadAll = 800,
 
     [Description("payment-requests-write")]
     PaymentRequestsWrite = 810,

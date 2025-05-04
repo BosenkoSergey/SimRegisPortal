@@ -29,13 +29,17 @@
             {
                 <MudNavLink Href="contracts" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Newspaper">Contracts</MudNavLink>
             }
-            @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesRead))
+            @if (UserContext.HasPermission(UserPermissionType.PaymentRequestsReadAll))
             {
-                <MudNavLink Href="exchange-rates" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CurrencyExchange">Exchange Rates</MudNavLink>
+                <MudNavLink Href="payment-requests" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments">Payment Requests</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.TaxSettingsRead))
             {
-                <MudNavLink Href="tax-settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments">Tax Settings</MudNavLink>
+                <MudNavLink Href="tax-settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Percent">Tax Settings</MudNavLink>
+            }
+            @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesRead))
+            {
+                <MudNavLink Href="exchange-rates" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CurrencyExchange">Exchange Rates</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.SystemLogsRead))
             {

@@ -1,0 +1,47 @@
+﻿<MudGrid Justify="Justify.FlexStart" Class="mb-3">
+    <MudItem Style="width: 150px;">
+        <MudSelect Label="Year" @bind-Value="QueryParams.Year" Variant="Variant.Outlined">
+            @foreach (var year in AvailableYears)
+            {
+                <MudSelectItem Value="@year">@year</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+
+    <MudItem Style="width: 180px;">
+        <MudSelect Label="Month" @bind-Value="QueryParams.Month" Clearable Variant="Variant.Outlined">
+            @foreach (var month in Enum.GetValues<Month>())
+            {
+                <MudSelectItem Value="@month">@month.ToString()</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+
+    <MudItem Style="width: 250px;">
+        <MudSelect Label="Employee" @bind-Value="QueryParams.EmployeeId"
+                   Clearable Variant="Variant.Outlined"
+                   Disabled="@QueryParams.IsLockedEmployee">
+            @foreach (var employee in Employees)
+            {
+                <MudSelectItem Value="@((Guid?)employee.Key)">@employee.Value</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+
+    <MudItem Style="width: 150px;" Class="d-flex align-center">
+        <MudButton OnClick="@(() => Search.InvokeAsync(null))"
+                   Variant="Variant.Filled" Color="Color.Primary"
+                   Style="height: 56px; width: 100%;">
+            Search
+        </MudButton>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Parameter] public TimeReportQueryParams QueryParams { get; set; } = default!;
+    [Parameter] public Dictionary<Guid, string> Employees { get; set; } = default!;
+    [Parameter] public EventCallback Search { get; set; }
+
+    private IEnumerable<int> AvailableYears =>
+        Enumerable.Range(DateTime.Now.Year - 5, 6);
+}

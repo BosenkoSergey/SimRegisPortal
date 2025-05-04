@@ -1,17 +1,42 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SimRegisPortal.Application.Features.Base.Queries;
 using SimRegisPortal.Application.Models.Entities;
+using SimRegisPortal.Application.Models.Entities.Related;
 using SimRegisPortal.Core.Entities;
 using SimRegisPortal.Persistence.Context;
 
 namespace SimRegisPortal.Application.Features.TimeReports.Queries;
 
-public sealed record GetTimeReportsQuery
+public sealed record GetTimeReportsQuery(TimeReportQueryParams QueryParams)
     : GetManyQuery<TimeReportDto>;
 
 internal sealed class GetTimeReportsHandler(AppDbContext dbContext, IMapper mapper)
     : GetManyHandler<GetTimeReportsQuery, TimeReport, TimeReportDto>(dbContext, mapper)
 {
+    protected override async Task<IEnumerable<TimeReport>> GetEntities(GetTimeReportsQuery query, CancellationToken cancellationToken)
+    {
+        var entitiesQuery = GetEntitiesQuery();
+
+        if (query.QueryParams.Year.HasValue)
+        {
+            entitiesQuery = entitiesQuery.Where(r =>
+                r.Year >= query.QueryParams.Year.Value);
+        }
+        if (query.QueryParams.Month.HasValue)
+        {
+            entitiesQuery = entitiesQuery.Where(r =>
+                r.Month <= query.QueryParams.Month.Value);
+        }
+        if (query.QueryParams.EmployeeId.HasValue)
+        {
+            entitiesQuery = entitiesQuery.Where(r =>
+                r.EmployeeId == query.QueryParams.EmployeeId.Value);
+        }
+
+        return await entitiesQuery.ToListAsync(cancellationToken);
+    }
+
     protected override IEnumerable<TimeReportDto> CreateResponse(IEnumerable<TimeReport> entities)
     {
         var response = base.CreateResponse(entities);
