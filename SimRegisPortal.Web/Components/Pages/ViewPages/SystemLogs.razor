@@ -19,7 +19,7 @@
         <Columns>
             <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
 
-            <PropertyColumn Property="x => x.TimeStamp" Title="Timestamp" Format="yyyy-MM-dd HH:mm:ss" />
+            <PropertyColumn Property="x => x.TimeStamp" Title="Timestamp" Format="dd.MM.yyyy HH:mm:ss" />
             <PropertyColumn Property="x => x.Level" Title="Level" />
             <PropertyColumn Property="x => x.Message" Title="Message">
                 <CellTemplate Context="context">

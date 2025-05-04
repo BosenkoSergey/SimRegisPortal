@@ -32,7 +32,7 @@
             </CellTemplate>
         </PropertyColumn>
 
-        <PropertyColumn Property="x => x.Date" Title="Date" Format="yyyy-MM-dd" />
+        <PropertyColumn Property="x => x.Date" Title="Date" Format="dd.MM.yyyy" />
         <PropertyColumn Property="x => x.Hours" Title="Duration">
             <CellTemplate Context="context">
                 @($"{(int)context.Item.Hours}:{(int)(context.Item.Hours * 60 % 60):00}")

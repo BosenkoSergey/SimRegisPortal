@@ -44,13 +44,13 @@
 
             <PropertyColumn Property="x => x.CreatedAt" Title="Created At">
                 <CellTemplate Context="context">
-                    @context.Item.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+                    @context.Item.CreatedAt.ToString("dd.MM.yyyy HH:mm")
                 </CellTemplate>
             </PropertyColumn>
 
             <PropertyColumn Property="x => x.UpdatedAt" Title="Updated At">
                 <CellTemplate Context="context">
-                    @context.Item.UpdatedAt.ToString("yyyy-MM-dd HH:mm")
+                    @context.Item.UpdatedAt.ToString("dd.MM.yyyy HH:mm")
                 </CellTemplate>
             </PropertyColumn>
 

@@ -7,6 +7,6 @@ public sealed class SystemLogQueryParams
 
     public SystemLogQueryParams()
     {
-        DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        DateFrom = DateTime.UtcNow.AddMonths(-1).Date;
     }
 }

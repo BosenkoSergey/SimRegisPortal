@@ -11,7 +11,7 @@ public sealed class EmployeeActivityQueryParams
 
     public EmployeeActivityQueryParams()
     {
-        DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        DateFrom = new DateTime(DateTime.Now.Year, 1, 1);
     }
 
     public EmployeeActivityQueryParams(Guid timeReportId)

@@ -9,6 +9,6 @@ public sealed class ExchangeRateQueryParams
 
     public ExchangeRateQueryParams()
     {
-        DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(-1);
     }
 }

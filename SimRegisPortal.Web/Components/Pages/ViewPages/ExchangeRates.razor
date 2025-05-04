@@ -38,7 +38,7 @@
                     @_currencies.GetValueOrDefault(context.Item.ToCurrencyId)
                 </CellTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="x => x.Date" Title="Date" Format="yyyy-MM-dd" />
+            <PropertyColumn Property="x => x.Date" Title="Date" Format="dd.MM.yyyy" />
             <PropertyColumn Property="x => x.Rate" Title="Rate" Format="0.0000000" />
 
             @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesWrite))

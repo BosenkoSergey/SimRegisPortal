@@ -41,8 +41,8 @@
             </PropertyColumn>
 
             <PropertyColumn Property="x => x.Number" Title="Number" />
-            <PropertyColumn Property="x => x.DateFrom" Title="From" Format="yyyy-MM-dd" />
-            <PropertyColumn Property="x => x.DateTo" Title="To" Format="yyyy-MM-dd" />
+            <PropertyColumn Property="x => x.DateFrom" Title="From" Format="dd.MM.yyyy" />
+            <PropertyColumn Property="x => x.DateTo" Title="To" Format="dd.MM.yyyy" />
 
             @if (UserContext.HasPermission(UserPermissionType.ContractsWrite))
             {
