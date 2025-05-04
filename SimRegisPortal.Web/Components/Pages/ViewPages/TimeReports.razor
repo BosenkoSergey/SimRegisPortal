@@ -1,0 +1,81 @@
+﻿@page "/time-reports"
+@inherits BaseViewPage<Guid, TimeReportDto>
+
+@using SimRegisPortal.Application.Features.Employees.Queries
+@using SimRegisPortal.Application.Features.TimeReports.Queries
+
+@attribute [Authorize]
+
+<PageTitle>@PageTitle</PageTitle>
+
+<MudPaper Class="mt-3 px-3 py-3">
+    <TimeReportSearchPanel QueryParams="_queryParams" Employees="_employees" Search="Search" />
+
+    <MudDataGrid Items="_entities" @ref="_grid" Filterable Hover Dense>
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">@PageTitle</MudText>
+            <MudSpacer />
+        </ToolBarContent>
+
+        <Columns>
+            <PropertyColumn Property="x => x.EmployeeId" Title="Employee">
+                <CellTemplate Context="context">
+                    @_employees.GetValueOrDefault(context.Item.EmployeeId)
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.Year" Title="Year" />
+            <PropertyColumn Property="x => x.Month" Title="Month" />
+
+            <PropertyColumn Property="x => x.Status" Title="Status" />
+
+            <PropertyColumn Property="x => x.Hours" Title="Hours">
+                <CellTemplate Context="context">
+                    @($"{(int)context.Item.Hours}:{(int)(context.Item.Hours * 60 % 60):00}")
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.CreatedAt" Title="Created At">
+                <CellTemplate Context="context">
+                    @context.Item.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+                </CellTemplate>
+            </PropertyColumn>
+
+            <PropertyColumn Property="x => x.UpdatedAt" Title="Updated At">
+                <CellTemplate Context="context">
+                    @context.Item.UpdatedAt.ToString("yyyy-MM-dd HH:mm")
+                </CellTemplate>
+            </PropertyColumn>
+        </Columns>
+
+        <PagerContent>
+            <MudDataGridPager />
+        </PagerContent>
+    </MudDataGrid>
+</MudPaper>
+
+@code {
+    private TimeReportQueryParams _queryParams = new();
+    private Dictionary<Guid, string> _employees = new();
+
+    protected override async Task OnFirstInitializedAsync()
+    {
+        PageTitle = "Time Reports";
+
+        if (!UserContext.HasPermission(UserPermissionType.TimeReportsReadAll))
+        {
+            _queryParams = new(UserContext.EmployeeId ?? Guid.Empty);
+        }
+
+        var result = await SendSafeAsync(new GetEmployeesLookupQuery());
+        if (result.IsSuccess)
+        {
+            _employees = result.Value!;
+        }
+
+        await LoadEntities();
+    }
+
+    protected override IRequest<IEnumerable<TimeReportDto>> GetCommand() =>
+        new GetTimeReportsQuery(_queryParams);
+}
