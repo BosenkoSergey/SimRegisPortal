@@ -39,7 +39,7 @@
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudDatePicker Label="Date" @bind-Date="_model.Date" Required DateFormat="yyyy-MM-dd" />
+                        <MudDatePicker Label="Date" @bind-Date="_model.Date" Editable Required DateFormat="yyyy-MM-dd" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <MudTimePicker Label="Duration" Time="_duration" TimeChanged="OnDurationChanged" Editable Required />
