@@ -79,6 +79,9 @@
                             }
                             @if (context.Item.Status is TimeReportStatus.Approved)
                             {
+                                <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Rejected))" Color="Color.Error" Variant="Variant.Filled" Size="Size.Small">
+                                    Back
+                                </MudButton>
                                 <MudButton OnClick="@(() => Recalculate(context.Item.Id))" Color="Color.Warning" Variant="Variant.Filled" Size="Size.Small">
                                     Recalculate
                                 </MudButton>
