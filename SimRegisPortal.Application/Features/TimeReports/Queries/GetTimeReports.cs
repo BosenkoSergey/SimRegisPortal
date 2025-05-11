@@ -21,12 +21,12 @@ internal sealed class GetTimeReportsHandler(AppDbContext dbContext, IMapper mapp
         if (query.QueryParams.Year.HasValue)
         {
             entitiesQuery = entitiesQuery.Where(r =>
-                r.Year >= query.QueryParams.Year.Value);
+                r.Year == query.QueryParams.Year.Value);
         }
         if (query.QueryParams.Month.HasValue)
         {
             entitiesQuery = entitiesQuery.Where(r =>
-                r.Month <= query.QueryParams.Month.Value);
+                r.Month == query.QueryParams.Month.Value);
         }
         if (query.QueryParams.EmployeeId.HasValue)
         {

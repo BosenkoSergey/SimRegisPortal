@@ -26,12 +26,12 @@ internal sealed class GetPaymentRequestsHandler(AppDbContext dbContext, IMapper 
         if (query.QueryParams.Year.HasValue)
         {
             entitiesQuery = entitiesQuery.Where(r =>
-                r.TimeReport.Year >= query.QueryParams.Year.Value);
+                r.TimeReport.Year == query.QueryParams.Year.Value);
         }
         if (query.QueryParams.Month.HasValue)
         {
             entitiesQuery = entitiesQuery.Where(r =>
-                r.TimeReport.Month <= query.QueryParams.Month.Value);
+                r.TimeReport.Month == query.QueryParams.Month.Value);
         }
         if (query.QueryParams.EmployeeId.HasValue)
         {
