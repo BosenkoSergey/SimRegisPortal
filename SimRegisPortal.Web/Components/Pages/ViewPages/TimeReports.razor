@@ -107,7 +107,7 @@
                 <ActivitiesView TimeReportId="@_selectedTimeReport.Id" />
             </MudTabPanel>
             <MudTabPanel Text="Payment Requests">
-                <PaymentRequestsView TimeReportId="@_selectedTimeReport.Id" />
+                <PaymentRequestsView @key="_timeReportRowNumber" TimeReportId="@_selectedTimeReport.Id" />
             </MudTabPanel>
         </MudTabs>
     }
@@ -116,6 +116,8 @@
 @code {
     private TimeReportQueryParams _queryParams = new();
     private Dictionary<Guid, string> _employees = new();
+
+    private string _timeReportRowNumber = Guid.NewGuid().ToString();
 
     private TimeReportDto? _selectedTimeReport;
 
@@ -161,7 +163,7 @@
         if (result)
         {
             await Notifier.Success("Recalculated successfully.");
-            await LoadEntities();
+            _timeReportRowNumber = Guid.NewGuid().ToString();
         }
     }
 }

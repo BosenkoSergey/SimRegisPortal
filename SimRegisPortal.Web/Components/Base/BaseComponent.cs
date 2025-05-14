@@ -9,7 +9,7 @@ namespace SimRegisPortal.Web.Components.Base;
 
 public abstract class BaseComponent : ComponentBase
 {
-    [Inject] protected ISender Mediator { get; set; } = default!;
+    [Inject] protected IServiceScopeFactory ScopeFactory { get; set; } = default!;
     [Inject] protected IUserContext UserContext { get; set; } = default!;
     [Inject] protected IUiNotifier Notifier { get; set; } = default!;
     [Inject] protected IDialogService DialogService { get; set; } = default!;
@@ -61,12 +61,22 @@ public abstract class BaseComponent : ComponentBase
 
     protected async Task<bool> SendSafeAsync(IRequest request)
     {
-        return await ExecuteSafeAsync(() => Mediator.Send(request));
+        return await ExecuteSafeAsync(async () =>
+        {
+            using var scope = ScopeFactory.CreateScope();
+            var scopedSender = scope.ServiceProvider.GetRequiredService<ISender>();
+            await scopedSender.Send(request);
+        });
     }
 
     protected async Task<(bool IsSuccess, T? Value)> SendSafeAsync<T>(IRequest<T> request)
     {
-        return await ExecuteSafeAsync(() => Mediator.Send(request));
+        return await ExecuteSafeAsync(async () =>
+        {
+            using var scope = ScopeFactory.CreateScope();
+            var scopedSender = scope.ServiceProvider.GetRequiredService<ISender>();
+            return await scopedSender.Send(request);
+        });
     }
 
     protected void CheckPermissions(params UserPermissionType[] requiredPermissions)
