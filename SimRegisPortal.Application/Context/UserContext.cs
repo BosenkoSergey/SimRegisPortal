@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Components.Authorization;
 using SimRegisPortal.Application.Constants;
 using SimRegisPortal.Core.Enums;
 
@@ -8,7 +8,9 @@ namespace SimRegisPortal.Application.Context;
 
 public class UserContext : IUserContext
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly AuthenticationStateProvider _authStateProvider;
+    private bool _initialized;
+    private ClaimsPrincipal? _user;
 
     public bool IsAuthenticated { get; private set; }
     public bool IsAdmin { get; private set; }
@@ -17,11 +19,20 @@ public class UserContext : IUserContext
     public string UserName { get; private set; }
     public HashSet<UserPermissionType> Permissions { get; private set; } = [];
 
-    public UserContext(IHttpContextAccessor httpContextAccessor)
+    public UserContext(AuthenticationStateProvider authStateProvider)
     {
-        _httpContextAccessor = httpContextAccessor;
+        _authStateProvider = authStateProvider;
+    }
 
-        IsAuthenticated = _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false;
+    public async Task InitializeAsync()
+    {
+        if (_initialized) return;
+
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        _user = authState.User;
+        _initialized = true;
+
+        IsAuthenticated = _user?.Identity?.IsAuthenticated ?? false;
 
         if (IsAuthenticated)
         {
@@ -66,7 +77,7 @@ public class UserContext : IUserContext
 
     private T GetClaimValue<T>(string claimType)
     {
-        var claimValue = _httpContextAccessor.HttpContext?.User.FindFirstValue(claimType);
+        var claimValue = _user?.FindFirstValue(claimType);
         return ParseClaimPart<T>(claimValue);
     }
 

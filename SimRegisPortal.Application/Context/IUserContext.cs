@@ -11,6 +11,8 @@ public interface IUserContext
     Guid? EmployeeId { get; }
     HashSet<UserPermissionType> Permissions { get; }
 
+    Task InitializeAsync();
+
     bool HasPermission(UserPermissionType permission);
     bool HasAnyPermission(params UserPermissionType[] requiredPermissions);
 }

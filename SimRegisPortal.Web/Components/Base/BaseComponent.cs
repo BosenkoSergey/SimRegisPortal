@@ -26,6 +26,8 @@ public abstract class BaseComponent : ComponentBase
 
         _initialized = true;
 
+        await UserContext.InitializeAsync();
+
         await ExecuteSafeAsync(OnFirstInitializedAsync);
     }
 
