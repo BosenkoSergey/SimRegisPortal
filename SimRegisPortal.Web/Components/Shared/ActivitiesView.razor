@@ -20,6 +20,8 @@
     </ToolBarContent>
 
     <Columns>
+        <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
+
         <PropertyColumn Property="x => x.ProjectId" Title="Проєкт">
             <CellTemplate Context="context">
                 @_projects.GetValueOrDefault(context.Item.ProjectId)
@@ -38,7 +40,18 @@
                 @($"{(int)context.Item.Hours}:{(int)(context.Item.Hours * 60 % 60):00}")
             </CellTemplate>
         </PropertyColumn>
-        <PropertyColumn Property="x => x.Description" Title="Опис" />
+
+        <PropertyColumn Property="x => x.Priority" Title="Пріоритет">
+            <CellTemplate Context="context">
+                @context.Item.Priority.GetDescription()
+            </CellTemplate>
+        </PropertyColumn>
+
+        <PropertyColumn Property="x => x.Complexity" Title="Складність">
+            <CellTemplate Context="context">
+                @context.Item.Complexity.GetDescription()
+            </CellTemplate>
+        </PropertyColumn>
 
         <TemplateColumn>
             <CellTemplate Context="context">
@@ -50,6 +63,15 @@
             </CellTemplate>
         </TemplateColumn>
     </Columns>
+
+    <ChildRowContent>
+        <MudPaper Class="px-4 py-2">
+            <MudText Typo="Typo.subtitle2">Опис:</MudText>
+            <MudText Class="mud-font-monospace mud-text-body2 mb-2" Style="white-space: pre-wrap;">
+                @context.Item.Description
+            </MudText>
+        </MudPaper>
+    </ChildRowContent>
 
     <PagerContent>
         <MudDataGridPager />

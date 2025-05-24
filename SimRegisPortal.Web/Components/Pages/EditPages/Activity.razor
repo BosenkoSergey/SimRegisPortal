@@ -55,6 +55,26 @@
                     </MudItem>
                 </MudGrid>
 
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudSelect T="PriorityType" Label="Пріоритет" @bind-Value="_model.Priority" Required>
+                            @foreach (var priority in Enum.GetValues<PriorityType>())
+                            {
+                                <MudSelectItem Value="@priority">@priority.GetDescription()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudSelect T="ComplexityType" Label="Складність" @bind-Value="_model.Complexity" Required>
+                            @foreach (var complexity in Enum.GetValues<ComplexityType>())
+                            {
+                                <MudSelectItem Value="@complexity">@complexity.GetDescription()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
+
+
                 <MudTextField @bind-Value="_model.Description" Label="Опис" Lines="3" Required />
 
                 <MudGrid Justify="Justify.FlexEnd">

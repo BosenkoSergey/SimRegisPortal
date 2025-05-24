@@ -1,4 +1,6 @@
-﻿namespace SimRegisPortal.Core.Entities;
+﻿using SimRegisPortal.Core.Enums;
+
+namespace SimRegisPortal.Core.Entities;
 
 public sealed class EmployeeActivity : BaseEntity<Guid>
 {
@@ -7,6 +9,8 @@ public sealed class EmployeeActivity : BaseEntity<Guid>
     public Guid TimeReportId { get; set; }
     public DateTime Date { get; set; }
     public decimal Hours { get; set; }
+    public PriorityType Priority { get; set; }
+    public ComplexityType Complexity { get; set; }
     public string Description { get; set; } = null!;
 
     public Project Project { get; set; } = default!;
