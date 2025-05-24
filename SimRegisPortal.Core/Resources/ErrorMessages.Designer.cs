@@ -178,7 +178,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цей користувач не має контракту на вибраний проєкт і період..
+        ///   Looks up a localized string similar to Цей працівник не має контракту на вибраний проєкт і період..
         /// </summary>
         public static string Validation_EmployeeActivity_NotContracted {
             get {
@@ -277,7 +277,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Звіт про час вже затверджено. Зверніться до свого менеджера, щоб внести зміни..
+        ///   Looks up a localized string similar to Часовий звіт вже затверджено. Зверніться до свого менеджера, щоб внести зміни..
         /// </summary>
         public static string Validation_TimeReport_Finilized {
             get {

@@ -157,7 +157,7 @@
     <value>Кількість годин має бути більшою за нуль.</value>
   </data>
   <data name="Validation.EmployeeActivity.NotContracted" xml:space="preserve">
-    <value>Цей користувач не має контракту на вибраний проєкт і період.</value>
+    <value>Цей працівник не має контракту на вибраний проєкт і період.</value>
   </data>
   <data name="Validation.ExchangeRate.AlreadyExists" xml:space="preserve">
     <value>Курс обміну з такими значеннями "З валюти", "До валюти" та Дата вже існує.</value>
@@ -190,6 +190,6 @@
     <value>Слабкий пароль: має містити щонайменше 6 символів, включаючи великі, малі літери та цифру.</value>
   </data>
   <data name="Validation.TimeReport.Finilized" xml:space="preserve">
-    <value>Звіт про час вже затверджено. Зверніться до свого менеджера, щоб внести зміни.</value>
+    <value>Часовий звіт вже затверджено. Зверніться до свого менеджера, щоб внести зміни.</value>
   </data>
 </root>
