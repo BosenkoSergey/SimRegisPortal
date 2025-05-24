@@ -7,7 +7,7 @@
 
 @attribute [Authorize]
 
-<PageTitle>Company</PageTitle>
+<PageTitle>Компанія</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
     <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
@@ -16,34 +16,34 @@
     {
         <MudForm @ref="_form">
             <MudStack Spacing="2">
-                <MudTextField @bind-Value="_model.Name" Label="Name" Required />
+                <MudTextField @bind-Value="_model.Name" Label="Назва" Required />
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.TaxNumber" Label="Tax Number" />
+                        <MudTextField @bind-Value="_model.TaxNumber" Label="Податковий номер" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.RegistrationNumber" Label="Registration Number" />
+                        <MudTextField @bind-Value="_model.RegistrationNumber" Label="Реєстраційний номер" />
                     </MudItem>
 
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.Phone" Label="Phone" />
+                        <MudTextField @bind-Value="_model.Phone" Label="Телефон" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.Email" Label="Email" />
+                        <MudTextField @bind-Value="_model.Email" Label="Пошта" />
                     </MudItem>
                 </MudGrid>
 
-                <MudTextField @bind-Value="_model.ContactPerson" Label="Contact Person" />
-                <MudTextField @bind-Value="_model.Address" Label="Address" Lines="2" />
-                <MudTextField @bind-Value="_model.Notes" Label="Notes" Lines="3" />
+                <MudTextField @bind-Value="_model.ContactPerson" Label="Контактна особа" />
+                <MudTextField @bind-Value="_model.Address" Label="Адреса" Lines="2" />
+                <MudTextField @bind-Value="_model.Notes" Label="Примітки" Lines="3" />
 
                 <MudGrid Justify="Justify.FlexEnd">
                     <MudItem>
-                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Back</MudButton>
+                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Назад</MudButton>
                     </MudItem>
                     <MudItem>
-                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Save</MudButton>
+                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Зберегти</MudButton>
                     </MudItem>
                 </MudGrid>
             </MudStack>
@@ -58,7 +58,7 @@
 @code {
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Company";
+        PageTitle = "Компанію";
         CheckPermissions(UserPermissionType.CompaniesWrite);
 
         await LoadModelAsync();

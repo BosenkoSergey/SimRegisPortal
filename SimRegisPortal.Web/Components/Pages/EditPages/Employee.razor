@@ -9,7 +9,7 @@
 
 @attribute [Authorize]
 
-<PageTitle>Employee</PageTitle>
+<PageTitle>Працівник</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
     <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
@@ -18,59 +18,59 @@
     {
         <MudForm @ref="_form">
             <MudTabs Rounded>
-                <MudTabPanel Text="General">
+                <MudTabPanel Text="Загальна інформація">
                     <MudStack Spacing="2" Class="mt-3">
-                        <MudSelect T="Guid?" Label="User Account" @bind-Value="_model.UserId" Clearable>
+                        <MudSelect T="Guid?" Label="Акаунт користувача" @bind-Value="_model.UserId" Clearable>
                             @foreach (var user in _users)
                             {
                                 <MudSelectItem Value="@((Guid?)user.Key)">@user.Value</MudSelectItem>
                             }
                         </MudSelect>
 
-                        <MudTextField @bind-Value="_model.LastName" Label="Last Name" Required />
+                        <MudTextField @bind-Value="_model.LastName" Label="Прізвище" Required />
 
                         <MudGrid>
                             <MudItem xs="12" sm="6">
-                                <MudTextField @bind-Value="_model.FirstName" Label="First Name" Required />
+                                <MudTextField @bind-Value="_model.FirstName" Label="Ім'я" Required />
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <MudTextField @bind-Value="_model.MiddleName" Label="Middle Name" />
+                                <MudTextField @bind-Value="_model.MiddleName" Label="По-батькові" />
                             </MudItem>
 
                             <MudItem xs="12" sm="6">
-                                <MudTextField @bind-Value="_model.PassportNumber" Label="Passport" />
+                                <MudTextField @bind-Value="_model.PassportNumber" Label="Номер паспорта" />
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <MudTextField @bind-Value="_model.TaxNumber" Label="Tax Number" />
+                                <MudTextField @bind-Value="_model.TaxNumber" Label="Податковий номер" />
                             </MudItem>
                         </MudGrid>
 
-                        <MudTextField @bind-Value="_model.Position" Label="Position" />
+                        <MudTextField @bind-Value="_model.Position" Label="Позиція" />
 
                         <MudGrid>
                             <MudItem xs="12" sm="6">
-                                <MudDatePicker @bind-Date="_model.HireDate" Label="Hire Date" Editable Required DateFormat="dd.MM.yyyy" />
+                                <MudDatePicker @bind-Date="_model.HireDate" Label="Дата найму" Editable Required DateFormat="dd.MM.yyyy" />
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <MudDatePicker @bind-Date="_model.DismissalDate" Label="Dismissal Date" Editable DateFormat="dd.MM.yyyy" />
+                                <MudDatePicker @bind-Date="_model.DismissalDate" Label="Дата звільнення" Editable DateFormat="dd.MM.yyyy" />
                             </MudItem>
                         </MudGrid>
                     </MudStack>
                 </MudTabPanel>
 
-                <MudTabPanel Text="Invoicing">
+                <MudTabPanel Text="Платіжна інформація">
                     <MudStack Spacing="2" Class="mt-3">
-                        <MudSelect T="SalaryScheme" Label="Salary Scheme" @bind-Value="_model.SalaryScheme" Required>
+                        <MudSelect T="SalaryScheme" Label="Податкова модель" @bind-Value="_model.SalaryScheme" Required>
                             @foreach (var scheme in Enum.GetValues<SalaryScheme>())
                             {
-                                <MudSelectItem Value="@scheme">@scheme.ToString()</MudSelectItem>
+                                <MudSelectItem Value="@scheme">@scheme.GetDescription()</MudSelectItem>
                             }
                         </MudSelect>
 
-                        <MudNumericField @bind-Value="_model.HourlyRate" Label="Hourly Rate" Format="0.00"
+                        <MudNumericField @bind-Value="_model.HourlyRate" Label="Погодинна ставка" Format="0.00"
                                          Culture="@CultureInfo.InvariantCulture" Required />
 
-                        <MudSelect Label="Currency" @bind-Value="_model.HourlyRateCurrencyId" Required>
+                        <MudSelect Label="Валюта" @bind-Value="_model.HourlyRateCurrencyId" Required>
                             @foreach (var currency in _currencies)
                             {
                                 <MudSelectItem Value="@currency.Key">@currency.Value</MudSelectItem>
@@ -82,10 +82,10 @@
 
             <MudGrid Justify="Justify.FlexEnd" Class="mt-4">
                 <MudItem>
-                    <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Back</MudButton>
+                    <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Назад</MudButton>
                 </MudItem>
                 <MudItem>
-                    <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Save</MudButton>
+                    <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Зберегти</MudButton>
                 </MudItem>
             </MudGrid>
         </MudForm>
@@ -102,7 +102,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Employee";
+        PageTitle = "Працівника";
         CheckPermissions(UserPermissionType.EmployeesWrite);
 
         var usersResult = await SendSafeAsync(new GetUsersLookupQuery());

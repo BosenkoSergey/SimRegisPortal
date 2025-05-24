@@ -7,7 +7,7 @@
 
 @attribute [Authorize]
 
-<PageTitle>User</PageTitle>
+<PageTitle>Користувач</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
     <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
@@ -16,29 +16,29 @@
     {
         <MudForm @ref="_form">
             <MudTabs Rounded>
-                <MudTabPanel Text="General">
+                <MudTabPanel Text="Загальна інформація">
                     <MudStack Spacing="2" Class="mt-3">
-                        <MudTextField @bind-Value="_model.FullName" Label="Full Name" Required />
-                        <MudTextField @bind-Value="_model.Login" Label="Login" Required />
-                        <MudTextField @bind-Value="_model.Email" Label="Email" Required InputType="InputType.Email" />
-                        <MudSelect T="UserStatus" Label="Status" @bind-Value="_model.Status" Required>
+                        <MudTextField @bind-Value="_model.FullName" Label="Повне ім'я" Required />
+                        <MudTextField @bind-Value="_model.Login" Label="Логін" Required />
+                        <MudTextField @bind-Value="_model.Email" Label="Пошта" Required InputType="InputType.Email" />
+                        <MudSelect T="UserStatus" Label="Статус" @bind-Value="_model.Status" Required>
                             @foreach (var status in Enum.GetValues<UserStatus>())
                             {
-                                <MudSelectItem Value="@status">@status.ToString()</MudSelectItem>
+                                <MudSelectItem Value="@status">@status.GetDescription()</MudSelectItem>
                             }
                         </MudSelect>
                     </MudStack>
                 </MudTabPanel>
 
-                <MudTabPanel Text="Access">
+                <MudTabPanel Text="Доступ">
                     <MudStack Spacing="2" Class="mt-3">
-                        <MudCheckBox @bind-Value="_model.IsAdmin" Label="Is Admin" />
+                        <MudCheckBox @bind-Value="_model.IsAdmin" Label="Адміністратор" />
                         <MudDivider />
-                        <MudText Typo="Typo.subtitle2">Permissions:</MudText>
+                        <MudText Typo="Typo.subtitle2">Права доступу:</MudText>
                         <MudTable T="UserPermissionType" Items="_allPermissions" @bind-SelectedItems="_model.Permissions"
                         Hover Dense Bordered MultiSelection>
                             <HeaderContent>
-                                <MudTh>Permission</MudTh>
+                                <MudTh>Право доступу</MudTh>
                             </HeaderContent>
                             <RowTemplate>
                                 <MudTd>@context.GetDescription()</MudTd>
@@ -50,10 +50,10 @@
 
             <MudGrid Justify="Justify.FlexEnd" Class="mt-4">
                 <MudItem>
-                    <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Back</MudButton>
+                    <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Назад</MudButton>
                 </MudItem>
                 <MudItem>
-                    <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Save</MudButton>
+                    <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Зберегти</MudButton>
                 </MudItem>
             </MudGrid>
         </MudForm>
@@ -69,7 +69,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "User";
+        PageTitle = "Користувача";
         CheckPermissions(UserPermissionType.UsersWrite);
 
         _allPermissions = Enum.GetValues<UserPermissionType>()

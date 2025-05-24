@@ -6,14 +6,14 @@
 
 <MudDialog Style="max-width: 350px;">
     <TitleContent>
-        <MudText Typo="Typo.h6">@(_model?.IsNew is true ? "Add Exchange Rate" : "Edit Exchange Rate")</MudText>
+        <MudText Typo="Typo.h6">@(_model?.IsNew is true ? "Додати валютний курс" : "Редагувати валютний курс")</MudText>
     </TitleContent>
 
     <DialogContent>
         <MudForm @ref="_form">
             <MudGrid GutterSize="16px">
                 <MudItem xs="12">
-                    <MudSelect Label="Currency From" @bind-Value="_model.FromCurrencyId" Required Variant="Variant.Outlined">
+                    <MudSelect Label="З валюти" @bind-Value="_model.FromCurrencyId" Required Variant="Variant.Outlined">
                         @foreach (var currency in CurrencyCodes)
                         {
                             <MudSelectItem Value="@currency.Key"> @currency.Value </MudSelectItem>
@@ -22,7 +22,7 @@
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudSelect Label="Currency To" @bind-Value="_model.ToCurrencyId" Required Variant="Variant.Outlined">
+                    <MudSelect Label="До валюти" @bind-Value="_model.ToCurrencyId" Required Variant="Variant.Outlined">
                         @foreach (var currency in CurrencyCodes)
                         {
                             <MudSelectItem Value="@currency.Key"> @currency.Value </MudSelectItem>
@@ -31,11 +31,11 @@
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudDatePicker @bind-Date="_model.Date" Label="Date" DateFormat="dd.MM.yyyy" Editable Required Variant="Variant.Outlined" />
+                    <MudDatePicker @bind-Date="_model.Date" Label="Дата" DateFormat="dd.MM.yyyy" Editable Required Variant="Variant.Outlined" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudNumericField @bind-Value="_model.Rate" Label="Rate" Required Format="0.0000000"
+                    <MudNumericField @bind-Value="_model.Rate" Label="Значення" Required Format="0.0000000"
                     Immediate Culture="@CultureInfo.InvariantCulture" Variant="Variant.Outlined" />
                 </MudItem>
             </MudGrid>
@@ -43,8 +43,8 @@
     </DialogContent>
 
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>
+        <MudButton OnClick="Cancel">Скасувати</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">Зберегти</MudButton>
     </DialogActions>
 </MudDialog>
 

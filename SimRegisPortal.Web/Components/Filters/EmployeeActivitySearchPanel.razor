@@ -1,14 +1,14 @@
 ﻿<MudGrid Justify="Justify.FlexStart" Class="mb-3">
     <MudItem Style="width: 220px;">
-        <MudDatePicker Label="Date From" @bind-Date="QueryParams.DateFrom" Editable Clearable Variant="Variant.Outlined" />
+        <MudDatePicker Label="З дати" @bind-Date="QueryParams.DateFrom" Editable Clearable Variant="Variant.Outlined" />
     </MudItem>
 
     <MudItem Style="width: 220px;">
-        <MudDatePicker Label="Date To" @bind-Date="QueryParams.DateTo" Editable Clearable Variant="Variant.Outlined" />
+        <MudDatePicker Label="По дату" @bind-Date="QueryParams.DateTo" Editable Clearable Variant="Variant.Outlined" />
     </MudItem>
 
     <MudItem Style="width: 250px;">
-        <MudSelect Label="Project" @bind-Value="QueryParams.ProjectId" Clearable Variant="Variant.Outlined">
+        <MudSelect Label="Проєкт" @bind-Value="QueryParams.ProjectId" Clearable Variant="Variant.Outlined">
             @foreach (var project in Projects)
             {
                 <MudSelectItem Value="@((Guid?)project.Key)"> @project.Value </MudSelectItem>
@@ -17,7 +17,7 @@
     </MudItem>
 
     <MudItem Style="width: 250px;">
-        <MudSelect Label="Employee" @bind-Value="QueryParams.EmployeeId" Disabled="@QueryParams.IsLockedEmployee" Clearable Variant="Variant.Outlined">
+        <MudSelect Label="Працівник" @bind-Value="QueryParams.EmployeeId" Disabled="@QueryParams.IsLockedEmployee" Clearable Variant="Variant.Outlined">
             @foreach (var employee in Employees)
             {
                 <MudSelectItem Value="@((Guid?)employee.Key)"> @employee.Value </MudSelectItem>
@@ -29,7 +29,7 @@
         <MudButton OnClick="@(() => Search.InvokeAsync(null))"
                    Variant="Variant.Filled" Color="Color.Primary"
                    Style="height: 56px; width: 100%;">
-            Search
+            Пошук
         </MudButton>
     </MudItem>
 </MudGrid>

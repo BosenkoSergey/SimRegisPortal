@@ -25,36 +25,44 @@
                 </CellTemplate>
             </TemplateColumn>
 
-            <PropertyColumn Property="x => x.EmployeeId" Title="Employee">
+            <PropertyColumn Property="x => x.EmployeeId" Title="Працівник">
                 <CellTemplate Context="context">
                     @_employees.GetValueOrDefault(context.Item.EmployeeId)
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.Year" Title="Year" />
-            <PropertyColumn Property="x => x.Month" Title="Month" />
+            <PropertyColumn Property="x => x.Year" Title="Рік" />
+            <PropertyColumn Property="x => x.Month" Title="Місяць">
+                <CellTemplate Context="context">
+                    @context.Item.Month.GetDescription()
+                </CellTemplate>
+            </PropertyColumn>
 
-            <PropertyColumn Property="x => x.Status" Title="Status" />
+            <PropertyColumn Property="x => x.Status" Title="Статус">
+                <CellTemplate Context="context">
+                    @context.Item.Status.GetDescription()
+                </CellTemplate>
+            </PropertyColumn>
 
-            <PropertyColumn Property="x => x.Hours" Title="Hours">
+            <PropertyColumn Property="x => x.Hours" Title="Години">
                 <CellTemplate Context="context">
                     @($"{(int)context.Item.Hours}:{(int)(context.Item.Hours * 60 % 60):00}")
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.CreatedAt" Title="Created At">
+            <PropertyColumn Property="x => x.CreatedAt" Title="Створено">
                 <CellTemplate Context="context">
                     @context.Item.CreatedAt.ToString("dd.MM.yyyy HH:mm")
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.UpdatedAt" Title="Updated At">
+            <PropertyColumn Property="x => x.UpdatedAt" Title="Відредаговано">
                 <CellTemplate Context="context">
                     @context.Item.UpdatedAt.ToString("dd.MM.yyyy HH:mm")
                 </CellTemplate>
             </PropertyColumn>
 
-            <TemplateColumn Title="Actions">
+            <TemplateColumn Title="Дії">
                 <CellTemplate Context="context">
                     <MudStack Row Spacing="1">
                         @if (UserContext.HasPermission(UserPermissionType.TimeReportsWriteAll) || UserContext.EmployeeId == context.Item.EmployeeId)
@@ -62,7 +70,7 @@
                             @if (context.Item.Status is TimeReportStatus.New or TimeReportStatus.Rejected)
                             {
                                 <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Finalized))" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small">
-                                    Finalize
+                                    Фіналізувати
                                 </MudButton>
                             }
                         }
@@ -71,22 +79,22 @@
                             @if (context.Item.Status is TimeReportStatus.Finalized)
                             {
                                 <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Rejected))" Color="Color.Error" Variant="Variant.Filled" Size="Size.Small">
-                                    Reject
+                                    Відхилити
                                 </MudButton>
                                 <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Approved))" Color="Color.Success" Variant="Variant.Filled" Size="Size.Small">
-                                    Approve
+                                    Підтвердити
                                 </MudButton>
                             }
                             @if (context.Item.Status is TimeReportStatus.Approved)
                             {
                                 <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Rejected))" Color="Color.Error" Variant="Variant.Filled" Size="Size.Small">
-                                    Back
+                                    Повернути
                                 </MudButton>
                                 <MudButton OnClick="@(() => Recalculate(context.Item.Id))" Color="Color.Warning" Variant="Variant.Filled" Size="Size.Small">
-                                    Recalculate
+                                    Переразувати
                                 </MudButton>
                                 <MudButton OnClick="@(() => SetStatus(context.Item.Id, TimeReportStatus.Closed))" Color="Color.Info" Variant="Variant.Filled" Size="Size.Small">
-                                    Close
+                                    Закрити
                                 </MudButton>
                             }
                         }
@@ -103,10 +111,10 @@
     @if (_selectedTimeReport != null)
     {
         <MudTabs Class="mt-3" Rounded>
-            <MudTabPanel Text="Activities">
+            <MudTabPanel Text="Активності">
                 <ActivitiesView TimeReportId="@_selectedTimeReport.Id" />
             </MudTabPanel>
-            <MudTabPanel Text="Payment Requests">
+            <MudTabPanel Text="Платіжні запити">
                 <PaymentRequestsView @key="_timeReportRowNumber" TimeReportId="@_selectedTimeReport.Id" />
             </MudTabPanel>
         </MudTabs>
@@ -123,7 +131,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Time Reports";
+        PageTitle = "Часовий звіт";
 
         if (!UserContext.HasPermission(UserPermissionType.TimeReportsReadAll))
         {
@@ -147,7 +155,7 @@
         var result = await SendSafeAsync(new ChangeTimeReportStatusCommand(id, status));
         if (result)
         {
-            await Notifier.Success("Updated successfully.");
+            await Notifier.Success("Успішно оновлено.");
             await LoadEntities();
 
             if (status == TimeReportStatus.Approved)
@@ -162,7 +170,7 @@
         var result = await SendSafeAsync(new RecalculateTimeReportCommand(id));
         if (result)
         {
-            await Notifier.Success("Recalculated successfully.");
+            await Notifier.Success("Успішно перераховано.");
             _timeReportRowNumber = Guid.NewGuid().ToString();
         }
     }

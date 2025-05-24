@@ -6,48 +6,48 @@
 <MudNavMenu>
     <AuthorizeView>
         <Authorized>
-            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Головна</MudNavLink>
             @if (UserContext.HasPermission(UserPermissionType.UsersRead))
             {
-                <MudNavLink Href="users" Icon="@Icons.Material.Filled.PeopleOutline">Users</MudNavLink>
+                <MudNavLink Href="users" Icon="@Icons.Material.Filled.PeopleOutline">Користувачі</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.EmployeesRead))
             {
-                <MudNavLink Href="employees" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.People">Employees</MudNavLink>
+                <MudNavLink Href="employees" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.People">Працівники</MudNavLink>
             }
-            <MudNavLink Href="activities" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.WorkHistory">Activities</MudNavLink>
-            <MudNavLink Href="time-reports" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Work">Time Reports</MudNavLink>
+            <MudNavLink Href="activities" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.WorkHistory">Активності</MudNavLink>
+            <MudNavLink Href="time-reports" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Work">Часові звіти</MudNavLink>
             @if (UserContext.HasPermission(UserPermissionType.CompaniesRead))
             {
-                <MudNavLink Href="companies" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Business">Companies</MudNavLink>
+                <MudNavLink Href="companies" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Business">Компанії</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.ProjectsRead))
             {
-                <MudNavLink Href="projects" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BusinessCenter">Projects</MudNavLink>
+                <MudNavLink Href="projects" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.BusinessCenter">Проєкти</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.ContractsRead))
             {
-                <MudNavLink Href="contracts" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Newspaper">Contracts</MudNavLink>
+                <MudNavLink Href="contracts" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Newspaper">Контракти</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.PaymentRequestsReadAll))
             {
-                <MudNavLink Href="payment-requests" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments">Payment Requests</MudNavLink>
+                <MudNavLink Href="payment-requests" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Payments">Платіжні запити</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.TaxSettingsRead))
             {
-                <MudNavLink Href="tax-settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Percent">Tax Settings</MudNavLink>
+                <MudNavLink Href="tax-settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Percent">Податкові налаштування</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesRead))
             {
-                <MudNavLink Href="exchange-rates" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CurrencyExchange">Exchange Rates</MudNavLink>
+                <MudNavLink Href="exchange-rates" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CurrencyExchange">Курси валют</MudNavLink>
             }
             @if (UserContext.HasPermission(UserPermissionType.SystemLogsRead))
             {
-                <MudNavLink Href="system-logs" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.History">System Logs</MudNavLink>
+                <MudNavLink Href="system-logs" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.History">Системні логи</MudNavLink>
             }
         </Authorized>
         <NotAuthorized>
-            <MudNavLink Href="auth/login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Password">Login</MudNavLink>
+            <MudNavLink Href="auth/login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Password">Вхід</MudNavLink>
         </NotAuthorized>
     </AuthorizeView>
 </MudNavMenu>

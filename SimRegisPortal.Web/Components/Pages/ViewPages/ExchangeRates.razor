@@ -19,27 +19,27 @@
             @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesWrite))
             {
                 <MudButton OnClick="Import" StartIcon="@Icons.Material.Filled.CloudSync" Variant="Variant.Outlined" Class="ml-2">
-                    Import from Bank
+                    Імпортувати
                 </MudButton>
                 <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
-                    Add
+                    Додати
                 </MudButton>
             }
         </ToolBarContent>
 
         <Columns>
-            <PropertyColumn Property="x => x.FromCurrencyId" Title="From">
+            <PropertyColumn Property="x => x.FromCurrencyId" Title="З валюти">
                 <CellTemplate Context="context">
                     @_currencies.GetValueOrDefault(context.Item.FromCurrencyId)
                 </CellTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="x => x.ToCurrencyId" Title="To">
+            <PropertyColumn Property="x => x.ToCurrencyId" Title="До валюти">
                 <CellTemplate Context="context">
                     @_currencies.GetValueOrDefault(context.Item.ToCurrencyId)
                 </CellTemplate>
             </PropertyColumn>
-            <PropertyColumn Property="x => x.Date" Title="Date" Format="dd.MM.yyyy" />
-            <PropertyColumn Property="x => x.Rate" Title="Rate" Format="0.0000000" />
+            <PropertyColumn Property="x => x.Date" Title="Дата" Format="dd.MM.yyyy" />
+            <PropertyColumn Property="x => x.Rate" Title="Значення" Format="0.0000000" />
 
             @if (UserContext.HasPermission(UserPermissionType.ExchangeRatesWrite))
             {
@@ -64,7 +64,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Exchange Rates";
+        PageTitle = "Валютні курси";
         CheckPermissions(UserPermissionType.ExchangeRatesRead);
 
         await LoadCurrencies();

@@ -16,10 +16,10 @@ public sealed class SaveUserValidator
         _dbContext = dbContext;
 
         RuleFor(x => x.Dto.FullName)
-            .NotEmpty().WithTemplate("Validation.Field.Required", "Full Name");
+            .NotEmpty().WithTemplate("Validation.Field.Required", "Повне ім'я");
 
         RuleFor(x => x.Dto.Login)
-            .NotEmpty().WithTemplate("Validation.Field.Required", "Login");
+            .NotEmpty().WithTemplate("Validation.Field.Required", "Логін");
 
         RuleFor(x => x.Dto.Email)
             .EmailAddress().WithTemplate("Validation.Email.Invalid");

@@ -5,30 +5,40 @@
 
 <MudDialog Style="max-width: 400px;">
     <TitleContent>
-        <MudText Typo="Typo.h6">Edit Payment Request</MudText>
+        <MudText Typo="Typo.h6">Редагувати платіжний запит</MudText>
     </TitleContent>
 
     <DialogContent>
         <MudForm @ref="_form">
             <MudGrid GutterSize="16px">
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="_model.Year" Label="Year" Disabled />
+                    <MudTextField @bind-Value="_model.Year" Label="Рік" Disabled />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="_model.Month" Label="Month" Disabled />
+                    <MudSelect T="Month" Label="Місяць" @bind-Value="_model.Month" Disabled>
+                        @foreach (var month in Enum.GetValues<Month>())
+                        {
+                            <MudSelectItem Value="@month">@month.GetDescription()</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="_model.EmployeeFullName" Label="Employee" Disabled />
+                    <MudTextField @bind-Value="_model.EmployeeFullName" Label="Працівник" Disabled />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="_model.Type" Label="Type" Disabled />
+                    <MudSelect T="PaymentRequestType" Label="Тип" @bind-Value="_model.Type" Disabled>
+                        @foreach (var type in Enum.GetValues<PaymentRequestType>())
+                        {
+                            <MudSelectItem Value="@type">@type.GetDescription()</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudNumericField @bind-Value="_model.Amount" Label="Amount" Format="0.00"
+                    <MudNumericField @bind-Value="_model.Amount" Label="Сума" Format="0.00"
                     Immediate Required Culture="@CultureInfo.InvariantCulture" />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudSelect T="int" Label="Currency" @bind-Value="_model.CurrencyId" Required>
+                    <MudSelect T="int" Label="Валюта" @bind-Value="_model.CurrencyId" Required>
                         @foreach (var currency in CurrencyLookup)
                         {
                             <MudSelectItem Value="@currency.Key">@currency.Value</MudSelectItem>
@@ -36,15 +46,15 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudCheckBox @bind-Value="_model.IsPaid" Label="Is Paid" />
+                    <MudCheckBox @bind-Value="_model.IsPaid" Label="Сплачено" />
                 </MudItem>
             </MudGrid>
         </MudForm>
     </DialogContent>
 
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>
+        <MudButton OnClick="Cancel">Скасувати</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">Зберегти</MudButton>
     </DialogActions>
 </MudDialog>
 

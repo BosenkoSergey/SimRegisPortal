@@ -49,7 +49,7 @@ public abstract class BaseViewPage<TKey, TDto> : BaseComponent
         var result = await SendSafeAsync(DeleteCommand(id));
         if (result)
         {
-            await Notifier.Success("Deleted successfully.");
+            await Notifier.Success("Успішно видалено.");
             await LoadEntities();
         }
     }

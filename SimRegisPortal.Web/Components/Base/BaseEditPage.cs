@@ -15,7 +15,7 @@ public abstract class BaseEditPage<TKey, TDto> : BaseComponent
     protected MudForm? _form;
     protected TDto? _model;
 
-    protected string PageTitleText => $"{(_model?.IsNew is true ? "Add" : "Edit")} {PageTitle}";
+    protected string PageTitleText => $"{(_model?.IsNew is true ? "Додати" : "Редагувати")} {PageTitle}";
 
     protected abstract IRequest<TDto> GetCommand(TKey Id);
     protected abstract IRequest<TDto> SaveCommand(TDto model);
@@ -50,7 +50,7 @@ public abstract class BaseEditPage<TKey, TDto> : BaseComponent
         if (result.IsSuccess)
         {
             _model = result.Value;
-            await Notifier.Success("Saved successfully.");
+            await Notifier.Success("Успішно збережено.");
         }
     }
 }

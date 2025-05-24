@@ -4,66 +4,66 @@ using System.ComponentModel;
 
 public enum UserPermissionType
 {
-    [Description("users-read")]
+    [Description("Перегляд каталогу користувачів")]
     UsersRead = 100,
 
-    [Description("users-write")]
+    [Description("Редагування користувачів")]
     UsersWrite = 110,
 
-    [Description("employees-read")]
+    [Description("Перегляд каталогу працівників")]
     EmployeesRead = 200,
 
-    [Description("employees-write")]
+    [Description("Редагування працівників")]
     EmployeesWrite = 210,
 
-    [Description("companies-read")]
+    [Description("Перегляд каталогу компаній")]
     CompaniesRead = 300,
 
-    [Description("companies-write")]
+    [Description("Редагування компаній")]
     CompaniesWrite = 310,
 
-    [Description("projects-read")]
+    [Description("Перегляд каталогу проєктів")]
     ProjectsRead = 400,
 
-    [Description("projects-write")]
+    [Description("Редагування проєктів")]
     ProjectsWrite = 410,
 
-    [Description("contracts-read")]
+    [Description("Перегляд каталогу контрактів")]
     ContractsRead = 500,
 
-    [Description("contracts-write")]
+    [Description("Редагування контрактів")]
     ContractsWrite = 510,
 
-    [Description("time-reports-read-all")]
+    [Description("Перегляд каталогу часових звітів всіх співробіників")]
     TimeReportsReadAll = 600,
 
-    [Description("time-reports-write-all")]
+    [Description("Редагування часових звітів всіх співробіників")]
     TimeReportsWriteAll = 610,
 
-    [Description("activities-read-all")]
+    [Description("Перегляд каталогу активностей всіх співробіників")]
     ActivitiesReadAll = 700,
 
-    [Description("activities-write-all")]
+    [Description("Редагування активностей всіх співробіників")]
     ActivitiesWriteAll = 710,
 
-    [Description("payment-requests-read-all")]
+    [Description("Перегляд каталогу платіжних запитів всіх співробіників")]
     PaymentRequestsReadAll = 800,
 
-    [Description("payment-requests-write")]
+    [Description("Редагування платіжних запитів всіх співробіників")]
     PaymentRequestsWrite = 810,
 
-    [Description("exchange-rates-read")]
+    [Description("Перегляд каталогу курсів валют")]
     ExchangeRatesRead = 900,
 
-    [Description("exchange-rates-write")]
+    [Description("Редагування курсів валют")]
     ExchangeRatesWrite = 910,
 
-    [Description("tax-settings-read")]
+    [Description("Перегляд податкових налаштувань")]
     TaxSettingsRead = 1000,
 
-    [Description("tax-settings-write")]
+    [Description("Редагування податкових налаштувань")]
     TaxSettingsWrite = 1010,
 
-    [Description("system-logs-read")]
+    [Description("Перегляд каталогу системних логів")]
     SystemLogsRead = 1100,
 }

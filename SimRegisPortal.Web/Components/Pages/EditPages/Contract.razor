@@ -9,7 +9,7 @@
 
 @attribute [Authorize]
 
-<PageTitle>@PageTitle</PageTitle>
+<PageTitle>Контракт</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
     <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
@@ -18,11 +18,11 @@
     {
         <MudForm @ref="_form">
             <MudStack Spacing="2">
-                <MudTextField @bind-Value="_model.Number" Label="Contract Number" Required />
+                <MudTextField @bind-Value="_model.Number" Label="Номер" Required />
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudSelect Label="Project" @bind-Value="_model.ProjectId" Required>
+                        <MudSelect Label="Проєкт" @bind-Value="_model.ProjectId" Required>
                             @foreach (var project in _projects)
                             {
                                 <MudSelectItem Value="@project.Key">@project.Value</MudSelectItem>
@@ -30,7 +30,7 @@
                         </MudSelect>
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudSelect Label="Employee" @bind-Value="_model.EmployeeId" Required>
+                        <MudSelect Label="Працівник" @bind-Value="_model.EmployeeId" Required>
                             @foreach (var employee in _employees)
                             {
                                 <MudSelectItem Value="@employee.Key">@employee.Value</MudSelectItem>
@@ -41,21 +41,21 @@
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudDatePicker @bind-Date="_model.DateFrom" Label="Date From" Editable Required DateFormat="dd.MM.yyyy" />
+                        <MudDatePicker @bind-Date="_model.DateFrom" Label="З дати" Editable Required DateFormat="dd.MM.yyyy" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudDatePicker @bind-Date="_model.DateTo" Label="Date To" Editable Required DateFormat="dd.MM.yyyy" />
+                        <MudDatePicker @bind-Date="_model.DateTo" Label="По дату" Editable Required DateFormat="dd.MM.yyyy" />
                     </MudItem>
                 </MudGrid>
 
-                <MudTextField @bind-Value="_model.Notes" Label="Notes" Lines="3" />
+                <MudTextField @bind-Value="_model.Notes" Label="Примітки" Lines="3" />
 
                 <MudGrid Justify="Justify.FlexEnd">
                     <MudItem>
-                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Back</MudButton>
+                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Назад</MudButton>
                     </MudItem>
                     <MudItem>
-                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Save</MudButton>
+                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Зберегти</MudButton>
                     </MudItem>
                 </MudGrid>
             </MudStack>
@@ -73,7 +73,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Contract";
+        PageTitle = "Контракту";
         CheckPermissions(UserPermissionType.ContractsWrite);
 
         var projectsResult = await SendSafeAsync(new GetProjectsLookupQuery());

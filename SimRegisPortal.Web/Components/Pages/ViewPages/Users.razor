@@ -16,7 +16,7 @@
             @if (UserContext.HasPermission(UserPermissionType.UsersWrite))
             {
                 <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
-                    Add
+                    Додати
                 </MudButton>
             }
         </ToolBarContent>
@@ -24,17 +24,17 @@
         <Columns>
             <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
 
-            <PropertyColumn Property="x => x.FullName" Title="Full Name" />
-            <PropertyColumn Property="x => x.Login" Title="Login" />
-            <PropertyColumn Property="x => x.Email" Title="Email" />
+            <PropertyColumn Property="x => x.FullName" Title="Ім'я" />
+            <PropertyColumn Property="x => x.Login" Title="Логін" />
+            <PropertyColumn Property="x => x.Email" Title="Пошта" />
 
-            <PropertyColumn Property="x => x.Status" Title="Status">
+            <PropertyColumn Property="x => x.Status" Title="Статус">
                 <CellTemplate Context="context">
-                    @context.Item.Status.ToString()
+                    @context.Item.Status.GetDescription()
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.IsAdmin" Title="Admin">
+            <PropertyColumn Property="x => x.IsAdmin" Title="Адміністратор">
                 <CellTemplate>
                     <MudCheckBox Value="@context.Item.IsAdmin" ReadOnly />
                 </CellTemplate>
@@ -45,7 +45,7 @@
                 <TemplateColumn>
                     <CellTemplate Context="context">
                         <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => Edit(context.Item.Id))" Size="Size.Small" />
-                        <MudTooltip Text="Reset password">
+                        <MudTooltip Text="Скинути пароль">
                             <MudIconButton Icon="@Icons.Material.Filled.LockReset" OnClick="@(() => ResetPassword(context.Item.Id))" Size="Size.Small" />
                         </MudTooltip>
                     </CellTemplate>
@@ -55,7 +55,7 @@
 
         <ChildRowContent>
             <MudPaper Class="px-4 py-2">
-                <MudText Typo="Typo.subtitle2" Class="mb-2">Permissions:</MudText>
+                <MudText Typo="Typo.subtitle2" Class="mb-2">Права доступу:</MudText>
                 @if (context.Item.Permissions?.Count > 0)
                 {
                     <MudStack Row Spacing="1" Wrap="Wrap.Wrap">
@@ -67,7 +67,7 @@
                 }
                 else
                 {
-                    <MudText>No permissions assigned.</MudText>
+                    <MudText>Права доступу не призначені.</MudText>
                 }
             </MudPaper>
         </ChildRowContent>
@@ -81,7 +81,7 @@
 @code {
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Users";
+        PageTitle = "Користувачі";
         EditPageUrl = "/user";
 
         CheckPermissions(UserPermissionType.UsersRead);
@@ -95,16 +95,16 @@
     private async Task ResetPassword(Guid id)
     {
         var confirmed = await DialogService.ShowMessageBox(
-            title: "Confirm Reset",
-            markupMessage: (MarkupString)$"Are you sure you want to send a new password for this user?",
-            yesText: "Yes", cancelText: "Cancel", options: new DialogOptions { CloseButton = true });
+            title: "Підтвердження скидання",
+            markupMessage: (MarkupString)$"Ви впевнені, що хочете надіслати новий пароль для цього користувача?",
+            yesText: "Так", cancelText: "Скасувати", options: new DialogOptions { CloseButton = true });
 
         if (confirmed == true)
         {
             var result = await SendSafeAsync(new ResetPasswordCommand(id));
             if (result)
             {
-                await Notifier.Success("Password reset.");
+                await Notifier.Success("Пароль скинуто.");
             }
         }
     }

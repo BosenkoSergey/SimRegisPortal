@@ -17,19 +17,27 @@
     </ToolBarContent>
 
     <Columns>
-        <PropertyColumn Property="x => x.Year" Title="Year" />
-        <PropertyColumn Property="x => x.Month" Title="Month" />
-        <PropertyColumn Property="x => x.EmployeeFullName" Title="Employee" />
-        <PropertyColumn Property="x => x.Type" Title="Type" />
-        <PropertyColumn Property="x => x.Amount" Title="Amount" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
+        <PropertyColumn Property="x => x.Year" Title="Рік" />
+        <PropertyColumn Property="x => x.Month" Title="Місяць">
+            <CellTemplate Context="context">
+                @context.Item.Month.GetDescription()
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.EmployeeFullName" Title="Працівник" />
+        <PropertyColumn Property="x => x.Type" Title="Тип">
+            <CellTemplate Context="context">
+                @context.Item.Type.GetDescription()
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="x => x.Amount" Title="Сума" Format="0.00" Culture="@CultureInfo.InvariantCulture" />
 
-        <PropertyColumn Property="x => x.CurrencyId" Title="Currency">
+        <PropertyColumn Property="x => x.CurrencyId" Title="Валюта">
             <CellTemplate Context="context">
                 @_currencies.GetValueOrDefault(context.Item.CurrencyId)
             </CellTemplate>
         </PropertyColumn>
 
-        <PropertyColumn Property="x => x.IsPaid" Title="Paid">
+        <PropertyColumn Property="x => x.IsPaid" Title="Сплачено">
             <CellTemplate Context="context">
                 <MudCheckBox Value="@context.Item.IsPaid" ReadOnly />
             </CellTemplate>
@@ -57,7 +65,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Payment Requests";
+        PageTitle = "Платіжні запити";
         CheckPermissions(UserPermissionType.PaymentRequestsReadAll);
 
         var employeesResult = await SendSafeAsync(new GetEmployeesLookupQuery());

@@ -58,7 +58,7 @@ public class AppDbContext : DbContext
                 defaultCompany = new Company
                 {
                     Name = "Default Company",
-                    Notes = "Default company for system projects."
+                    Notes = "Компанія за замовчуванням для системних проєктів."
                 };
 
                 Companies.Add(defaultCompany);
@@ -67,8 +67,8 @@ public class AppDbContext : DbContext
 
             var systemProjects = new[]
             {
-                new Project { CompanyId = defaultCompany.Id, Name = "Paid Leave", Description = "Vacation time tracking", StartDate = DateTime.UtcNow, IsInternal = true },
-                new Project { CompanyId = defaultCompany.Id, Name = "Sick Leave", Description = "Sick leave tracking", StartDate = DateTime.UtcNow, IsInternal = true }
+                new Project { CompanyId = defaultCompany.Id, Name = "Відпустки", Description = "Облік відпусток.", StartDate = DateTime.UtcNow, IsInternal = true },
+                new Project { CompanyId = defaultCompany.Id, Name = "Лікарняні", Description = "Облік лікарняних.", StartDate = DateTime.UtcNow, IsInternal = true }
             };
 
             Projects.AddRange(systemProjects);
@@ -79,12 +79,12 @@ public class AppDbContext : DbContext
         {
             var currencies = new[]
             {
-                new Currency { Code = "UAH", Name = "Ukrainian Hryvnia", Symbol = "₴" },
-                new Currency { Code = "USD", Name = "US Dollar", Symbol = "$" },
-                new Currency { Code = "EUR", Name = "Euro", Symbol = "€" },
-                new Currency { Code = "GBP", Name = "British Pound", Symbol = "£" },
-                new Currency { Code = "PLN", Name = "Polish Zloty", Symbol = "zł" },
-                new Currency { Code = "CHF", Name = "Swiss Franc", Symbol = "Fr" }
+                new Currency { Code = "UAH", Name = "Українська гривня", Symbol = "₴" },
+                new Currency { Code = "USD", Name = "Долар США", Symbol = "$" },
+                new Currency { Code = "EUR", Name = "Євро", Symbol = "€" },
+                new Currency { Code = "GBP", Name = "Британський фунт", Symbol = "£" },
+                new Currency { Code = "PLN", Name = "Польський злотий", Symbol = "zł" },
+                new Currency { Code = "CHF", Name = "Швейцарський франк", Symbol = "Fr" }
             };
 
             Currencies.AddRange(currencies);

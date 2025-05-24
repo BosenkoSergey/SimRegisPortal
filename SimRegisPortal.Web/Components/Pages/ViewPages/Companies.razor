@@ -17,7 +17,7 @@
             @if (UserContext.HasPermission(UserPermissionType.CompaniesWrite))
             {
                 <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
-                    Add
+                    Додати
                 </MudButton>
             }
         </ToolBarContent>
@@ -25,12 +25,12 @@
         <Columns>
             <HierarchyColumn InitiallyExpandedFunc="@(x => false)" />
 
-            <PropertyColumn Property="x => x.Name" Title="Name" />
-            <PropertyColumn Property="x => x.TaxNumber" Title="Tax Number" />
-            <PropertyColumn Property="x => x.RegistrationNumber" Title="Registration Number" />
-            <PropertyColumn Property="x => x.Phone" Title="Phone" />
-            <PropertyColumn Property="x => x.Email" Title="Email" />
-            <PropertyColumn Property="x => x.ContactPerson" Title="Contact Person" />
+            <PropertyColumn Property="x => x.Name" Title="Назва" />
+            <PropertyColumn Property="x => x.TaxNumber" Title="Податковий номер" />
+            <PropertyColumn Property="x => x.RegistrationNumber" Title="Реєстраційний номер" />
+            <PropertyColumn Property="x => x.Phone" Title="Телефон" />
+            <PropertyColumn Property="x => x.Email" Title="Пошта" />
+            <PropertyColumn Property="x => x.ContactPerson" Title="Контактна особа" />
 
             @if (UserContext.HasPermission(UserPermissionType.CompaniesWrite))
             {
@@ -47,7 +47,7 @@
             <MudPaper Class="px-4 py-2">
                 @if (!string.IsNullOrWhiteSpace(context.Item.Address))
                 {
-                    <MudText Typo="Typo.subtitle2" Class="mb-1">Address:</MudText>
+                    <MudText Typo="Typo.subtitle2" Class="mb-1">Адреса:</MudText>
                     <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
                         @context.Item.Address
                     </MudText>
@@ -55,7 +55,7 @@
 
                 @if (!string.IsNullOrWhiteSpace(context.Item.Notes))
                 {
-                    <MudText Typo="Typo.subtitle2" Class="mb-1">Notes:</MudText>
+                    <MudText Typo="Typo.subtitle2" Class="mb-1">Примітки:</MudText>
                     <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
                         @context.Item.Notes
                     </MudText>
@@ -73,7 +73,7 @@
 @code {
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Companies";
+        PageTitle = "Компанії";
         EditPageUrl = "/company";
 
         CheckPermissions(UserPermissionType.CompaniesRead);

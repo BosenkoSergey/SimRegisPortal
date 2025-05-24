@@ -7,14 +7,14 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient
 
-<PageTitle>Log in</PageTitle>
+<PageTitle>Вхід</PageTitle>
 
 <MudPaper Class="pa-6 mx-auto mt-10" MaxWidth="400px" Elevation="3">
-    <MudText Typo="Typo.h3" GutterBottom>Log in</MudText>
+    <MudText Typo="Typo.h3" GutterBottom>Вхід в систему</MudText>
 
     <form method="post" action="api/auth/login">
-        <MudTextField @bind-Value="Model.Login" Name="Login" Label="Login or Email" Required FullWidth Class="mt-4" />
-        <MudTextField @bind-Value="Model.Password" Name="Password" Label="Password" InputType="InputType.Password" Required FullWidth Class="mt-4" />
+        <MudTextField @bind-Value="Model.Login" Name="Login" Label="Логін або пошта" Required FullWidth Class="mt-4" />
+        <MudTextField @bind-Value="Model.Password" Name="Password" Label="Пароль" InputType="InputType.Password" Required FullWidth Class="mt-4" />
 
         <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" FullWidth Class="mt-4">
             Login

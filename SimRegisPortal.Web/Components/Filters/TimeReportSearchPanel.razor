@@ -1,6 +1,6 @@
 ﻿<MudGrid Justify="Justify.FlexStart" Class="mb-3">
     <MudItem Style="width: 150px;">
-        <MudSelect Label="Year" @bind-Value="QueryParams.Year" Variant="Variant.Outlined">
+        <MudSelect Label="Рік" @bind-Value="QueryParams.Year" Variant="Variant.Outlined">
             @foreach (var year in AvailableYears)
             {
                 <MudSelectItem Value="@((int?)year)">@year</MudSelectItem>
@@ -9,16 +9,16 @@
     </MudItem>
 
     <MudItem Style="width: 180px;">
-        <MudSelect Label="Month" @bind-Value="QueryParams.Month" Clearable Variant="Variant.Outlined">
+        <MudSelect Label="Місяць" @bind-Value="QueryParams.Month" Clearable Variant="Variant.Outlined">
             @foreach (var month in Enum.GetValues<Month>())
             {
-                <MudSelectItem Value="@((Month?)month)">@month.ToString()</MudSelectItem>
+                <MudSelectItem Value="@((Month?)month)">@month.GetDescription()</MudSelectItem>
             }
         </MudSelect>
     </MudItem>
 
     <MudItem Style="width: 250px;">
-        <MudSelect Label="Employee" @bind-Value="QueryParams.EmployeeId"
+        <MudSelect Label="Працівник" @bind-Value="QueryParams.EmployeeId"
                    Clearable Variant="Variant.Outlined"
                    Disabled="@QueryParams.IsLockedEmployee">
             @foreach (var employee in Employees)
@@ -29,10 +29,10 @@
     </MudItem>
 
     <MudItem Style="width: 180px;">
-        <MudSelect Label="Status" @bind-Value="QueryParams.Status" Clearable Variant="Variant.Outlined">
+        <MudSelect Label="Статус" @bind-Value="QueryParams.Status" Clearable Variant="Variant.Outlined">
             @foreach (var status in Enum.GetValues<TimeReportStatus>())
             {
-                <MudSelectItem Value="@((TimeReportStatus?)status)">@status.ToString()</MudSelectItem>
+                <MudSelectItem Value="@((TimeReportStatus?)status)">@status.GetDescription()</MudSelectItem>
             }
         </MudSelect>
     </MudItem>
@@ -41,7 +41,7 @@
         <MudButton OnClick="@(() => Search.InvokeAsync(null))"
                    Variant="Variant.Filled" Color="Color.Primary"
                    Style="height: 56px; width: 100%;">
-            Search
+            Пошук
         </MudButton>
     </MudItem>
 </MudGrid>

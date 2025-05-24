@@ -20,7 +20,7 @@
             @if (UserContext.HasPermission(UserPermissionType.ContractsWrite))
             {
                 <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
-                    Add
+                    Додати
                 </MudButton>
             }
         </ToolBarContent>
@@ -28,21 +28,21 @@
         <Columns>
             <HierarchyColumn InitiallyExpandedFunc="@(x => false)" ButtonDisabledFunc="@(x => string.IsNullOrWhiteSpace(x.Notes))" />
 
-            <PropertyColumn Property="x => x.ProjectId" Title="Project">
+            <PropertyColumn Property="x => x.ProjectId" Title="Проєкт">
                 <CellTemplate Context="context">
                     @_projects.GetValueOrDefault(context.Item.ProjectId)
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.EmployeeId" Title="Employee">
+            <PropertyColumn Property="x => x.EmployeeId" Title="Працівник">
                 <CellTemplate Context="context">
                     @_employees.GetValueOrDefault(context.Item.EmployeeId)
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.Number" Title="Number" />
-            <PropertyColumn Property="x => x.DateFrom" Title="From" Format="dd.MM.yyyy" />
-            <PropertyColumn Property="x => x.DateTo" Title="To" Format="dd.MM.yyyy" />
+            <PropertyColumn Property="x => x.Number" Title="Номер" />
+            <PropertyColumn Property="x => x.DateFrom" Title="З дати" Format="dd.MM.yyyy" />
+            <PropertyColumn Property="x => x.DateTo" Title="По дату" Format="dd.MM.yyyy" />
 
             @if (UserContext.HasPermission(UserPermissionType.ContractsWrite))
             {
@@ -57,7 +57,7 @@
 
         <ChildRowContent>
             <MudPaper Class="px-4 py-2">
-                <MudText Typo="Typo.subtitle2" Class="mb-1">Notes:</MudText>
+                <MudText Typo="Typo.subtitle2" Class="mb-1">Примітки:</MudText>
                 <MudText Class="mud-font-monospace mud-text-body2 mb-3" Style="white-space: pre-wrap;">
                     @context.Item.Notes
                 </MudText>
@@ -77,7 +77,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Contracts";
+        PageTitle = "Контракти";
         EditPageUrl = "/contract";
 
         CheckPermissions(UserPermissionType.ContractsRead);

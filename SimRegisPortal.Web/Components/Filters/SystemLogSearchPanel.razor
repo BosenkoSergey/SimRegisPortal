@@ -1,17 +1,17 @@
 ﻿<MudGrid Justify="Justify.FlexStart" Class="mb-3">
     <MudItem Style="width: 220px;">
-        <MudDatePicker Label="Date From" @bind-Date="QueryParams.DateFrom" Editable Clearable Variant="Variant.Outlined" />
+        <MudDatePicker Label="З дати" @bind-Date="QueryParams.DateFrom" Editable Clearable Variant="Variant.Outlined" />
     </MudItem>
 
     <MudItem Style="width: 220px;">
-        <MudDatePicker Label="Date To" @bind-Date="QueryParams.DateTo" Editable Clearable Variant="Variant.Outlined" />
+        <MudDatePicker Label="По дату" @bind-Date="QueryParams.DateTo" Editable Clearable Variant="Variant.Outlined" />
     </MudItem>
 
     <MudItem Style="width: 150px;" Class="d-flex align-center">
         <MudButton OnClick="@(() => Search.InvokeAsync(null))"
                    Variant="Variant.Filled" Color="Color.Primary"
                    Style="height: 56px; width: 100%;">
-            Search
+            Пошук
         </MudButton>
     </MudItem>
 </MudGrid>

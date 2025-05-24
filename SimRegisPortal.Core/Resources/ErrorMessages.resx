@@ -118,78 +118,78 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Exception.Others" xml:space="preserve">
-    <value>The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error.</value>
+    <value>Сервер не зміг виконати ваш запит. Будь ласка, спробуйте пізніше. Якщо проблема не зникає, зверніться до служби підтримки. Подробиці помилки містяться в журналах сервера.</value>
   </data>
   <data name="Exception.Resource.Forbidden" xml:space="preserve">
-    <value>You don’t have permission to access the {0}.</value>
+    <value>У вас немає дозволу на доступ до {0}.</value>
   </data>
   <data name="Exception.Resource.NotFound" xml:space="preserve">
-    <value>The requested {0} was not found.</value>
+    <value>Запитаний об'єкт {0} не знайдено.</value>
   </data>
   <data name="Exception.UserSession.Expired" xml:space="preserve">
-    <value>Session has expired. Please sign in again.</value>
+    <value>Сесія закінчилась. Будь ласка, увійдіть знову.</value>
   </data>
   <data name="Exception.UserSession.NotFound" xml:space="preserve">
-    <value>Session not found. Please sign in again.</value>
+    <value>Сесію не знайдено. Будь ласка, увійдіть знову.</value>
   </data>
   <data name="Validation.Contract.Number.AlreadyExists" xml:space="preserve">
-    <value>A contract with the same number already exists.</value>
+    <value>Контракт з таким номером вже існує.</value>
   </data>
   <data name="Validation.Contract.Range.AlreadyExists" xml:space="preserve">
-    <value>An overlapping contract already exists for this employee in the selected project.</value>
+    <value>Для цього працівника вже існує перекривний контракт у вибраному проєкті.</value>
   </data>
   <data name="Validation.Email.AlreadyExists" xml:space="preserve">
-    <value>An account with this email already exists.</value>
+    <value>Обліковий запис з цією електронною адресою вже існує.</value>
   </data>
   <data name="Validation.Email.Invalid" xml:space="preserve">
-    <value>Email is not valid.</value>
+    <value>Неправильна електронна адреса.</value>
   </data>
   <data name="Validation.Employee.DismissalDate" xml:space="preserve">
-    <value>Dismissal date must be empty or later than hire date.</value>
+    <value>Дата звільнення має бути порожньою або пізнішою за дату найму.</value>
   </data>
   <data name="Validation.Employee.HourlyRate" xml:space="preserve">
-    <value>Hourly rate must be a positive value.</value>
+    <value>Почасова ставка повинна бути додатним значенням.</value>
   </data>
   <data name="Validation.Employee.User.AlreadyLinked" xml:space="preserve">
-    <value>This User account is already linked to another Employee.</value>
+    <value>Цей обліковий запис вже пов'язаний з іншим працівником.</value>
   </data>
   <data name="Validation.EmployeeActivity.NegativeDuration" xml:space="preserve">
-    <value>Hours must be greater than zero.</value>
+    <value>Кількість годин має бути більшою за нуль.</value>
   </data>
   <data name="Validation.EmployeeActivity.NotContracted" xml:space="preserve">
-    <value>This user is not contracted for selected project and period.</value>
+    <value>Цей користувач не має контракту на вибраний проєкт і період.</value>
   </data>
   <data name="Validation.ExchangeRate.AlreadyExists" xml:space="preserve">
-    <value>An exchange rate with this CurrencyFrom, CurrencyTo and Date already exists.</value>
+    <value>Курс обміну з такими значеннями "З валюти", "До валюти" та Дата вже існує.</value>
   </data>
   <data name="Validation.ExchangeRate.Negative" xml:space="preserve">
-    <value>Exchange rate must be greater than zero.</value>
+    <value>Курс обміну має бути більшим за нуль.</value>
   </data>
   <data name="Validation.ExchangeRate.NotFound" xml:space="preserve">
-    <value>Exchange rate not found.</value>
+    <value>Курс обміну не знайдено.</value>
   </data>
   <data name="Validation.Field.Required" xml:space="preserve">
-    <value>Field '{0}' is required.</value>
+    <value>Поле "{0}" є обов’язковим.</value>
   </data>
   <data name="Validation.Login.AlreadyExists" xml:space="preserve">
-    <value>An account with this login already exists.</value>
+    <value>Обліковий запис з таким логіном вже існує.</value>
   </data>
   <data name="Validation.Login.Email.NotFound" xml:space="preserve">
-    <value>No account found with this email.</value>
+    <value>Обліковий запис з такою електронною адресою не знайдено.</value>
   </data>
   <data name="Validation.Login.InvalidCredentials" xml:space="preserve">
-    <value>Invalid login or password.</value>
+    <value>Невірний логін або пароль.</value>
   </data>
   <data name="Validation.NetSalary.Negative" xml:space="preserve">
-    <value>The amount of fixed taxes exceeds the employee's salary.</value>
+    <value>Сума фіксованих податків перевищує заробітну плату працівника.</value>
   </data>
   <data name="Validation.Password.Invalid" xml:space="preserve">
-    <value>Password can only contain letters and digits.</value>
+    <value>Пароль може містити лише літери та цифри.</value>
   </data>
   <data name="Validation.Password.Weak" xml:space="preserve">
-    <value>Weak password: must be at least 6 characters and include uppercase, lowercase, and a digit.</value>
+    <value>Слабкий пароль: має містити щонайменше 6 символів, включаючи великі, малі літери та цифру.</value>
   </data>
   <data name="Validation.TimeReport.Finilized" xml:space="preserve">
-    <value>Time Report is already finilized. Please contact your manager to apply changes.</value>
+    <value>Звіт про час вже затверджено. Зверніться до свого менеджера, щоб внести зміни.</value>
   </data>
 </root>

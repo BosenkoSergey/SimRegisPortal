@@ -4,12 +4,12 @@ namespace SimRegisPortal.Core.Enums;
 
 public enum SalaryScheme
 {
-    [Description("FOP 2")]
+    [Description("ФОП 2 групи")]
     FOP2 = 1,
 
-    [Description("FOP 3")]
+    [Description("ФОП 3 групи")]
     FOP3 = 2,
 
-    [Description("GIG Contract")]
+    [Description("Гіг-контракт")]
     GIG = 3
 }

@@ -106,7 +106,7 @@ public abstract class BaseComponent : ComponentBase
 
         if (!form.IsValid)
         {
-            await Notifier.Error("Form is not valid.");
+            await Notifier.Error("Форма заповнена некоректно.");
             return false;
         }
 

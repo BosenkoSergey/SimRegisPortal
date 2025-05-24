@@ -61,7 +61,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The server was unable to complete your request. Please try again later. If this problem persists, please contact support. Server logs contain details of this error..
+        ///   Looks up a localized string similar to Сервер не зміг виконати ваш запит. Будь ласка, спробуйте пізніше. Якщо проблема не зникає, зверніться до служби підтримки. Подробиці помилки містяться в журналах сервера..
         /// </summary>
         public static string Exception_Others {
             get {
@@ -70,7 +70,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You don’t have permission to access the {0}..
+        ///   Looks up a localized string similar to У вас немає дозволу на доступ до {0}..
         /// </summary>
         public static string Exception_Resource_Forbidden {
             get {
@@ -79,7 +79,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The requested {0} was not found..
+        ///   Looks up a localized string similar to Запитаний об&apos;єкт {0} не знайдено..
         /// </summary>
         public static string Exception_Resource_NotFound {
             get {
@@ -88,7 +88,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Session has expired. Please sign in again..
+        ///   Looks up a localized string similar to Сесія закінчилась. Будь ласка, увійдіть знову..
         /// </summary>
         public static string Exception_UserSession_Expired {
             get {
@@ -97,7 +97,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Session not found. Please sign in again..
+        ///   Looks up a localized string similar to Сесію не знайдено. Будь ласка, увійдіть знову..
         /// </summary>
         public static string Exception_UserSession_NotFound {
             get {
@@ -106,7 +106,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A contract with the same number already exists..
+        ///   Looks up a localized string similar to Контракт з таким номером вже існує..
         /// </summary>
         public static string Validation_Contract_Number_AlreadyExists {
             get {
@@ -115,7 +115,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An overlapping contract already exists for this employee in the selected project..
+        ///   Looks up a localized string similar to Для цього працівника вже існує перекривний контракт у вибраному проєкті..
         /// </summary>
         public static string Validation_Contract_Range_AlreadyExists {
             get {
@@ -124,7 +124,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An account with this email already exists..
+        ///   Looks up a localized string similar to Обліковий запис з цією електронною адресою вже існує..
         /// </summary>
         public static string Validation_Email_AlreadyExists {
             get {
@@ -133,7 +133,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email is not valid..
+        ///   Looks up a localized string similar to Неправильна електронна адреса..
         /// </summary>
         public static string Validation_Email_Invalid {
             get {
@@ -142,7 +142,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dismissal date must be empty or later than hire date..
+        ///   Looks up a localized string similar to Дата звільнення має бути порожньою або пізнішою за дату найму..
         /// </summary>
         public static string Validation_Employee_DismissalDate {
             get {
@@ -151,7 +151,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hourly rate must be a positive value..
+        ///   Looks up a localized string similar to Почасова ставка повинна бути додатним значенням..
         /// </summary>
         public static string Validation_Employee_HourlyRate {
             get {
@@ -160,7 +160,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This User account is already linked to another Employee..
+        ///   Looks up a localized string similar to Цей обліковий запис вже пов&apos;язаний з іншим працівником..
         /// </summary>
         public static string Validation_Employee_User_AlreadyLinked {
             get {
@@ -169,7 +169,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hours must be greater than zero..
+        ///   Looks up a localized string similar to Кількість годин має бути більшою за нуль..
         /// </summary>
         public static string Validation_EmployeeActivity_NegativeDuration {
             get {
@@ -178,7 +178,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This user is not contracted for selected project and period..
+        ///   Looks up a localized string similar to Цей користувач не має контракту на вибраний проєкт і період..
         /// </summary>
         public static string Validation_EmployeeActivity_NotContracted {
             get {
@@ -187,7 +187,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An exchange rate with this CurrencyFrom, CurrencyTo and Date already exists..
+        ///   Looks up a localized string similar to Курс обміну з такими значеннями &quot;З валюти&quot;, &quot;До валюти&quot; та Дата вже існує..
         /// </summary>
         public static string Validation_ExchangeRate_AlreadyExists {
             get {
@@ -196,7 +196,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exchange rate must be greater than zero..
+        ///   Looks up a localized string similar to Курс обміну має бути більшим за нуль..
         /// </summary>
         public static string Validation_ExchangeRate_Negative {
             get {
@@ -205,7 +205,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exchange rate not found..
+        ///   Looks up a localized string similar to Курс обміну не знайдено..
         /// </summary>
         public static string Validation_ExchangeRate_NotFound {
             get {
@@ -214,7 +214,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Field &apos;{0}&apos; is required..
+        ///   Looks up a localized string similar to Поле &quot;{0}&quot; є обов’язковим..
         /// </summary>
         public static string Validation_Field_Required {
             get {
@@ -223,7 +223,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An account with this login already exists..
+        ///   Looks up a localized string similar to Обліковий запис з таким логіном вже існує..
         /// </summary>
         public static string Validation_Login_AlreadyExists {
             get {
@@ -232,7 +232,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No account found with this email..
+        ///   Looks up a localized string similar to Обліковий запис з такою електронною адресою не знайдено..
         /// </summary>
         public static string Validation_Login_Email_NotFound {
             get {
@@ -241,7 +241,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid login or password..
+        ///   Looks up a localized string similar to Невірний логін або пароль..
         /// </summary>
         public static string Validation_Login_InvalidCredentials {
             get {
@@ -250,7 +250,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The amount of fixed taxes exceeds the employee&apos;s salary..
+        ///   Looks up a localized string similar to Сума фіксованих податків перевищує заробітну плату працівника..
         /// </summary>
         public static string Validation_NetSalary_Negative {
             get {
@@ -259,7 +259,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password can only contain letters and digits..
+        ///   Looks up a localized string similar to Пароль може містити лише літери та цифри..
         /// </summary>
         public static string Validation_Password_Invalid {
             get {
@@ -268,7 +268,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Weak password: must be at least 6 characters and include uppercase, lowercase, and a digit..
+        ///   Looks up a localized string similar to Слабкий пароль: має містити щонайменше 6 символів, включаючи великі, малі літери та цифру..
         /// </summary>
         public static string Validation_Password_Weak {
             get {
@@ -277,7 +277,7 @@ namespace SimRegisPortal.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Time Report is already finilized. Please contact your manager to apply changes..
+        ///   Looks up a localized string similar to Звіт про час вже затверджено. Зверніться до свого менеджера, щоб внести зміни..
         /// </summary>
         public static string Validation_TimeReport_Finilized {
             get {

@@ -8,7 +8,7 @@
 
 @attribute [Authorize]
 
-<PageTitle>Project</PageTitle>
+<PageTitle>Проєкт</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
     <MudText Typo="Typo.h5" GutterBottom>@PageTitleText</MudText>
@@ -18,37 +18,33 @@
         <MudForm @ref="_form">
             <MudStack Spacing="2">
 
-                <MudSelect T="Guid" Label="Company" @bind-Value="_model.CompanyId" Required>
+                <MudSelect T="Guid" Label="Компанія" @bind-Value="_model.CompanyId" Required>
                     @foreach (var company in _companies)
                     {
                         <MudSelectItem Value="@company.Key">@company.Value</MudSelectItem>
                     }
                 </MudSelect>
 
-                <MudTextField @bind-Value="_model.Name" Label="Name" Required />
+                <MudTextField @bind-Value="_model.Name" Label="Назва" Required />
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudDatePicker Label="Start Date" @bind-Date="_model.StartDate" Editable DateFormat="dd.MM.yyyy" Required />
+                        <MudDatePicker Label="Дата початку" @bind-Date="_model.StartDate" Editable DateFormat="dd.MM.yyyy" Required />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudDatePicker Label="End Date" @bind-Date="_model.EndDate" Editable DateFormat="dd.MM.yyyy" />
+                        <MudDatePicker Label="Дата завершення" @bind-Date="_model.EndDate" Editable DateFormat="dd.MM.yyyy" />
                     </MudItem>
                 </MudGrid>
 
-                <MudTextField @bind-Value="_model.Description" Label="Description" Lines="3" />
-                <MudCheckBox @bind-Value="_model.IsInternal" Label="Internal Project" />
+                <MudTextField @bind-Value="_model.Description" Label="Опис" Lines="3" />
+                <MudCheckBox @bind-Value="_model.IsInternal" Label="Внутрішній проєкт" />
 
                 <MudGrid Justify="Justify.FlexEnd">
                     <MudItem>
-                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">
-                            Back
-                        </MudButton>
+                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Назад</MudButton>
                     </MudItem>
                     <MudItem>
-                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
-                            Save
-                        </MudButton>
+                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Зберегти</MudButton>
                     </MudItem>
                 </MudGrid>
             </MudStack>
@@ -65,7 +61,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Project";
+        PageTitle = "Проєкт";
         CheckPermissions(UserPermissionType.ProjectsWrite);
 
         var companiesResult = await SendSafeAsync(new GetCompaniesLookupQuery());

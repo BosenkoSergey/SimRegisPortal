@@ -17,29 +17,29 @@
             @if (UserContext.HasPermission(UserPermissionType.ProjectsWrite))
             {
                 <MudButton OnClick="Add" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" Class="ml-2">
-                    Add
+                    Додати
                 </MudButton>
             }
         </ToolBarContent>
 
         <Columns>
-            <PropertyColumn Property="x => x.CompanyId" Title="Company">
+            <PropertyColumn Property="x => x.CompanyId" Title="Компанія">
                 <CellTemplate Context="context">
                     @_companies.GetValueOrDefault(context.Item.CompanyId)
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.Name" Title="Name" />
-            <PropertyColumn Property="x => x.StartDate" Title="Start Date" Format="dd.MM.yyyy" />
-            <PropertyColumn Property="x => x.EndDate" Title="End Date" Format="dd.MM.yyyy" />
+            <PropertyColumn Property="x => x.Name" Title="Назва" />
+            <PropertyColumn Property="x => x.StartDate" Title="Дата початку" Format="dd.MM.yyyy" />
+            <PropertyColumn Property="x => x.EndDate" Title="Дата завершення" Format="dd.MM.yyyy" />
 
-            <PropertyColumn Property="x => x.IsInternal" Title="Internal">
+            <PropertyColumn Property="x => x.IsInternal" Title="Внутрішній">
                 <CellTemplate Context="context">
                     <MudCheckBox Value="@context.Item.IsInternal" ReadOnly />
                 </CellTemplate>
             </PropertyColumn>
 
-            <PropertyColumn Property="x => x.Description" Title="Description" />
+            <PropertyColumn Property="x => x.Description" Title="Опис" />
 
             @if (UserContext.HasPermission(UserPermissionType.ProjectsWrite))
             {
@@ -63,7 +63,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Projects";
+        PageTitle = "Проєкти";
         EditPageUrl = "/project";
 
         CheckPermissions(UserPermissionType.ProjectsRead);

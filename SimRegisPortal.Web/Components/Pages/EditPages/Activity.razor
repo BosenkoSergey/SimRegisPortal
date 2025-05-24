@@ -20,7 +20,7 @@
             <MudStack Spacing="2">
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudSelect Label="Project" @bind-Value="_model.ProjectId" Required>
+                        <MudSelect Label="Проєкт" @bind-Value="_model.ProjectId" Required>
                             @foreach (var project in _projects)
                             {
                                 <MudSelectItem Value="@project.Key">@project.Value</MudSelectItem>
@@ -28,7 +28,7 @@
                         </MudSelect>
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudSelect Label="Employee" @bind-Value="_model.EmployeeId" Required>
+                        <MudSelect Label="Працівник" @bind-Value="_model.EmployeeId" Required>
                             @foreach (var employee in _employees)
                             {
                                 <MudSelectItem Value="@employee.Key">@employee.Value</MudSelectItem>
@@ -39,30 +39,30 @@
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudDatePicker Label="Date" @bind-Date="_model.Date" Editable Required DateFormat="dd.MM.yyyy" />
+                        <MudDatePicker Label="Дата" @bind-Date="_model.Date" Editable Required DateFormat="dd.MM.yyyy" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
                         <MudGrid>
                             <MudItem xs="6">
-                                <MudNumericField Label="Hours" @bind-Value="_durationHours" Min="0" Max="999"
+                                <MudNumericField Label="Годин" @bind-Value="_durationHours" Min="0" Max="999"
                                 Immediate Required />
                             </MudItem>
                             <MudItem xs="6">
-                                <MudNumericField Label="Minutes" @bind-Value="_durationMinutes" Min="0" Max="59"
+                                <MudNumericField Label="Хвилин" @bind-Value="_durationMinutes" Min="0" Max="59"
                                 Immediate Required />
                             </MudItem>
                         </MudGrid>
                     </MudItem>
                 </MudGrid>
 
-                <MudTextField @bind-Value="_model.Description" Label="Description" Lines="3" Required />
+                <MudTextField @bind-Value="_model.Description" Label="Опис" Lines="3" Required />
 
                 <MudGrid Justify="Justify.FlexEnd">
                     <MudItem>
-                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Back</MudButton>
+                        <MudButton OnClick="GoBack" Variant="Variant.Outlined" Style="min-width: 150px;">Назад</MudButton>
                     </MudItem>
                     <MudItem>
-                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Save</MudButton>
+                        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Зберегти</MudButton>
                     </MudItem>
                 </MudGrid>
             </MudStack>
@@ -83,7 +83,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Activity";
+        PageTitle = "Активність";
 
         var projectsResult = await SendSafeAsync(new GetProjectsLookupQuery());
         if (projectsResult.IsSuccess)

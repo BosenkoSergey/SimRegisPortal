@@ -7,7 +7,7 @@
 @using SimRegisPortal.Application.Features.TaxSettings.Commands
 @using SimRegisPortal.Application.Features.TaxSettings.Queries
 
-<PageTitle>@PageTitle</PageTitle>
+<PageTitle>Податкові налаштування</PageTitle>
 
 <MudPaper Class="mx-auto mt-3 px-3 py-3" MaxWidth="700px">
     <MudText Typo="Typo.h5" GutterBottom>@PageTitle</MudText>
@@ -16,41 +16,41 @@
     {
         <MudForm @ref="_form">
             <MudStack Spacing="2">
-                <MudSelect T="int" Label="Local Currency" @bind-Value="_model.LocalCurrencyId" Required>
+                <MudSelect T="int" Label="Локальна валюта" @bind-Value="_model.LocalCurrencyId" Required>
                     @foreach (var currency in _currencies)
                     {
                         <MudSelectItem Value="@currency.Key">@currency.Value</MudSelectItem>
                     }
                 </MudSelect>
 
-                <MudNumericField @bind-Value="_model.MinimumWage" Label="Minimum Wage"
+                <MudNumericField @bind-Value="_model.MinimumWage" Label="Мінімальна з.п."
                                  Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
-                <MudNumericField @bind-Value="_model.SocialTax" Label="Social Tax"
+                <MudNumericField @bind-Value="_model.SocialTax" Label="Єдиний соціальний внесок, %"
                                  Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
 
                 <MudGrid>
                     <MudItem xs="12" sm="6">
-                        <MudNumericField @bind-Value="_model.Fop2Pit" Label="FOP 2 PIT"
+                        <MudNumericField @bind-Value="_model.Fop2Pit" Label="Єдиний податок, % (ФОП 2 гр.)"
                                          Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudNumericField @bind-Value="_model.Fop2MilitaryTax" Label="FOP 2 Military Tax"
+                        <MudNumericField @bind-Value="_model.Fop2MilitaryTax" Label="Військовий збір, % (ФОП 2 гр.)"
                                          Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudNumericField @bind-Value="_model.Fop3Pit" Label="FOP 3 PIT"
+                        <MudNumericField @bind-Value="_model.Fop3Pit" Label="Єдиний податок, % (ФОП 3 гр.)"
                                          Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudNumericField @bind-Value="_model.Fop3MilitaryTax" Label="FOP 3 Military Tax"
+                        <MudNumericField @bind-Value="_model.Fop3MilitaryTax" Label="Військовий збір, % (ФОП 3 гр.)"
                                          Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudNumericField @bind-Value="_model.GigPit" Label="GIG PIT"
+                        <MudNumericField @bind-Value="_model.GigPit" Label="Єдиний податок, % (Гіг-контракт)"
                                          Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudNumericField @bind-Value="_model.GigMilitaryTax" Label="GIG Military Tax"
+                        <MudNumericField @bind-Value="_model.GigMilitaryTax" Label="Військовий збір, % (Гіг-контракт)"
                                          Required Immediate Format="0.00" Culture="@CultureInfo.InvariantCulture" />
                     </MudItem>
                 </MudGrid>
@@ -59,9 +59,7 @@
                 {
                     <MudGrid Justify="Justify.FlexEnd" Class="mt-0">
                         <MudItem>
-                            <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">
-                                Save
-                            </MudButton>
+                            <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Style="min-width: 150px;">Зберегти</MudButton>
                         </MudItem>
                     </MudGrid>
                 }
@@ -79,7 +77,7 @@
 
     protected override async Task OnFirstInitializedAsync()
     {
-        PageTitle = "Tax Settings";
+        PageTitle = "Податкові налаштування";
         CheckPermissions(UserPermissionType.TaxSettingsRead);
 
         var currenciesResult = await SendSafeAsync(new GetCurrenciesLookupQuery());

@@ -16,10 +16,10 @@ public sealed class SaveEmployeeValidator
         _dbContext = dbContext;
 
         RuleFor(x => x.Dto.FirstName)
-            .NotEmpty().WithTemplate("Validation.Field.Required", "First Name");
+            .NotEmpty().WithTemplate("Validation.Field.Required", "Ім'я");
 
         RuleFor(x => x.Dto.LastName)
-            .NotEmpty().WithTemplate("Validation.Field.Required", "Last Name");
+            .NotEmpty().WithTemplate("Validation.Field.Required", "По-батькові");
 
         RuleFor(x => x.Dto.HourlyRate)
             .GreaterThan(0).WithTemplate("Validation.Employee.HourlyRate");
